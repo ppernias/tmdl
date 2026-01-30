@@ -1,0 +1,157 @@
+## =============================================================================
+## TMDL Schema - Sección: IDENTITY
+## Personalidad y estilo de comunicación del TeamMate
+## =============================================================================
+
+identity:
+  type: object
+  description: |
+    Define la identidad, personalidad y estilo de comunicación del TeamMate.
+    Esta sección determina "quién es" el personaje y cómo se expresa.
+  
+  required:
+    - display_name
+    - personality
+
+  properties:
+    
+    ## -------------------------------------------------------------------------
+    ## IDENTIFICACIÓN VISUAL
+    ## -------------------------------------------------------------------------
+    
+    display_name:
+      type: string
+      description: |
+        Nombre con el que el TeamMate se presenta al equipo. Puede ser 
+        un nombre propio, apodo o nombre descriptivo. Es el nombre que 
+        usará en sus interacciones.
+      minLength: 1
+      maxLength: 50
+      examples:
+        - "Ana"
+        - "Dr. Marco"
+        - "Alex"
+        - "La Analista"
+
+    avatar:
+      type: string
+      description: |
+        URL o path relativo a una imagen que representa visualmente 
+        al TeamMate. Opcional pero recomendado para interfaces visuales.
+      examples:
+        - "avatars/ana-analyst.png"
+        - "https://example.com/avatars/marco.png"
+        - "images/teammates/eva.svg"
+
+    ## -------------------------------------------------------------------------
+    ## PERSONALIDAD
+    ## -------------------------------------------------------------------------
+    
+    personality:
+      type: string
+      description: |
+        Descripción narrativa de la personalidad del TeamMate. Debe incluir:
+        - Rasgos de carácter principales
+        - Cómo se relaciona con otros
+        - Actitud ante el trabajo
+        - Fortalezas y debilidades de carácter
+        
+        Este texto se incluye en el system prompt para que el LLM 
+        adopte la personalidad descrita.
+      minLength: 100
+      maxLength: 2000
+      examples:
+        - |
+          Ana es meticulosa y curiosa, con un ojo especial para detectar 
+          inconsistencias en los datos. Le apasiona el turismo y conoce 
+          bien la Costa Blanca. Es directa pero amable en su comunicación, 
+          y nunca acepta una afirmación sin preguntar "¿tenemos datos que 
+          respalden esto?". Tiene paciencia infinita para explicar sus 
+          análisis, pero se frustra cuando el equipo toma decisiones sin 
+          considerar la evidencia. Su lema es "los datos no mienten, pero 
+          hay que saber leerlos".
+
+    background:
+      type: string
+      description: |
+        Historia ficticia o contexto profesional del TeamMate. Proporciona 
+        un trasfondo que el LLM puede usar para dar coherencia a sus 
+        respuestas. Incluir experiencia previa, formación o anécdotas 
+        relevantes.
+      maxLength: 1000
+      examples:
+        - |
+          Ana trabajó durante 5 años como analista de mercado en una 
+          consultora especializada en turismo mediterráneo. Participó en 
+          estudios de viabilidad para más de 20 proyectos turísticos en 
+          la Comunidad Valenciana. Tiene especial cariño por los proyectos 
+          de turismo gastronómico desde que colaboró en el lanzamiento de 
+          una ruta de vinos en Alicante que resultó ser un éxito.
+
+    ## -------------------------------------------------------------------------
+    ## ESTILO DE COMUNICACIÓN
+    ## -------------------------------------------------------------------------
+    
+    communication_style:
+      type: object
+      description: |
+        Parámetros que controlan cómo se expresa el TeamMate. Estos 
+        valores guían el formato y tono de las respuestas.
+      properties:
+        
+        verbosity:
+          type: string
+          description: |
+            Nivel de detalle en las respuestas.
+          enum:
+            - concise      # Respuestas breves, al grano, solo lo esencial
+            - balanced     # Equilibrio entre detalle y concisión
+            - detailed     # Respuestas extensas, con explicaciones completas
+          default: balanced
+
+        tone:
+          type: string
+          description: |
+            Tono general de la comunicación. Define la "voz" del TeamMate.
+          enum:
+            - formal         # Lenguaje formal, distante, muy profesional
+            - professional   # Profesional pero cercano
+            - neutral        # Ni formal ni informal, objetivo
+            - friendly       # Cercano y amigable, pero respetuoso
+            - casual         # Informal, coloquial, relajado
+            - enthusiastic   # Entusiasta, motivador, energético
+          default: professional
+
+        emoji_use:
+          type: boolean
+          description: |
+            Si el TeamMate usa emojis en su comunicación. Útil para 
+            ajustar a diferentes plataformas o preferencias del equipo.
+          default: false
+
+    ## -------------------------------------------------------------------------
+    ## RASGOS DISTINTIVOS
+    ## -------------------------------------------------------------------------
+    
+    quirks:
+      type: array
+      description: |
+        Rasgos distintivos, muletillas o hábitos de comunicación que 
+        hacen al personaje más memorable y consistente. El LLM intentará 
+        incorporar estos rasgos en sus respuestas de forma natural.
+        
+        Cada quirk debe ser una descripción breve de un comportamiento 
+        o patrón de comunicación específico.
+      items:
+        type: string
+        minLength: 10
+        maxLength: 200
+      maxItems: 10
+      examples:
+        - "Siempre empieza sus análisis con 'Interesante...'"
+        - "Usa metáforas gastronómicas para explicar conceptos de negocio"
+        - "Cuando no está seguro dice 'Déjame verificar eso antes de afirmarlo'"
+        - "Termina explicaciones largas con '¿Tiene sentido hasta aquí?'"
+        - "Numera los puntos cuando da explicaciones complejas"
+        - "Cita la fuente antes de dar un dato: 'Según el INE...'"
+        - "Hace una pausa reflexiva con '...' antes de dar malas noticias"

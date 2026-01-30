@@ -1,0 +1,370 @@
+## =============================================================================
+## TMDL Schema - Sección: CONTEXT
+## Contexto operacional del TeamMate
+## =============================================================================
+
+context:
+  type: object
+  description: |
+    Define el contexto en el que opera el TeamMate: información sobre 
+    el equipo humano, el dominio del proyecto, la línea temporal,
+    los recursos disponibles y las restricciones aplicables.
+
+  properties:
+    
+    ## -------------------------------------------------------------------------
+    ## EQUIPO HUMANO
+    ## -------------------------------------------------------------------------
+    
+    team_description:
+      type: string
+      description: |
+        Descripción general del equipo humano con el que trabaja el TeamMate.
+      maxLength: 1000
+      examples:
+        - "Equipo de 4 estudiantes de Grado en Turismo trabajando en el proyecto final de la asignatura NT40."
+
+    team_members:
+      type: array
+      description: |
+        Miembros humanos del equipo. Conocer a las personas permite 
+        al TeamMate personalizar interacciones y entender responsabilidades.
+      items:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string
+            description: "Nombre o identificador del miembro"
+          role:
+            type: string
+            description: "Rol en el equipo"
+            examples:
+              - "Coordinador"
+              - "Investigador"
+              - "Diseñador"
+              - "Desarrollador"
+          responsibilities:
+            type: array
+            description: "Responsabilidades principales"
+            items:
+              type: string
+          contact:
+            type: string
+            description: "Forma de contacto preferida (opcional)"
+          notes:
+            type: string
+            description: "Notas relevantes para la colaboración"
+      examples:
+        - name: "María García"
+          role: "Coordinadora"
+          responsibilities:
+            - "Gestión de plazos"
+            - "Comunicación con el tutor"
+          notes: "Prefiere comunicación directa y concisa"
+
+    ## -------------------------------------------------------------------------
+    ## DOMINIO DEL PROYECTO
+    ## -------------------------------------------------------------------------
+    
+    project_domain:
+      type: string
+      description: |
+        Dominio o sector del proyecto en el que trabaja el TeamMate.
+      maxLength: 200
+      examples:
+        - "Turismo gastronómico"
+        - "Marketing digital"
+        - "Desarrollo de producto"
+
+    project_description:
+      type: string
+      description: |
+        Descripción del proyecto en el que trabaja el equipo.
+        Objetivos, alcance y contexto general.
+      maxLength: 2000
+
+    ## -------------------------------------------------------------------------
+    ## LÍNEA TEMPORAL (TIMELINE)
+    ## -------------------------------------------------------------------------
+    
+    timeline:
+      type: object
+      description: |
+        Línea temporal del proyecto. Puede incluir fechas clave,
+        fases y un calendario de trabajo tipo Gantt simplificado.
+      properties:
+        
+        start_date:
+          type: string
+          format: date
+          description: "Fecha de inicio del proyecto"
+        
+        end_date:
+          type: string
+          format: date
+          description: "Fecha de fin del proyecto"
+        
+        current_phase:
+          type: string
+          description: "Fase actual del proyecto"
+          examples:
+            - "Investigación"
+            - "Desarrollo"
+            - "Revisión"
+            - "Entrega final"
+        
+        milestones:
+          type: array
+          description: |
+            Hitos principales del proyecto con fechas.
+          items:
+            type: object
+            required:
+              - name
+              - date
+            properties:
+              name:
+                type: string
+                description: "Nombre del hito"
+              date:
+                type: string
+                format: date
+                description: "Fecha del hito"
+              description:
+                type: string
+                description: "Descripción del hito"
+              status:
+                type: string
+                enum: [pending, in_progress, completed, delayed]
+                default: pending
+          examples:
+            - name: "Entrega análisis de mercado"
+              date: "2025-03-15"
+              description: "Primera entrega parcial"
+              status: "pending"
+        
+        phases:
+          type: array
+          description: |
+            Fases del proyecto con fechas de inicio y fin.
+            Permite crear un calendario de trabajo tipo Gantt.
+          items:
+            type: object
+            required:
+              - name
+              - start
+              - end
+            properties:
+              name:
+                type: string
+                description: "Nombre de la fase"
+              start:
+                type: string
+                format: date
+                description: "Fecha de inicio"
+              end:
+                type: string
+                format: date
+                description: "Fecha de fin"
+              tasks:
+                type: array
+                description: "Tareas principales de esta fase"
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    assigned_to:
+                      type: string
+                      description: "Miembro responsable"
+                    status:
+                      type: string
+                      enum: [pending, in_progress, completed, blocked]
+                    due_date:
+                      type: string
+                      format: date
+          examples:
+            - name: "Fase 1: Investigación"
+              start: "2025-02-01"
+              end: "2025-03-01"
+              tasks:
+                - name: "Revisión bibliográfica"
+                  assigned_to: "María"
+                  status: "completed"
+                - name: "Análisis de competencia"
+                  assigned_to: "Carlos"
+                  status: "in_progress"
+
+    ## -------------------------------------------------------------------------
+    ## RECURSOS DEL PROYECTO
+    ## -------------------------------------------------------------------------
+    
+    resources:
+      type: object
+      description: |
+        Biblioteca de recursos y documentación del proyecto.
+        Incluye documentos generados, fuentes de referencia y herramientas.
+      properties:
+        
+        documents:
+          type: array
+          description: |
+            Documentos del proyecto (generados o de referencia).
+            El TeamMate debe conocerlos para dar continuidad al trabajo.
+          items:
+            type: object
+            required:
+              - name
+              - type
+            properties:
+              name:
+                type: string
+                description: "Nombre del documento"
+              type:
+                type: string
+                description: "Tipo de documento"
+                enum:
+                  - deliverable     # Entregable del proyecto
+                  - working_doc     # Documento de trabajo en progreso
+                  - reference       # Material de referencia
+                  - template        # Plantilla
+                  - minutes         # Actas de reunión
+                  - research        # Investigación/fuentes
+                  - other
+              description:
+                type: string
+                description: "Descripción breve del contenido"
+              location:
+                type: string
+                description: "Dónde encontrarlo (URL, ruta, etc.)"
+              status:
+                type: string
+                enum: [draft, review, final, archived]
+              last_updated:
+                type: string
+                format: date
+          examples:
+            - name: "Análisis DAFO v2"
+              type: "deliverable"
+              description: "Análisis DAFO del mercado turístico local"
+              location: "docs/analisis-dafo-v2.pdf"
+              status: "review"
+              last_updated: "2025-01-28"
+
+        tools:
+          type: array
+          description: |
+            Herramientas y plataformas que usa el equipo.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              purpose:
+                type: string
+              url:
+                type: string
+          examples:
+            - name: "Notion"
+              purpose: "Gestión de documentación"
+              url: "https://notion.so/team-workspace"
+            - name: "Canva"
+              purpose: "Diseño de presentaciones"
+
+        references:
+          type: array
+          description: |
+            Fuentes de referencia importantes para el proyecto.
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              type:
+                type: string
+                enum: [article, book, website, report, video, other]
+              citation:
+                type: string
+                description: "Cita en formato apropiado (APA, etc.)"
+              url:
+                type: string
+              notes:
+                type: string
+                description: "Por qué es relevante"
+
+    ## -------------------------------------------------------------------------
+    ## CONTEXTO ORGANIZACIONAL
+    ## -------------------------------------------------------------------------
+    
+    organizational_context:
+      type: object
+      description: |
+        Contexto organizacional donde se desarrolla el proyecto.
+      properties:
+        
+        type:
+          type: string
+          description: "Tipo de organización"
+          enum:
+            - academic      # Universidad, instituto, escuela
+            - corporate     # Empresa, corporación
+            - startup       # Startup, emprendimiento
+            - nonprofit     # ONG, fundación
+            - government    # Administración pública
+            - freelance     # Profesional independiente
+            - other
+          default: academic
+
+        organization:
+          type: string
+          description: "Nombre de la organización"
+          maxLength: 200
+
+        department:
+          type: string
+          description: "Departamento, facultad o área"
+          maxLength: 200
+
+        course:
+          type: string
+          description: "Curso o programa (si contexto académico)"
+          maxLength: 200
+
+        assignment:
+          type: string
+          description: "Tarea, proyecto o asignación específica"
+          maxLength: 500
+
+    ## -------------------------------------------------------------------------
+    ## RESTRICCIONES
+    ## -------------------------------------------------------------------------
+    
+    constraints:
+      type: array
+      description: |
+        Restricciones operativas que el TeamMate debe respetar.
+      items:
+        type: string
+        maxLength: 300
+      maxItems: 20
+      examples:
+        - "Solo usar fuentes académicas verificables"
+        - "Centrarse en el mercado español"
+        - "Respetar formato APA para citas"
+
+    ## -------------------------------------------------------------------------
+    ## PLATAFORMA
+    ## -------------------------------------------------------------------------
+    
+    platform:
+      type: string
+      description: |
+        Plataforma LLM donde se despliega el TeamMate.
+      enum:
+        - chatgpt       # OpenAI ChatGPT / GPTs
+        - claude        # Anthropic Claude / Projects
+        - gemini        # Google Gemini / Gems
+        - openwebui     # OpenWebUI (self-hosted)
+        - other

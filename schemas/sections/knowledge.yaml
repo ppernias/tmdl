@@ -1,0 +1,119 @@
+## =============================================================================
+## TMDL Schema - Sección: KNOWLEDGE
+## Contenido externo inyectable al LLM
+## =============================================================================
+
+knowledge:
+  type: array
+  description: |
+    Lista de documentos y contenido externo que se inyecta al contexto del LLM.
+    Para información estructurada del proyecto (equipo, timeline, recursos), 
+    usar la sección `context`. Knowledge es para contenido largo o de dominio.
+
+  items:
+    type: object
+    required:
+      - id
+      - source
+    properties:
+      
+      id:
+        type: string
+        description: "Identificador único del conocimiento"
+        pattern: "^[a-z][a-z0-9_-]*$"
+        examples:
+          - "domain-tourism"
+          - "methodology-swot"
+          - "client-brief"
+
+      name:
+        type: string
+        description: "Nombre descriptivo"
+        maxLength: 200
+        examples:
+          - "Conocimiento del sector turístico"
+          - "Guía metodológica DAFO"
+
+      description:
+        type: string
+        description: "Descripción breve del contenido"
+        maxLength: 500
+
+      source:
+        type: string
+        description: "Ruta al archivo con el contenido (relativa al YAML)"
+        pattern: "^.+\\.(md|txt|yaml)$"
+        examples:
+          - "knowledge/turismo.md"
+          - "knowledge/metodologia-dafo.md"
+          - "docs/client-brief.md"
+
+      type:
+        type: string
+        description: "Tipo de conocimiento (para organización)"
+        enum:
+          - domain        # Conocimiento de dominio/sector
+          - methodology   # Metodologías y frameworks
+          - reference     # Material de referencia
+          - guidelines    # Guías y normas
+          - examples      # Ejemplos y casos
+          - other
+        default: domain
+
+      inject:
+        type: string
+        description: |
+          Cuándo inyectar este conocimiento al contexto.
+        enum:
+          - always        # Siempre presente
+          - on_demand     # Solo cuando se solicita o es relevante
+          - startup       # Solo al inicio de la conversación
+        default: always
+
+      priority:
+        type: string
+        description: |
+          Prioridad si hay límite de contexto. 
+          Los de mayor prioridad se mantienen si hay que recortar.
+        enum:
+          - critical      # Nunca recortar
+          - high          # Recortar solo si es necesario
+          - medium        # Recortar si hay presión de contexto
+          - low           # Recortar primero
+        default: medium
+
+      tags:
+        type: array
+        description: "Etiquetas para búsqueda y filtrado"
+        items:
+          type: string
+        examples:
+          - ["turismo", "sostenibilidad", "costa"]
+          - ["metodología", "análisis", "DAFO"]
+
+  examples:
+    - id: "domain-tourism"
+      name: "Conocimiento del sector turístico"
+      description: "Información de contexto sobre turismo sostenible en España"
+      source: "knowledge/turismo.md"
+      type: domain
+      inject: always
+      priority: high
+      tags: ["turismo", "sostenibilidad"]
+
+    - id: "methodology-swot"
+      name: "Guía metodológica DAFO"
+      description: "Cómo realizar un análisis DAFO correctamente"
+      source: "knowledge/metodologia-dafo.md"
+      type: methodology
+      inject: on_demand
+      priority: medium
+      tags: ["metodología", "DAFO", "análisis"]
+
+    - id: "client-requirements"
+      name: "Brief del cliente"
+      description: "Requisitos y expectativas del cliente"
+      source: "docs/client-brief.md"
+      type: reference
+      inject: always
+      priority: critical

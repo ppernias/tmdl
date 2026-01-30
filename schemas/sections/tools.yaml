@@ -1,0 +1,253 @@
+## =============================================================================
+## TMDL Schema - Sección: TOOLS
+## Herramientas base para trabajo en equipo colaborativo
+## =============================================================================
+
+tools:
+  type: object
+  description: |
+    Herramientas que todo TeamMate tiene disponibles para colaborar con el equipo.
+    Los comandos específicos del rol se definen en la sección `role`.
+
+  properties:
+    
+    ## -------------------------------------------------------------------------
+    ## COMMANDS - Comandos base de equipo (/comando)
+    ## -------------------------------------------------------------------------
+    
+    commands:
+      type: array
+      description: |
+        Comandos invocables con /comando. Estos son los comandos base que 
+        todo TeamMate tiene para coordinación y colaboración.
+        Comandos específicos del rol se definen en `role.commands`.
+      items:
+        type: object
+        required:
+          - name
+          - description
+          - prompt
+        properties:
+          name:
+            type: string
+            description: "Nombre del comando (sin /)"
+            pattern: "^[a-z][a-z0-9_]*$"
+          display_name:
+            type: string
+            description: "Nombre legible para mostrar"
+          description:
+            type: string
+            description: "Qué hace este comando"
+          prompt:
+            type: string
+            description: "Instrucciones para ejecutar el comando"
+          parameters:
+            type: array
+            description: "Parámetros que acepta el comando"
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                  enum: [string, number, boolean, list]
+                required:
+                  type: boolean
+                default:
+                  description: "Valor por defecto"
+                description:
+                  type: string
+      
+      default:
+        - name: "status"
+          display_name: "Estado"
+          description: "Resumen del estado actual de mi trabajo y tareas pendientes"
+          prompt: |
+            Proporciona un resumen conciso de:
+            1. En qué estoy trabajando actualmente
+            2. Qué he completado recientemente
+            3. Qué tengo pendiente
+            4. Si hay algo bloqueado o que necesite atención
+
+        - name: "handoff"
+          display_name: "Transferir"
+          description: "Preparar entrega de trabajo a otro miembro del equipo"
+          prompt: |
+            Prepara una transferencia de trabajo que incluya:
+            1. Contexto: qué se estaba haciendo y por qué
+            2. Estado actual: dónde quedó el trabajo
+            3. Próximos pasos: qué falta por hacer
+            4. Información relevante: datos, fuentes, decisiones tomadas
+            5. Advertencias: posibles problemas o consideraciones
+          parameters:
+            - name: to
+              type: string
+              required: false
+              description: "Destinatario de la transferencia"
+            - name: task
+              type: string
+              required: false
+              description: "Tarea específica a transferir"
+
+        - name: "summarize"
+          display_name: "Resumir"
+          description: "Resumir conversación o trabajo para compartir con el equipo"
+          prompt: |
+            Genera un resumen estructurado que incluya:
+            1. Puntos principales discutidos o trabajados
+            2. Decisiones tomadas
+            3. Acciones pendientes
+            4. Preguntas abiertas
+          parameters:
+            - name: scope
+              type: string
+              required: false
+              description: "Qué resumir (conversation, task, day)"
+              default: "conversation"
+
+        - name: "blockers"
+          display_name: "Bloqueos"
+          description: "Listar qué me impide avanzar en el trabajo actual"
+          prompt: |
+            Identifica y lista los bloqueos actuales:
+            1. Qué información falta
+            2. Qué decisiones están pendientes
+            3. Qué dependencias externas hay
+            4. Propuestas para desbloquear cada punto
+
+        - name: "review"
+          display_name: "Revisar"
+          description: "Solicitar revisión de algo que he preparado"
+          prompt: |
+            Presenta el trabajo para revisión:
+            1. Qué es y para qué sirve
+            2. Puntos que me gustaría que revisaran
+            3. Dudas o decisiones que tomé y quiero validar
+            4. Formato solicitado para el feedback
+          parameters:
+            - name: item
+              type: string
+              required: false
+              description: "Qué se quiere revisar"
+
+        - name: "help"
+          display_name: "Ayuda"
+          description: "Mostrar qué puedo hacer y cómo trabajar conmigo"
+          prompt: |
+            Explica de forma clara y concisa:
+            1. Quién soy y cuál es mi rol
+            2. En qué puedo ayudar (mis capacidades)
+            3. Qué no puedo o no debo hacer (mis límites)
+            4. Comandos disponibles y cómo usarlos
+            5. Cómo sacar el mejor provecho de trabajar conmigo
+
+    ## -------------------------------------------------------------------------
+    ## OPTIONS - Modificadores globales (/opción valor)
+    ## -------------------------------------------------------------------------
+    
+    options:
+      type: array
+      description: |
+        Modificadores globales que ajustan el comportamiento.
+        Se invocan con /opción valor.
+      items:
+        type: object
+        required:
+          - name
+          - prompt
+        properties:
+          name:
+            type: string
+            pattern: "^[a-z][a-z0-9_]*$"
+          description:
+            type: string
+          prompt:
+            type: string
+          values:
+            type: array
+            description: "Valores permitidos (si es enum)"
+            items:
+              type: string
+          default:
+            type: string
+            description: "Valor por defecto"
+      
+      default:
+        - name: "lang"
+          description: "Cambiar idioma de respuesta"
+          prompt: "Responde en el idioma indicado"
+          values: ["es", "en", "ca", "fr", "de", "pt", "it"]
+          default: "es"
+
+        - name: "format"
+          description: "Formato de salida"
+          prompt: |
+            Ajusta el formato de salida:
+            - markdown: usa formato Markdown con headers, listas, etc.
+            - plain: texto plano sin formato
+            - structured: usa estructura clara con secciones numeradas
+          values: ["markdown", "plain", "structured"]
+          default: "markdown"
+
+    ## -------------------------------------------------------------------------
+    ## DECORATORS - Modificadores de estilo (+++decorador)
+    ## -------------------------------------------------------------------------
+    
+    decorators:
+      type: array
+      description: |
+        Modificadores de estilo que se aplican a la siguiente respuesta.
+        Se invocan con +++decorador antes o después del mensaje.
+      items:
+        type: object
+        required:
+          - name
+          - prompt
+        properties:
+          name:
+            type: string
+            pattern: "^[a-z][a-z0-9_]*$"
+          description:
+            type: string
+          prompt:
+            type: string
+      
+      default:
+        - name: "brief"
+          description: "Respuesta concisa"
+          prompt: "Responde de forma muy concisa, máximo 3-5 puntos clave. Sin introducciones ni conclusiones."
+
+        - name: "detailed"
+          description: "Respuesta extendida"
+          prompt: "Proporciona una respuesta detallada y exhaustiva, con explicaciones y ejemplos donde sea útil."
+
+        - name: "bullets"
+          description: "Formato en lista"
+          prompt: "Estructura toda la respuesta en listas con viñetas. Evita párrafos largos."
+
+        - name: "formal"
+          description: "Tono más formal"
+          prompt: "Usa un tono formal y profesional. Evita coloquialismos y expresiones informales."
+
+    ## -------------------------------------------------------------------------
+    ## ROLE COMMANDS (definidos en role, documentados aquí)
+    ## -------------------------------------------------------------------------
+    
+    role_commands:
+      type: array
+      description: |
+        Comandos específicos del rol se definen en la sección `role.commands`.
+        Este campo es solo para referencia y documentación.
+        Ejemplo: un analista podría tener /swot, /trends, /compare.
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          prompt:
+            type: string
+          parameters:
+            type: array

@@ -1,0 +1,303 @@
+## =============================================================================
+## TMDL Schema - Sección: METADATA
+## Información administrativa y de catalogación
+## Compatible con IEEE LOM (Learning Object Metadata)
+## =============================================================================
+
+metadata:
+  type: object
+  description: |
+    Información administrativa del TeamMate para catalogación, 
+    búsqueda y gestión. Campos inspirados en Dublin Core e IEEE LOM.
+  
+  required:
+    - id
+    - name
+    - version
+    - author
+
+  properties:
+    
+    ## -------------------------------------------------------------------------
+    ## IDENTIFICACIÓN (LOM General)
+    ## -------------------------------------------------------------------------
+    
+    id:
+      type: string
+      description: |
+        Identificador único del TeamMate. Debe ser único dentro del 
+        repositorio o sistema donde se utilice. Formato: minúsculas, 
+        números, guiones y guiones bajos. Debe empezar por letra.
+      pattern: "^[a-z][a-z0-9_-]*$"
+      minLength: 3
+      maxLength: 64
+      examples:
+        - "ana-analyst-turismo"
+        - "marco-researcher-v2"
+        - "team-alpha-coordinator"
+
+    name:
+      type: string
+      description: |
+        Nombre legible y descriptivo del TeamMate. Debería incluir 
+        el nombre del personaje y opcionalmente su rol o especialización.
+      minLength: 2
+      maxLength: 100
+      examples:
+        - "Ana - Analista de Mercado Turístico"
+        - "Marco - Investigador Senior"
+        - "Eva - Coordinadora de Proyecto"
+
+    description:
+      type: string
+      description: |
+        Descripción breve del propósito y características principales 
+        del TeamMate. Útil para catálogos y búsquedas.
+      maxLength: 500
+      examples:
+        - "Analista especializada en mercado turístico de la Costa Blanca, con foco en turismo gastronómico y análisis DAFO."
+
+    ## -------------------------------------------------------------------------
+    ## VERSIONADO Y CICLO DE VIDA (LOM Lifecycle)
+    ## -------------------------------------------------------------------------
+    
+    version:
+      type: string
+      description: |
+        Versión de esta definición del TeamMate. Usar versionado 
+        semántico: MAJOR.MINOR o MAJOR.MINOR.PATCH
+      pattern: "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+      examples:
+        - "1.0"
+        - "2.1"
+        - "1.0.3"
+
+    status:
+      type: string
+      description: |
+        Estado actual del TeamMate en su ciclo de vida.
+      enum:
+        - draft        # En desarrollo, no usar en producción
+        - review       # En revisión, pendiente de aprobación
+        - published    # Publicado y listo para usar
+        - deprecated   # Obsoleto, usar versión más reciente
+        - archived     # Archivado, solo para referencia histórica
+      default: draft
+
+    ## -------------------------------------------------------------------------
+    ## AUTORÍA Y FECHAS (LOM Lifecycle.Contribute)
+    ## -------------------------------------------------------------------------
+    
+    author:
+      type: string
+      description: |
+        Creador principal de esta definición. Puede ser una persona, 
+        equipo u organización.
+      minLength: 2
+      maxLength: 100
+      examples:
+        - "Pedro Pernías"
+        - "Equipo Delta - NT40"
+        - "Universidad de Alicante"
+
+    contributors:
+      type: array
+      description: |
+        Otros contribuidores a esta definición del TeamMate.
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: "Nombre del contribuidor"
+          role:
+            type: string
+            description: "Tipo de contribución"
+            enum:
+              - author           # Autor principal
+              - content_provider # Proveedor de contenido
+              - validator        # Validador/revisor
+              - editor           # Editor
+              - technical        # Soporte técnico
+          date:
+            type: string
+            format: date
+            description: "Fecha de la contribución"
+
+    created:
+      type: string
+      format: date
+      description: "Fecha de creación inicial"
+      examples:
+        - "2025-01-30"
+
+    updated:
+      type: string
+      format: date
+      description: |
+        Fecha de última modificación. Se actualiza automáticamente 
+        con cada cambio. Útil para ordenar y filtrar.
+      examples:
+        - "2025-01-30"
+
+    history:
+      type: array
+      description: |
+        Historial de cambios del TeamMate. Ordenado de más reciente 
+        a más antiguo. Permite trazabilidad de la evolución.
+      items:
+        type: object
+        required:
+          - date
+          - changes
+        properties:
+          date:
+            type: string
+            format: date
+            description: "Fecha del cambio"
+          version:
+            type: string
+            description: "Versión tras el cambio (si aplica)"
+          changes:
+            type: string
+            description: "Descripción de los cambios realizados"
+          author:
+            type: string
+            description: "Quién realizó los cambios"
+      examples:
+        - date: "2025-01-30"
+          version: "1.2"
+          changes: "Añadido comando /tendencias, mejorada respuesta a off-topic"
+          author: "Pedro"
+        - date: "2025-01-15"
+          version: "1.1"
+          changes: "Refinada personalidad, añadidos quirks"
+          author: "Equipo Delta"
+
+    ## -------------------------------------------------------------------------
+    ## IDIOMA (LOM General.Language)
+    ## -------------------------------------------------------------------------
+    
+    language:
+      type: string
+      description: |
+        Idioma principal en el que está definido el TeamMate y en el 
+        que se comunicará por defecto. Código ISO 639-1.
+      pattern: "^[a-z]{2}(-[A-Z]{2})?$"
+      default: "es"
+      examples:
+        - "es"       # Español
+        - "en"       # Inglés
+        - "ca"       # Catalán
+        - "es-ES"    # Español de España
+        - "en-US"    # Inglés americano
+
+    ## -------------------------------------------------------------------------
+    ## CLASIFICACIÓN Y BÚSQUEDA (LOM General.Keyword, Classification)
+    ## -------------------------------------------------------------------------
+    
+    tags:
+      type: array
+      description: |
+        Etiquetas para categorización y búsqueda. Usar términos 
+        relevantes para el dominio, rol y especialización.
+      items:
+        type: string
+        minLength: 2
+        maxLength: 50
+      minItems: 1
+      maxItems: 20
+      examples:
+        - ["turismo", "análisis", "DAFO", "mercado", "gastronomía"]
+        - ["investigación", "estado-del-arte", "bibliografía"]
+
+    ## -------------------------------------------------------------------------
+    ## CONTEXTO Y AUDIENCIA (LOM Educational)
+    ## -------------------------------------------------------------------------
+    
+    context:
+      type: string
+      description: |
+        Contexto principal de uso del TeamMate.
+      enum:
+        - academic       # Educación formal (universidad, instituto)
+        - professional   # Entorno profesional/empresarial
+        - training       # Formación no reglada, workshops
+        - research       # Investigación
+        - personal       # Uso personal/hobby
+        - other          # Otro contexto
+      default: academic
+
+    intended_audience:
+      type: array
+      description: |
+        Perfiles de usuario para los que está diseñado el TeamMate.
+      items:
+        type: string
+        enum:
+          - students           # Estudiantes
+          - teachers           # Profesores/instructores
+          - professionals      # Profesionales del sector
+          - researchers        # Investigadores
+          - entrepreneurs      # Emprendedores
+          - managers           # Gestores/directivos
+          - general_public     # Público general
+      default:
+        - students
+
+    ## -------------------------------------------------------------------------
+    ## DERECHOS (LOM Rights)
+    ## -------------------------------------------------------------------------
+    
+    license:
+      type: string
+      description: |
+        Licencia de uso de esta definición del TeamMate. 
+        Se recomienda usar identificadores SPDX o nombres estándar.
+      examples:
+        - "CC-BY-4.0"
+        - "CC-BY-SA-4.0"
+        - "CC-BY-NC-4.0"
+        - "MIT"
+        - "Apache-2.0"
+        - "Proprietary"
+        - "All Rights Reserved"
+
+    rights_description:
+      type: string
+      description: |
+        Descripción adicional de los derechos de uso, restricciones 
+        o condiciones especiales.
+      maxLength: 500
+      examples:
+        - "Uso libre para fines educativos. Requiere atribución para uso comercial."
+
+    ## -------------------------------------------------------------------------
+    ## RELACIONES (LOM Relation) - Opcional
+    ## -------------------------------------------------------------------------
+    
+    related:
+      type: array
+      description: |
+        Referencias a otros TeamMates o recursos relacionados.
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+              - is_version_of      # Es versión de otro
+              - has_version        # Tiene otras versiones
+              - is_based_on        # Está basado en
+              - is_required_by     # Es requerido por
+              - requires           # Requiere
+              - is_part_of         # Es parte de
+              - has_part           # Tiene partes
+              - references         # Referencia a
+              - is_referenced_by   # Es referenciado por
+          target:
+            type: string
+            description: "ID o URI del recurso relacionado"
+          description:
+            type: string
+            description: "Descripción de la relación"
