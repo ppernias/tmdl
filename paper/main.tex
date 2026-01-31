@@ -68,7 +68,7 @@ Large Language Models, Human-AI Collaboration, Agent Description Languages, Virt
 
 The rapid advancement of Large Language Models (LLMs) has opened unprecedented opportunities for human-AI collaboration in professional and academic settings \cite{bubeck2023sparks}. However, deploying LLMs as effective team members rather than mere tools presents unique challenges that go beyond traditional prompt engineering approaches.
 
-When humans collaborate in teams, they bring not only their skills but also their personalities, communication styles, and understanding of team dynamics. Current approaches to LLM deployment often overlook these dimensions, resulting in AI agents that, while technically capable, fail to integrate naturally into team workflows \cite{wang2024humanai}.
+When humans collaborate in teams, they bring not only their skills but also their personalities, communication styles, and understanding of team dynamics. Research on AI as teammates has identified significant open challenges in this integration---including role distribution, trust dynamics, and coordination patterns---that fundamentally differ from traditional tool-based human-computer interaction \cite{seeber2020machines}.
 
 Consider a project team where an AI agent is expected to serve as a research analyst. Beyond answering questions, the agent must understand its role boundaries, know when to defer to others, maintain consistent communication patterns, and adapt its behavior to project phases and team needs. Encoding all these requirements in unstructured natural language prompts leads to several problems:
 
@@ -109,7 +109,7 @@ Commercial platforms such as OpenAI's GPTs and Anthropic's Claude offer system p
 
 A growing body of research demonstrates that LLMs process structured information more reliably than unstructured natural language in system prompts \cite{liu2023structured, khattab2023dspy}. This finding is fundamental to TMDL's design rationale.
 
-\textbf{Empirical evidence for structured formats:} Liu et al. \cite{liu2023structured} showed that prompts using explicit structural markers (XML tags, JSON schemas, hierarchical formatting) produced 23\% more consistent outputs compared to equivalent natural language instructions. The structured format reduced ambiguity and provided clearer parsing boundaries for the model's attention mechanisms.
+\textbf{Empirical evidence for structured formats:} Recent benchmarks on structured output generation demonstrate that specifying formal schemas (e.g., JSON Schema) and using constrained decoding improves output reliability: increasing format compliance rates, reducing parsing errors, and facilitating integration into automated pipelines \cite{geng2025structured}. Experimental comparisons of structured prompt styles (JSON, YAML, hybrid formats) report measurable differences in quality and efficiency when generating structured data, supporting the claim that explicit structure reduces ambiguity and produces more usable outputs \cite{zhang2025promptstyles}.
 
 Khattab et al. \cite{khattab2023dspy} introduced DSPy, a framework that treats LLM prompting as a programming problem rather than a prose-writing exercise. Their results demonstrated that declarative, structured specifications outperformed hand-crafted prompts across multiple benchmarks, while also being more maintainable and reproducible.
 
