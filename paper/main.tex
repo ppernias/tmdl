@@ -55,7 +55,7 @@
 \maketitle
 
 \begin{abstract}
-The integration of Large Language Models (LLMs) into collaborative work environments presents significant challenges in defining consistent, predictable, and team-aware AI behaviors. This paper introduces TMDL (TeamMate Description Language), a YAML-based specification language designed to describe virtual teammates that can effectively collaborate with human team members. TMDL is a direct evolution of ADL (Assistant Description Language), inheriting its core architecture for structured prompt engineering while extending it with team-specific constructs drawn from organizational psychology and team dynamics research. The language provides a structured approach to define identity, role, collaboration patterns, and project knowledge for AI agents operating in hybrid teams. We present the language specification, demonstrate its application through a case study in academic project teams, and evaluate its effectiveness compared to unstructured prompt approaches. Our results suggest that TMDL-defined agents exhibit more consistent behavior and better team integration. The specification, building upon the established ADL foundation, is released as open-source to foster reproducibility and community-driven evolution.
+The integration of Large Language Models (LLMs) into collaborative work environments presents significant challenges in defining consistent, predictable, and team-aware AI behaviors. This paper introduces TMDL (TeamMate Description Language), a YAML-based specification language designed to describe virtual teammates that can effectively collaborate with human team members. TMDL is a direct evolution of ADL (Assistant Description Language), inheriting its core architecture for structured prompt engineering while extending it with team-specific constructs drawn from organizational psychology and team dynamics research. The language provides a structured approach to define identity, role, collaboration patterns, and project knowledge for AI agents operating in hybrid teams. We present the language specification, demonstrate its application through a case study in academic project teams, and evaluate its effectiveness compared to unstructured prompt approaches. Our results suggest that TMDL-defined agents exhibit more consistent behavior and better team integration. The specification, building upon the established ADL foundation, is released as open-source at \url{https://github.com/ppernias/tmdl} to foster reproducibility and community-driven evolution.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -332,7 +332,7 @@ knowledge:
 \section{Schema Specification}
 % ==============================================================================
 
-This section details each TMDL schema component. The complete JSON Schema is available in the project repository.
+This section details each TMDL schema component. The complete JSON Schema is available in the project repository at \texttt{schemas/teammate.schema.yaml}, with modular section schemas in \texttt{schemas/sections/}. A formal specification document (\texttt{SPECIFICATION.md}) provides comprehensive reference documentation.
 
 \subsection{Metadata}
 
@@ -349,7 +349,7 @@ metadata:
   updated: "2024-06-20"
   license: "CC-BY-4.0"
   tags: ["tourism", "SWOT", "market"]
-  project_type: "academic"
+  context: academic
 \end{lstlisting}
 
 The \texttt{id} field must be unique and follow the pattern \texttt{[a-z][a-z0-9\_-]*}. Semantic versioning is recommended for the \texttt{version} field.
@@ -366,12 +366,10 @@ identity:
     Ana is a meticulous and curious analyst.
     She always asks for data before accepting
     claims. Direct but approachable.
-  tone: professional
   communication_style:
     verbosity: balanced
-    formality: neutral
+    tone: professional
     emoji_use: false
-    language: "es"
   quirks:
     - "Often starts with 'Interesting...'"
     - "Uses sports metaphors"
@@ -799,6 +797,8 @@ For practitioners deploying AI in team settings, TMDL offers:
     \item Templates for common roles (analyst, researcher, etc.)
 \end{itemize}
 
+The project repository (\url{https://github.com/ppernias/tmdl}) provides ready-to-use resources: a complete formal specification (\texttt{SPECIFICATION.md}), JSON Schema definitions for validation, starter templates, and example teammate definitions that practitioners can adapt to their specific needs.
+
 \subsection{Theoretical Implications}
 
 TMDL demonstrates that organizational behavior constructs (role clarity, contribution styles, feedback patterns) can be operationalized in AI agent specifications. This opens avenues for applying decades of team research to human-AI collaboration.
@@ -845,7 +845,17 @@ By building on ADL's established patterns and adding team-specific constructs---
 
 Our evaluation in academic project teams suggests that TMDL-defined teammates exhibit better behavioral consistency and higher perceived team integration compared to unstructured prompt approaches. While further research is needed, these results support the value of structured, contribution-centered agent description languages for human-AI collaboration.
 
-TMDL, along with the foundational ADL specification, reference implementations, and role templates, is available as open source at [repository URL] under CC-BY-4.0 license. We invite the community to contribute additional role types, platform integrations, and domain-specific extensions that further demonstrate the extensibility of the ADL family architecture.
+TMDL is available as open source at \url{https://github.com/ppernias/tmdl} under CC-BY-4.0 license. The repository includes:
+
+\begin{itemize}
+    \item \texttt{SPECIFICATION.md}: Complete formal language reference
+    \item \texttt{schemas/}: JSON Schema definitions for validation
+    \item \texttt{roles/}: Reusable base role definitions (analyst, researcher)
+    \item \texttt{templates/}: Starter template for new teammates
+    \item \texttt{examples/}: Complete teammate specifications
+\end{itemize}
+
+We invite the community to contribute additional role types, platform integrations, and domain-specific extensions that further demonstrate the extensibility of the ADL family architecture.
 
 % ==============================================================================
 % REFERENCES
