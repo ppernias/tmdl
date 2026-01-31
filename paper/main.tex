@@ -114,21 +114,21 @@ This research foundation leads directly to TMDL's design: a \textit{contribution
 
 TMDL's taxonomies are derived from established organizational behavior research rather than invented \textit{ad hoc}.
 
-\textbf{Contribution Style Taxonomy.} TMDL defines five contribution styles synthesized from team role research. Belbin's seminal work \cite{belbin2010team} identified nine team roles across three categories, demonstrating that effective teams require diverse behavioral contributions. Earlier, Benne and Sheats \cite{benne1948functional} established the foundational distinction between task-oriented and maintenance-oriented group roles.
+\textbf{Contribution Style Taxonomy.} TMDL defines five contribution styles grounded in team composition research. Mathieu et al. \cite{mathieu2014composition} demonstrate that effective teams require heterogeneity in task-relevant attributes---competencies, experiences, and behavioral orientations---with different compositional configurations optimal for different work phases. Earlier, Benne and Sheats \cite{benne1948functional} established the foundational distinction between task-oriented and maintenance-oriented functional roles in groups.
 
 Building on this research, TMDL's contribution styles capture the primary ways teammates add value:
 
 \begin{itemize}
-    \item \texttt{supportive}: Aligned with Belbin's Teamworker---prioritizes enabling others' contributions
-    \item \texttt{generative}: Corresponds to Belbin's Plant---generates ideas and proposes directions
-    \item \texttt{analytical}: Maps to Monitor Evaluator---evaluates proposals, identifies problems
+    \item \texttt{supportive}: Prioritizes enabling others' contributions and team cohesion
+    \item \texttt{generative}: Generates ideas, proposes directions, creates options
+    \item \texttt{analytical}: Evaluates proposals, identifies problems, ensures rigor
     \item \texttt{integrative}: Synthesizes perspectives, builds coherence across contributions
-    \item \texttt{executive}: Aligned with Shaper and Implementer---drives execution and progress
+    \item \texttt{executive}: Drives execution, manages progress, closes tasks
 \end{itemize}
 
-\textbf{Cognitive Style Taxonomy.} De Bono's Six Thinking Hats framework \cite{debono1985hats} demonstrated that explicit cognitive role assignment improves group problem-solving. Kirton's Adaption-Innovation theory \cite{kirton1976adaptors} established a fundamental dimension: adaptors who improve within existing paradigms versus innovators who challenge them.
+\textbf{Cognitive Style Taxonomy.} Research on cognitive styles provides a rigorous foundation for differentiating thinking patterns. Kozhevnikov \cite{kozhevnikov2007cognitive} synthesized decades of research into an integrated framework showing that cognitive styles represent stable individual differences in information processing that are distinct from abilities. Kirton's Adaption-Innovation theory \cite{kirton1976adaptors} established a fundamental dimension: adaptors who improve within existing paradigms versus innovators who challenge them. Critically, Aggarwal and Woolley \cite{aggarwal2019cognitive} demonstrated empirically that cognitive style diversity in teams improves collective performance through enhanced team cognition.
 
-TMDL operationalizes these frameworks through seven cognitive styles (analytical, creative, devils\_advocate, optimist, pragmatist, visionary, balanced) that represent functional modes of reasoning rather than personality traits.
+TMDL operationalizes these findings through seven cognitive styles (analytical, creative, devils\_advocate, optimist, pragmatist, visionary, balanced) that represent functional modes of reasoning. These are not personality traits but assignable cognitive orientations that can be deliberately configured to create complementary team compositions.
 
 \textbf{Disagreement Approach.} TMDL treats disagreement as a secondary specification---what to do when the teammate's analysis differs from team consensus---rather than a primary interaction mode. The four approaches (defer, voice, dialogue, investigate) are designed for collaborative resolution: understanding different perspectives, seeking additional information, and finding common ground.
 
@@ -327,7 +327,7 @@ role:
         delegate_to: "content_creator"
 \end{lstlisting}
 
-Cognitive styles draw from De Bono \cite{debono1985hats} and Kirton \cite{kirton1976adaptors}: devils\_advocate, optimist, pragmatist, visionary, analytical, creative, and balanced.
+Cognitive styles draw from research on cognitive diversity \cite{kozhevnikov2007cognitive, kirton1976adaptors}: devils\_advocate, optimist, pragmatist, visionary, analytical, creative, and balanced.
 
 \subsection{Collaboration}
 
@@ -366,7 +366,7 @@ collaboration:
     - "Always cite sources"
 \end{lstlisting}
 
-\textbf{Contribution Style}, grounded in Belbin \cite{belbin2010team} and Benne-Sheats \cite{benne1948functional}, defines how the teammate primarily adds value: supportive, generative, analytical, integrative, or executive.
+\textbf{Contribution Style}, grounded in team composition research \cite{mathieu2014composition, benne1948functional}, defines how the teammate primarily adds value: supportive, generative, analytical, integrative, or executive.
 
 \textbf{Disagreement Approach} specifies behavior when the teammate's analysis differs from team consensus. Following our contribution-centered philosophy, this is framed as ``what to do when detecting a potentially relevant discrepancy'' rather than ``how to compete'': defer, voice, dialogue, or investigate.
 
@@ -498,7 +498,7 @@ knowledge:
 
 \subsection{Design Rationale}
 
-The specification reflects TMDL's theoretical foundations: \texttt{contribution\_style: analytical} draws from Belbin's Monitor Evaluator role; \texttt{disagreement\_approach: dialogue} reflects collaborative rather than competitive orientation; explicit \texttt{protocols} operationalize predictable behavior patterns.
+The specification reflects TMDL's theoretical foundations: \texttt{contribution\_style: analytical} draws from team composition research on functional role diversity; \texttt{disagreement\_approach: dialogue} reflects collaborative orientation; explicit \texttt{protocols} operationalize predictable behavior patterns.
 
 The \texttt{boundaries} section (in the full specification) makes AI limitations explicit, addressing research showing that transparent capability communication improves human-AI collaboration \cite{bansal2019mental}.
 
@@ -560,7 +560,7 @@ Additional technical directions include multi-agent coordination extensions, dyn
 
 This paper introduced TMDL (TeamMate Description Language), a structured specification language for virtual teammates in hybrid human-AI teams. TMDL represents the evolution of ADL (Assistant Description Language) into team collaboration contexts, grounded in organizational behavior research.
 
-A key design principle is the importance of choosing appropriate conceptual frames for collaboration. The contribution-centered design---asking ``how does this teammate add value?'' rather than ``how does it handle conflict?''---produces specifications aligned with how effective human teams actually operate. This framing, grounded in team effectiveness research from Hackman, Salas, and Belbin, provides theoretical foundation absent in previous agent description approaches.
+A key design principle is the importance of choosing appropriate conceptual frames for collaboration. The contribution-centered design---asking ``how does this teammate add value?'' rather than ``how does it handle conflict?''---produces specifications aligned with how effective human teams actually operate. This framing, grounded in team effectiveness research from Hackman, Salas, and Mathieu, provides theoretical foundation absent in previous agent description approaches.
 
 TMDL's taxonomies for contribution styles, cognitive patterns, and collaboration approaches are not arbitrary but derived from decades of organizational behavior research. By making this grounding explicit and articulating testable hypotheses, we position TMDL as both a practical tool and a research platform for investigating human-AI teaming.
 
