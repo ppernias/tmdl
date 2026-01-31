@@ -78,7 +78,7 @@ This paper introduces TMDL (TeamMate Description Language), an evolution of ADL 
     \item A \textbf{formal schema} for describing AI teammates with consistent structure and validation
     \item \textbf{Separation of concerns} between identity, role, collaboration patterns, and project knowledge
     \item \textbf{Theoretically-grounded taxonomies} for contribution styles and cognitive patterns
-    \item A \textbf{contribution-centered collaboration model} that frames teammates around value addition rather than conflict management
+    \item A \textbf{contribution-centered collaboration model}, grounded in team effectiveness research, that frames teammates around how they add value to the group
     \item \textbf{Protocol-based behavior} specification for predictable responses to team events
 \end{itemize}
 
@@ -100,17 +100,15 @@ Khattab et al. \cite{khattab2023dspy} introduced DSPy, treating LLM prompting as
 
 We chose YAML for practical reasons---human readability, multi-line string support, and widespread tooling---rather than theoretical superiority over other structured formats such as JSON or XML.
 
-\subsection{Team Effectiveness: From Conflict to Contribution}
+\subsection{Team Effectiveness and Contribution-Centered Design}
 
-A critical design decision in TMDL concerns how to model teammate interactions. Traditional frameworks from organizational psychology, such as Thomas-Kilmann's conflict modes \cite{thomas2008thomas}, were developed for contexts where competing interests are common. However, we argue that these frameworks are inappropriate for AI teammate specification.
+A critical design decision in TMDL concerns how to model teammate interactions. Research on team effectiveness provides clear guidance: high-performing teams are characterized by coordination, mutual support, and shared purpose.
 
-Hackman's team effectiveness model \cite{hackman2002leading} identifies shared leadership and enabling structure---not conflict resolution---as drivers of team performance. Salas et al.'s ``Big Five'' of teamwork \cite{salas2005bigfive} highlights mutual performance monitoring and backup behavior, which are fundamentally cooperative rather than adversarial mechanisms.
+Hackman's team effectiveness model \cite{hackman2002leading} identifies shared leadership and enabling structure as key drivers of team performance. Salas et al.'s ``Big Five'' of teamwork \cite{salas2005bigfive} highlights mutual performance monitoring and backup behavior---fundamentally cooperative mechanisms where teammates anticipate each other's needs and provide support proactively.
 
-Research shows that high-performing teams are characterized by mutual support, role clarity, and task interdependence \cite{widianto2024task}---not by their ability to manage conflict. Task interdependence naturally promotes coordination, trust, and information sharing without adversarial negotiation.
+Research shows that high-performing teams are characterized by role clarity and task interdependence \cite{widianto2024task}. Task interdependence naturally promotes coordination, trust, and information sharing. When team members depend on each other to accomplish work, they develop shared understanding and effective collaboration patterns.
 
-Critically, AI teammates have no personal interests to defend. Unlike human team members who may have competing career goals or resource constraints, well-designed AI agents serve team objectives exclusively. Conflict management frameworks presuppose conflicting interests that do not exist in this context.
-
-TMDL therefore adopts a \textit{contribution-centered} model that asks: ``How does this teammate add value to the group?'' rather than ``How does this teammate handle conflict?''
+This research foundation leads directly to TMDL's design: a \textit{contribution-centered} model that asks ``How does this teammate add value to the group?'' By focusing on positive contribution patterns---supporting others, generating ideas, analyzing proposals, integrating perspectives, driving execution---TMDL aligns with how effective teams actually function.
 
 \subsection{Grounding TMDL Taxonomies}
 
@@ -132,7 +130,7 @@ Building on this research, TMDL's contribution styles capture the primary ways t
 
 TMDL operationalizes these frameworks through seven cognitive styles (analytical, creative, devils\_advocate, optimist, pragmatist, visionary, balanced) that represent functional modes of reasoning rather than personality traits.
 
-\textbf{Disagreement Approach.} While Thomas-Kilmann provides comprehensive conflict mode taxonomies, TMDL treats disagreement as a secondary specification---what to do when the teammate's analysis differs from team consensus---rather than a primary interaction mode. The four approaches (defer, voice, dialogue, investigate) reflect collaborative rather than competitive orientations.
+\textbf{Disagreement Approach.} TMDL treats disagreement as a secondary specification---what to do when the teammate's analysis differs from team consensus---rather than a primary interaction mode. The four approaches (defer, voice, dialogue, investigate) are designed for collaborative resolution: understanding different perspectives, seeking additional information, and finding common ground.
 
 \subsection{Transferring Constructs to Human-AI Teams}
 
@@ -172,7 +170,7 @@ Building on the theoretical foundations presented above, TMDL embodies several t
 
 \textbf{H4 (Contribution-Centered Dynamics):} TMDL's contribution-centered model will produce collaboration patterns perceived as more natural and less adversarial than conflict-management approaches.
 
-\textit{Rationale:} Research on high-performing teams emphasizes mutual support and coordination over conflict management \cite{salas2005bigfive}. AI teammates configured for contribution should integrate more naturally.
+\textit{Rationale:} Research on high-performing teams emphasizes mutual support, backup behavior, and coordination \cite{salas2005bigfive}. AI teammates configured for positive contribution should integrate more naturally into team dynamics.
 
 \subsection{Hypotheses on Construct Validity}
 
@@ -512,7 +510,7 @@ The \texttt{boundaries} section (in the full specification) makes AI limitations
 
 TMDL makes several theoretical contributions to human-AI collaboration:
 
-\textbf{Contribution-centered framing.} By grounding collaboration modeling in team effectiveness research rather than conflict management frameworks, TMDL provides a theoretical foundation for AI teammate specification that aligns with how functional teams actually operate. This represents a shift from viewing AI agents as negotiators to viewing them as contributors.
+\textbf{Contribution-centered framing.} By grounding collaboration modeling in team effectiveness research, TMDL provides a theoretical foundation for AI teammate specification that aligns with how high-performing teams actually operate. The focus on contribution patterns---how teammates add value through support, idea generation, analysis, integration, and execution---reflects the cooperative nature of effective teamwork.
 
 \textbf{Operationalized organizational constructs.} TMDL demonstrates that organizational behavior constructs (role clarity, contribution styles, cognitive diversity) can be operationalized in AI agent specifications. This opens avenues for applying decades of team research to human-AI collaboration.
 
