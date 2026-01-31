@@ -126,9 +126,17 @@ Building on this research, TMDL's contribution styles capture the primary ways t
     \item \texttt{executive}: Drives execution, manages progress, closes tasks
 \end{itemize}
 
-\textbf{Cognitive Style Taxonomy.} Research on cognitive styles provides a rigorous foundation for differentiating thinking patterns. Kozhevnikov \cite{kozhevnikov2007cognitive} synthesized decades of research into an integrated framework showing that cognitive styles represent stable individual differences in information processing that are distinct from abilities. Kirton's Adaption-Innovation theory \cite{kirton1976adaptors} established a fundamental dimension: adaptors who improve within existing paradigms versus innovators who challenge them. Critically, Aggarwal and Woolley \cite{aggarwal2019cognitive} demonstrated empirically that cognitive style diversity in teams improves collective performance through enhanced team cognition.
+\textbf{Cognitive Style Taxonomy.} Research on cognitive styles provides a rigorous foundation for differentiating thinking patterns. Kirton's Adaption-Innovation theory \cite{kirton1976adaptors} established a fundamental dimension validated across decades of research: \textit{adaptors} who improve within existing paradigms versus \textit{innovators} who challenge and transform them. This is not a value judgment—both orientations are essential for team effectiveness, with adaptors excelling at refinement and implementation while innovators excel at breakthrough thinking. Critically, Aggarwal and Woolley \cite{aggarwal2019cognitive} demonstrated empirically that cognitive style diversity in teams improves collective performance through enhanced team cognition.
 
-TMDL operationalizes these findings through seven cognitive styles (analytical, creative, devils\_advocate, optimist, pragmatist, visionary, balanced) that represent functional modes of reasoning. These are not personality traits but assignable cognitive orientations that can be deliberately configured to create complementary team compositions.
+TMDL operationalizes Kirton's continuum through three cognitive style values:
+
+\begin{itemize}
+    \item \texttt{adaptor}: Improves within existing frameworks, methodical, respects established structures
+    \item \texttt{innovator}: Challenges paradigms, generates novel approaches, questions assumptions
+    \item \texttt{balanced}: Flexibly combines both orientations according to task demands
+\end{itemize}
+
+These are not personality traits but assignable cognitive orientations that can be deliberately configured to create complementary team compositions.
 
 \subsection{Transferring Constructs to Human-AI Teams}
 
@@ -349,7 +357,7 @@ role:
         delegate_to: "content_creator"
 \end{lstlisting}
 
-Cognitive styles draw from research on cognitive diversity \cite{kozhevnikov2007cognitive, kirton1976adaptors}: devils\_advocate, optimist, pragmatist, visionary, analytical, creative, and balanced.
+Cognitive styles draw from Kirton's Adaption-Innovation theory \cite{kirton1976adaptors}: \texttt{adaptor}, \texttt{innovator}, and \texttt{balanced}.
 
 \subsection{Collaboration}
 
@@ -359,13 +367,6 @@ This section specifies how the teammate contributes to the team, reflecting TMDL
 collaboration:
   # Primary: How value is added
   contribution_style: analytical
-  interaction_mode: balanced
-  initiative_level: medium
-
-  # Social dimensions
-  social_orientation: balanced
-  autonomy_preference: moderate
-  feedback_style: constructive
 
   # Behavioral protocols
   protocols:
@@ -498,8 +499,6 @@ role:
       level: expert
 collaboration:
   contribution_style: analytical
-  interaction_mode: balanced
-  feedback_style: constructive
   protocols:
     on_task_assignment: |
       1. Confirm understanding
