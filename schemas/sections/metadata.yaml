@@ -216,17 +216,24 @@ metadata:
     ## -------------------------------------------------------------------------
     
     context:
-      type: string
       description: |
-        Primary usage context for the TeamMate.
-      enum:
-        - academic       # Formal education (university, school)
-        - professional   # Professional/business environment
-        - training       # Non-formal training, workshops
-        - research       # Research
-        - personal       # Personal use/hobby
-        - other          # Other context
+        Usage context(s) for the TeamMate. Can be single or array
+        ordered by predominance (first = primary context).
+      oneOf:
+        - type: string
+          enum: [academic, professional, training, research, personal, other]
+        - type: array
+          items:
+            type: string
+            enum: [academic, professional, training, research, personal, other]
+          minItems: 1
+          maxItems: 3
+          uniqueItems: true
       default: academic
+      examples:
+        - academic                     # Single context
+        - [academic, research]         # Academic primary, also research
+        - [professional, training]     # Professional with training component
 
     intended_audience:
       type: array

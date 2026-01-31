@@ -140,8 +140,17 @@ properties:
         maxItems: 20
 
       context:
-        type: string
-        enum: [academic, professional, training, research, personal, other]
+        description: "Usage context(s) - single or array (first = primary)"
+        oneOf:
+          - type: string
+            enum: [academic, professional, training, research, personal, other]
+          - type: array
+            items:
+              type: string
+              enum: [academic, professional, training, research, personal, other]
+            minItems: 1
+            maxItems: 3
+            uniqueItems: true
         default: academic
 
       intended_audience:
@@ -216,8 +225,17 @@ properties:
             enum: [concise, balanced, detailed]
             default: balanced
           tone:
-            type: string
-            enum: [formal, professional, neutral, friendly, casual, enthusiastic]
+            description: "Tone(s) - single or array (first = primary)"
+            oneOf:
+              - type: string
+                enum: [formal, professional, neutral, friendly, casual, enthusiastic]
+              - type: array
+                items:
+                  type: string
+                  enum: [formal, professional, neutral, friendly, casual, enthusiastic]
+                minItems: 1
+                maxItems: 2
+                uniqueItems: true
             default: professional
           emoji_use:
             type: boolean
@@ -252,8 +270,17 @@ properties:
         description: "Reference to reusable role type"
 
       type:
-        type: string
-        enum: [analyst, researcher, designer, strategist, creator, coordinator, critic, documentalist, generalist, custom]
+        description: "Role type(s) - single or array ordered by predominance"
+        oneOf:
+          - type: string
+            enum: [analyst, researcher, designer, strategist, creator, coordinator, critic, documentalist, generalist, custom]
+          - type: array
+            items:
+              type: string
+              enum: [analyst, researcher, designer, strategist, creator, coordinator, critic, documentalist, generalist, custom]
+            minItems: 1
+            maxItems: 3
+            uniqueItems: true
 
       type_custom:
         type: string
@@ -650,8 +677,17 @@ properties:
         type: object
         properties:
           type:
-            type: string
-            enum: [academic, corporate, startup, nonprofit, government, freelance, other]
+            description: "Organization type(s) - single or array for hybrid orgs"
+            oneOf:
+              - type: string
+                enum: [academic, corporate, startup, nonprofit, government, freelance, other]
+              - type: array
+                items:
+                  type: string
+                  enum: [academic, corporate, startup, nonprofit, government, freelance, other]
+                minItems: 1
+                maxItems: 2
+                uniqueItems: true
             default: academic
           organization:
             type: string

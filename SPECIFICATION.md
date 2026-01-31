@@ -917,6 +917,7 @@ ajv validate -s teammate.schema.yaml -d my-teammate.yaml
 `draft` | `review` | `published` | `deprecated` | `archived`
 
 ### A.2 metadata.context
+Single value or array (max 3, ordered by predominance):
 `academic` | `professional` | `training` | `research` | `personal` | `other`
 
 ### A.3 metadata.intended_audience
@@ -926,9 +927,11 @@ ajv validate -s teammate.schema.yaml -d my-teammate.yaml
 `concise` | `balanced` | `detailed`
 
 ### A.5 identity.communication_style.tone
+Single value or array (max 2, ordered by predominance):
 `formal` | `professional` | `neutral` | `friendly` | `casual` | `enthusiastic`
 
 ### A.6 role.type
+Single value or array (max 3, ordered by predominance):
 `analyst` | `researcher` | `designer` | `strategist` | `creator` | `coordinator` | `critic` | `documentalist` | `generalist` | `custom`
 
 ### A.7 role.cognitive_style (Kirton's Adaption-Innovation theory)
@@ -954,6 +957,7 @@ Single value or array (max 3, ordered by predominance):
 `draft` | `review` | `final` | `archived`
 
 ### A.14 context.organizational_context.type
+Single value or array (max 2, for hybrid organizations):
 `academic` | `corporate` | `startup` | `nonprofit` | `government` | `freelance` | `other`
 
 ### A.15 context.platform
@@ -1002,6 +1006,7 @@ For development, edit the section files. The consolidated schema is generated fr
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.4 | 2025-01-31 | role.type, tone, metadata.context, organizational_context.type now support arrays |
 | 1.3 | 2025-01-31 | contribution_style now supports arrays for multi-faceted contributors |
 | 1.2 | 2025-01-31 | Aligned taxonomies with theoretical foundations: Kirton (1976) for cognitive_style, Benne & Sheats (1948) for contribution_style; simplified collaboration section |
 | 1.1 | 2025-01-30 | Contribution-centered collaboration model; eliminated `behavior` section |

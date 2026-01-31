@@ -35,21 +35,24 @@ role:
     ## -------------------------------------------------------------------------
     
     type:
-      type: string
       description: |
-        Primary role type the TeamMate performs in the team.
-        Determines their fundamental function.
-      enum:
-        - analyst        # Analyzes data, market, competition, viability
-        - researcher     # Investigates sources, state of the art, bibliography
-        - designer       # Designs experiences, interfaces, prototypes
-        - strategist     # Defines strategy, objectives, planning
-        - creator        # Generates content, texts, creatives
-        - coordinator    # Coordinates tasks, timing, communication
-        - critic         # Reviews, questions, improves proposals
-        - documentalist  # Documents, organizes, maintains memory
-        - generalist     # General-purpose role, no specialization
-        - custom         # Custom role (use type_custom)
+        Role type(s) the TeamMate performs in the team. Can be a single role
+        or an array of roles ordered by predominance (first = primary).
+        Determines their fundamental function(s).
+      oneOf:
+        - type: string
+          enum: [analyst, researcher, designer, strategist, creator, coordinator, critic, documentalist, generalist, custom]
+        - type: array
+          items:
+            type: string
+            enum: [analyst, researcher, designer, strategist, creator, coordinator, critic, documentalist, generalist, custom]
+          minItems: 1
+          maxItems: 3
+          uniqueItems: true
+      examples:
+        - analyst                      # Single role
+        - [researcher, analyst]        # Primary: researcher, Secondary: analyst
+        - [designer, creator, strategist]  # Multi-role TeamMate
 
     type_custom:
       type: string

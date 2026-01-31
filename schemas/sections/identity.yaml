@@ -109,17 +109,23 @@ identity:
           default: balanced
 
         tone:
-          type: string
           description: |
-            General communication tone. Defines the TeamMate's "voice."
-          enum:
-            - formal         # Formal language, distant, very professional
-            - professional   # Professional but approachable
-            - neutral        # Neither formal nor informal, objective
-            - friendly       # Approachable and friendly, but respectful
-            - casual         # Informal, colloquial, relaxed
-            - enthusiastic   # Enthusiastic, motivating, energetic
+            Communication tone(s). Can be single or array ordered by predominance.
+            First tone is primary; secondary tones apply in specific contexts.
+          oneOf:
+            - type: string
+              enum: [formal, professional, neutral, friendly, casual, enthusiastic]
+            - type: array
+              items:
+                type: string
+                enum: [formal, professional, neutral, friendly, casual, enthusiastic]
+              minItems: 1
+              maxItems: 2
+              uniqueItems: true
           default: professional
+          examples:
+            - professional                  # Single tone
+            - [formal, friendly]            # Formal primary, friendly when appropriate
 
         emoji_use:
           type: boolean

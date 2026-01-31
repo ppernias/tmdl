@@ -305,17 +305,24 @@ context:
       properties:
         
         type:
-          type: string
-          description: "Organization type"
-          enum:
-            - academic      # University, institute, school
-            - corporate     # Company, corporation
-            - startup       # Startup, venture
-            - nonprofit     # NGO, foundation
-            - government    # Public administration
-            - freelance     # Independent professional
-            - other
+          description: |
+            Organization type(s). Can be single or array for hybrid organizations
+            (e.g., university spin-off that is both academic and startup).
+          oneOf:
+            - type: string
+              enum: [academic, corporate, startup, nonprofit, government, freelance, other]
+            - type: array
+              items:
+                type: string
+                enum: [academic, corporate, startup, nonprofit, government, freelance, other]
+              minItems: 1
+              maxItems: 2
+              uniqueItems: true
           default: academic
+          examples:
+            - academic                  # Single type
+            - [academic, startup]       # University spin-off
+            - [nonprofit, government]   # Public-private partnership
 
         organization:
           type: string
