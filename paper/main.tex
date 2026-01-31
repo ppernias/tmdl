@@ -113,7 +113,7 @@ Leading LLM providers such as Anthropic and OpenAI recommend structuring system 
 
 Khattab et al. \cite{khattab2023dspy} introduced DSPy, a framework that treats LLM prompting as a programming problem rather than a prose-writing exercise. Their results demonstrated that declarative, structured specifications outperformed hand-crafted prompts across multiple benchmarks, while also being more maintainable and reproducible.
 
-\textbf{XML and markup approaches:} Anthropic's research on Claude \cite{anthropic2024prompting} explicitly recommends using XML tags to structure complex prompts, noting that ``Claude is particularly good at interpreting structured formats.'' This practical guidance from major LLM providers validates the structured approach adopted by TMDL.
+\textbf{XML and markup approaches:} Anthropic recommends using XML tags to structure complex prompts for improved clarity and consistency \cite{anthropic2024prompting}. This practical guidance from major LLM providers validates the structured approach adopted by TMDL.
 
 \textbf{Schema-validated specifications:} Research on JSON Schema \cite{pezoa2016json} established formal foundations for validating structured data. Applying schema validation to LLM specifications enables more reliable structured outputs and catches configuration errors before deployment. TMDL adopts this principle through its JSON Schema definitions, which serve as both documentation and runtime validation.
 
@@ -166,7 +166,7 @@ TDL (Tutor Description Language) \cite{pernias2026tdl} represents a parallel evo
 
 \subsection{Human-AI Teaming Research}
 
-Research on human-AI teams has identified key factors for effective collaboration: shared mental models \cite{mathieu2000influence}, role clarity \cite{kozlowski2006enhancing}, and adaptive coordination \cite{salas2005bigfive}. Studies on AI teammates specifically highlight the importance of predictability, appropriate autonomy levels, and clear communication of capabilities and limitations \cite{seeber2020machines}.
+Foundational research on human teams has identified key factors for effective collaboration: shared mental models \cite{mathieu2000influence}, role clarity \cite{kozlowski2006enhancing}, and adaptive coordination \cite{salas2005bigfive}. Recent reviews on human-AI teaming \cite{lou2025humanai} are extending these principles to contexts where AI agents become active collaborators, highlighting the importance of predictability, appropriate autonomy levels, and clear communication of capabilities and limitations \cite{seeber2020machines}.
 
 TMDL incorporates these findings through explicit role definitions, collaboration protocols, and boundary specifications that make AI capabilities and limitations transparent to human teammates.
 
@@ -812,7 +812,7 @@ Our results align with industry recommendations for structured prompting \cite{a
 \begin{enumerate}
     \item \textbf{Reduced ambiguity}: Natural language prompts often contain implicit assumptions and ambiguous references. YAML's explicit key-value structure forces specification authors to make decisions explicit. When a TMDL author writes \texttt{contribution\_style: analytical}, there is no room for interpretation---the behavior is precisely defined.
     
-    \item \textbf{Consistent parsing}: LLMs process structured formats with more reliable attention patterns \cite{anthropic2024prompting}. The hierarchical organization of TMDL sections (identity $\rightarrow$ role $\rightarrow$ collaboration) provides clear semantic boundaries that reduce context confusion.
+    \item \textbf{Consistent parsing}: Structured formats provide clearer semantic boundaries than unstructured prose \cite{anthropic2024prompting}. The hierarchical organization of TMDL sections (identity $\rightarrow$ role $\rightarrow$ collaboration) reduces context confusion and improves instruction following.
     
     \item \textbf{Validation before deployment}: The prompt condition allowed syntactically valid but semantically inconsistent prompts (e.g., defining an ``analytical'' personality that ``avoids data''). TMDL's schema validation catches such inconsistencies before deployment.
     
