@@ -132,7 +132,8 @@ properties:
             enum: [formal, professional, friendly, casual, enthusiastic, neutral]
           cognitive_style:
             type: string
-            enum: [devils_advocate, optimist, pragmatist, visionary, analytical, creative, balanced]
+            description: "Based on Kirton's Adaption-Innovation theory (1976)"
+            enum: [adaptor, innovator, balanced]
           communication_patterns:
             type: array
             description: "Patrones de comunicación típicos"
@@ -198,22 +199,15 @@ properties:
 
       ## -----------------------------------------------------------------------
       ## COLABORACIÓN POR DEFECTO
+      ## Based on Benne & Sheats (1948) functional group roles
       ## -----------------------------------------------------------------------
       default_collaboration:
         type: object
         properties:
-          interaction_mode:
+          contribution_style:
             type: string
-            enum: [reactive, proactive, balanced]
-          initiative_level:
-            type: string
-            enum: [low, medium, high]
-          feedback_style:
-            type: string
-            enum: [direct, diplomatic, socratic, constructive]
-          conflict_approach:
-            type: string
-            enum: [avoid, accommodate, compromise, collaborate, compete]
+            description: "How the role primarily adds value to the team"
+            enum: [supportive, generative, analytical, integrative, executive]
 
       ## -----------------------------------------------------------------------
       ## PROTOCOLOS POR DEFECTO
@@ -224,8 +218,6 @@ properties:
           on_task_assignment:
             type: string
           on_review_request:
-            type: string
-          on_disagreement:
             type: string
           on_blocked:
             type: string
