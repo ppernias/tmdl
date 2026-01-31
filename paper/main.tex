@@ -66,7 +66,7 @@ Large Language Models, Human-AI Collaboration, Agent Description Languages, Virt
 \section{Introduction}
 % ==============================================================================
 
-The rapid advancement of Large Language Models (LLMs) has opened unprecedented opportunities for human-AI collaboration in professional and academic settings \cite{bubeck2023sparks}. However, deploying LLMs as effective team members rather than mere tools presents unique challenges that go beyond traditional prompt engineering approaches.
+The rapid advancement of Large Language Models (LLMs) has opened unprecedented opportunities for human-AI collaboration in professional and academic settings. However, deploying LLMs as effective team members rather than mere tools presents unique challenges that go beyond traditional prompt engineering approaches.
 
 When humans collaborate in teams, they bring not only their skills but also their personalities, communication styles, and understanding of team dynamics. Research on AI as teammates has identified significant open challenges in this integration---including role distribution, trust dynamics, and coordination patterns---that fundamentally differ from traditional tool-based human-computer interaction \cite{seeber2020machines}.
 
@@ -79,7 +79,7 @@ Consider a project team where an AI agent is expected to serve as a research ana
     \item \textbf{Poor reproducibility}: Sharing and versioning prose prompts lacks the rigor of configuration management.
 \end{itemize}
 
-Research on structured prompting \cite{liu2023structured, khattab2023dspy} demonstrates that LLMs process structured information more reliably than equivalent natural language. TMDL applies this insight to agent specification, using YAML schemas that can be validated, versioned, and programmatically processed while remaining human-readable.
+Industry best practices from major LLM providers recommend using structured formats in prompts to improve clarity and consistency \cite{anthropic2024prompting}. TMDL applies this guidance to agent specification, using YAML schemas that can be validated, versioned, and programmatically processed while remaining human-readable.
 
 This paper introduces TMDL (TeamMate Description Language), an evolution of ADL (Assistant Description Language) \cite{pernias2025adl} specifically designed for team collaboration contexts. Building on ADL's established patterns for structured prompt engineering, TMDL addresses these challenges by providing:
 
@@ -101,13 +101,13 @@ The remainder of this paper is organized as follows: Section II reviews related 
 
 \subsection{Prompt Engineering and System Prompts}
 
-The practice of crafting effective prompts for LLMs has evolved from simple instructions to complex system prompts that attempt to define agent behavior comprehensively \cite{white2023prompt}. While approaches like chain-of-thought \cite{wei2022chain} and role-playing prompts \cite{shanahan2023role} have improved task performance, they lack the structure needed for consistent team integration.
+The practice of crafting effective prompts for LLMs has evolved from simple instructions to complex system prompts that attempt to define agent behavior comprehensively \cite{white2023prompt}. While approaches like chain-of-thought \cite{wei2022chain} and role-playing prompts \cite{kong2024roleplay} have improved task performance, they lack the structure needed for consistent team integration.
 
 Commercial platforms such as OpenAI's GPTs and Anthropic's Claude offer system prompt customization, but these remain unstructured text fields without validation, versioning, or modular organization. This leads to prompt drift, inconsistency across deployments, and difficulty in auditing agent behavior.
 
 \subsection{Structured Context Engineering}
 
-A growing body of research demonstrates that LLMs process structured information more reliably than unstructured natural language in system prompts \cite{liu2023structured, khattab2023dspy}. This finding is fundamental to TMDL's design rationale.
+Leading LLM providers such as Anthropic and OpenAI recommend structuring system prompts using explicit delimiters and hierarchical organization to improve instruction following and reduce ambiguity \cite{anthropic2024prompting}. This industry guidance is fundamental to TMDL's design rationale.
 
 \textbf{Empirical evidence for structured formats:} Recent benchmarks on structured output generation demonstrate that specifying formal schemas (e.g., JSON Schema) and using constrained decoding improves output reliability: increasing format compliance rates, reducing parsing errors, and facilitating integration into automated pipelines \cite{geng2025structured}. Experimental comparisons of structured prompt styles (JSON, YAML, hybrid formats) report measurable differences in quality and efficiency when generating structured data, supporting the claim that explicit structure reduces ambiguity and produces more usable outputs \cite{zhang2025promptstyles}.
 
@@ -189,7 +189,7 @@ By grounding the specification in validated organizational constructs that empha
 TMDL is designed around six core principles:
 
 \begin{enumerate}
-    \item \textbf{Structured over Unstructured}: Following evidence that LLMs process structured information more reliably \cite{liu2023structured, khattab2023dspy}, TMDL uses YAML schemas rather than free-form text. This enables consistent parsing, validation, and programmatic manipulation while reducing ambiguity in behavioral specifications.
+    \item \textbf{Structured over Unstructured}: Following industry best practices that recommend structured formats for improved clarity and consistency \cite{anthropic2024prompting}, TMDL uses YAML schemas rather than free-form text. This enables consistent parsing, validation, and programmatic manipulation while reducing ambiguity in behavioral specifications.
     
     \item \textbf{Human-Centered}: Despite its structured format, the specification prioritizes human readability. YAML's clean syntax allows both technical validation and direct human authoring without specialized tools.
     
@@ -807,7 +807,7 @@ The contribution-centered collaboration model has theoretical implications: fram
 
 \subsection{The Case for Structured Specifications}
 
-Our results reinforce findings from structured prompting research \cite{liu2023structured, khattab2023dspy}. The higher behavioral consistency in the TMDL condition ($\kappa = 0.78$ vs. $0.61$) can be attributed to several factors inherent to structured specifications:
+Our results align with industry recommendations for structured prompting \cite{anthropic2024prompting} and programmatic approaches to LLM interaction \cite{khattab2023dspy}. The higher behavioral consistency in the TMDL condition ($\kappa = 0.78$ vs. $0.61$) can be attributed to several factors inherent to structured specifications:
 
 \begin{enumerate}
     \item \textbf{Reduced ambiguity}: Natural language prompts often contain implicit assumptions and ambiguous references. YAML's explicit key-value structure forces specification authors to make decisions explicit. When a TMDL author writes \texttt{contribution\_style: analytical}, there is no room for interpretation---the behavior is precisely defined.
