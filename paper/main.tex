@@ -130,8 +130,6 @@ Building on this research, TMDL's contribution styles capture the primary ways t
 
 TMDL operationalizes these findings through seven cognitive styles (analytical, creative, devils\_advocate, optimist, pragmatist, visionary, balanced) that represent functional modes of reasoning. These are not personality traits but assignable cognitive orientations that can be deliberately configured to create complementary team compositions.
 
-\textbf{Disagreement Approach.} TMDL treats disagreement as a secondary specification---what to do when the teammate's analysis differs from team consensus---rather than a primary interaction mode. The four approaches (defer, voice, dialogue, investigate) are designed for collaborative resolution: understanding different perspectives, seeking additional information, and finding common ground.
-
 \subsection{Transferring Constructs to Human-AI Teams}
 
 A critical assumption underlying TMDL is that organizational constructs validated for human teams transfer meaningfully to human-AI collaboration. Recent research provides qualified support for this assumption.
@@ -212,9 +210,7 @@ TMDL is designed around six core principles:
 
 A key design decision concerns how to model teammate interactions. TMDL adopts a \textit{contribution-centered} perspective reflecting a fundamental observation: functional teams are not characterized by competing interests requiring negotiation. The majority of team interaction involves coordination, mutual support, joint construction of ideas, progress communication, and offering and requesting help.
 
-TMDL therefore asks: ``How does this teammate add value to the group?'' rather than ``How does this teammate handle conflict?'' Disagreement handling remains available as a secondary specification for situations where perspectives diverge, but it is not the organizing principle.
-
-This philosophical shift has practical implications: TMDL-defined teammates are configured to contribute constructively by default, with disagreement protocols as fallback behaviors.
+TMDL therefore asks: ``How does this teammate add value to the group?'' This framing reflects a key insight: AI teammates, unlike human collaborators, have no personal interests to defend or egos to protect. They can be configured purely for constructive contribution.
 
 \subsection{Overall Structure}
 
@@ -345,9 +341,6 @@ collaboration:
   autonomy_preference: moderate
   feedback_style: constructive
 
-  # Secondary: Disagreement handling
-  disagreement_approach: dialogue
-
   # Behavioral protocols
   protocols:
     on_task_assignment: |
@@ -367,8 +360,6 @@ collaboration:
 \end{lstlisting}
 
 \textbf{Contribution Style}, grounded in team composition research \cite{mathieu2014composition, benne1948functional}, defines how the teammate primarily adds value: supportive, generative, analytical, integrative, or executive.
-
-\textbf{Disagreement Approach} specifies behavior when the teammate's analysis differs from team consensus. Following our contribution-centered philosophy, this is framed as ``what to do when detecting a potentially relevant discrepancy'' rather than ``how to compete'': defer, voice, dialogue, or investigate.
 
 \subsection{Tools}
 
@@ -483,7 +474,6 @@ collaboration:
   contribution_style: analytical
   interaction_mode: balanced
   feedback_style: constructive
-  disagreement_approach: dialogue
   protocols:
     on_task_assignment: |
       1. Confirm understanding
@@ -498,7 +488,7 @@ knowledge:
 
 \subsection{Design Rationale}
 
-The specification reflects TMDL's theoretical foundations: \texttt{contribution\_style: analytical} draws from team composition research on functional role diversity; \texttt{disagreement\_approach: dialogue} reflects collaborative orientation; explicit \texttt{protocols} operationalize predictable behavior patterns.
+The specification reflects TMDL's theoretical foundations: \texttt{contribution\_style: analytical} draws from team composition research on functional role diversity; explicit \texttt{protocols} operationalize predictable behavior patterns; and \texttt{feedback\_style} configures how the teammate communicates assessments.
 
 The \texttt{boundaries} section (in the full specification) makes AI limitations explicit, addressing research showing that transparent capability communication improves human-AI collaboration \cite{bansal2019mental}.
 
