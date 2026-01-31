@@ -1,6 +1,6 @@
 # TMDL - TeamMate Description Language
 
-**TMDL** is a YAML-based specification language for defining virtual teammates (TeamMates) powered by LLMs that collaborate effectively with human teams.
+**TMDL** is a YAML-based specification language for defining virtual TeamMates powered by LLMs that collaborate effectively with human teams.
 
 TMDL is an evolution of [ADL (Assistant Description Language)](https://github.com/ppernias/adl) designed specifically for team collaboration contexts.
 
@@ -313,7 +313,7 @@ If you use TMDL in your research, please cite:
 
 ```bibtex
 @inproceedings{pernias2025tmdl,
-  title={TMDL: A Description Language for Virtual Teammates in Hybrid Human-AI Teams},
+  title={TMDL: A Description Language for Virtual TeamMates in Hybrid Human-AI Teams},
   author={Pernías Peco, Pedro A. and Escobar Esteban, M. Pilar},
   booktitle={Proceedings of [Conference]},
   year={2025}

@@ -28,7 +28,7 @@
 
 ### 1.1 Purpose
 
-TMDL (TeamMate Description Language) is a YAML-based specification language for defining virtual teammates powered by Large Language Models (LLMs). TMDL enables structured, validatable, and reusable definitions of AI agents designed to collaborate with human teams.
+TMDL (TeamMate Description Language) is a YAML-based specification language for defining virtual TeamMates powered by Large Language Models (LLMs). TMDL enables structured, validatable, and reusable definitions of AI agents designed to collaborate with human teams.
 
 ### 1.2 Design Principles
 
@@ -57,7 +57,7 @@ TMDL extends ADL with team-specific constructs:
 
 ### 1.4 Collaboration Model Philosophy
 
-TMDL adopts a **contribution-centered** perspective. Functional teams are not characterized by competing interests—disagreement is a punctual situation, not the baseline state. TMDL asks: *"How does this teammate add value to the group?"* rather than *"How does it handle conflict?"*
+TMDL adopts a **contribution-centered** perspective. Functional teams are not characterized by competing interests—disagreement is a punctual situation, not the baseline state. TMDL asks: *"How does this TeamMate add value to the group?"* rather than *"How does it handle conflict?"*
 
 ---
 
@@ -394,9 +394,9 @@ expertise:
 ```yaml
 boundaries:
   can_do:
-    - "Action the teammate CAN perform"
+    - "Action the TeamMate CAN perform"
   cannot_do:
-    - "Action the teammate MUST NOT perform"
+    - "Action the TeamMate MUST NOT perform"
   defers_to:
     - situation: "When this happens"
       delegate_to: "role or person"
@@ -438,7 +438,7 @@ Based on Benne & Sheats (1948) functional group roles—a validated framework fo
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `contribution_style` | enum | `supportive` | How the teammate adds value to the team |
+| `contribution_style` | enum | `supportive` | How the TeamMate adds value to the team |
 
 **contribution_style values**:
 

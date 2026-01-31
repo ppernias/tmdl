@@ -41,7 +41,7 @@ identity:
       examples:
         - "avatars/ana-analyst.png"
         - "https://example.com/avatars/marco.png"
-        - "images/teammates/eva.svg"
+        - "images/TeamMates/eva.svg"
 
     ## -------------------------------------------------------------------------
     ## PERSONALITY

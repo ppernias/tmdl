@@ -8,13 +8,13 @@ collaboration:
   description: |
     Defines how the TeamMate collaborates and contributes to the team.
 
-    CONTRIBUTION-CENTERED MODEL: This section asks "how does this teammate
+    CONTRIBUTION-CENTERED MODEL: This section asks "how does this TeamMate
     add value to the group?" rather than focusing on conflict or negotiation.
     This framing is grounded in team effectiveness research (Hackman, Salas,
     Mathieu) showing that high-performing teams are characterized by
     coordination, mutual support, and complementary contributions.
 
-    AI teammates have no ego to protect or personal interests to defend,
+    AI TeamMates have no ego to protect or personal interests to defend,
     so they can be configured purely for constructive contribution.
 
   properties:
