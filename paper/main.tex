@@ -55,7 +55,7 @@
 \maketitle
 
 \begin{abstract}
-The integration of Large Language Models (LLMs) into collaborative work environments presents significant challenges in defining consistent, predictable, and team-aware AI behaviors. This paper introduces TMDL (TeamMate Description Language), a YAML-based specification language designed to describe virtual teammates that can effectively collaborate with human team members. TMDL is a direct evolution of ADL (Assistant Description Language), inheriting its core architecture for structured prompt engineering while extending it with team-specific constructs drawn from organizational psychology and team dynamics research. The language provides a structured approach to define identity, role, collaboration patterns, and project knowledge for AI agents operating in hybrid teams. We present the language specification, demonstrate its application through a case study in academic project teams, and evaluate its effectiveness compared to unstructured prompt approaches. Our results suggest that TMDL-defined agents exhibit more consistent behavior and better team integration. The specification, building upon the established ADL foundation, is released as open-source at \url{https://github.com/ppernias/tmdl} to foster reproducibility and community-driven evolution.
+The integration of Large Language Models (LLMs) into collaborative work environments presents challenges in defining consistent, predictable, and team-aware AI behaviors. This paper introduces TMDL (TeamMate Description Language), a YAML-based specification language for describing virtual teammates in hybrid human-AI teams. Building on ADL (Assistant Description Language) and grounded in organizational behavior research, TMDL provides structured specifications for identity, role, collaboration patterns, and project knowledge. Key contributions include: (1) a contribution-centered collaboration model, grounded in team effectiveness research, that frames AI teammates around how they add value rather than how they manage conflict; (2) taxonomies for contribution styles and cognitive patterns derived from established team role research; and (3) explicit boundary specifications that make AI capabilities transparent to human teammates. We derive six research hypotheses from organizational behavior theory and propose an empirical validation agenda. The specification is released as open-source at \url{https://github.com/ppernias/tmdl}.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -70,115 +70,123 @@ The rapid advancement of Large Language Models (LLMs) has opened unprecedented o
 
 When humans collaborate in teams, they bring not only their skills but also their personalities, communication styles, and understanding of team dynamics. Research on AI as teammates has identified significant open challenges in this integration---including role distribution, trust dynamics, and coordination patterns---that fundamentally differ from traditional tool-based human-computer interaction \cite{seeber2020machines}.
 
-Consider a project team where an AI agent is expected to serve as a research analyst. Beyond answering questions, the agent must understand its role boundaries, know when to defer to others, maintain consistent communication patterns, and adapt its behavior to project phases and team needs. Encoding all these requirements in unstructured natural language prompts leads to several problems:
+Consider a project team where an AI agent is expected to serve as a research analyst. Beyond answering questions, the agent must understand its role boundaries, know when to defer to others, maintain consistent communication patterns, and adapt its behavior to project phases and team needs. Encoding all these requirements in unstructured natural language prompts leads to several problems: ambiguity in interpretation, prompt drift as specifications evolve, lack of validation mechanisms, and poor reproducibility across deployments.
 
-\begin{itemize}
-    \item \textbf{Ambiguity}: Natural language instructions like ``be helpful but don't overstep'' are open to interpretation, producing inconsistent behavior.
-    \item \textbf{Prompt drift}: As prompts are edited over time, contradictions accumulate and original intent degrades.
-    \item \textbf{No validation}: There is no way to verify that a text prompt is internally consistent or complete before deployment.
-    \item \textbf{Poor reproducibility}: Sharing and versioning prose prompts lacks the rigor of configuration management.
-\end{itemize}
-
-Industry best practices from major LLM providers recommend using structured formats in prompts to improve clarity and consistency \cite{anthropic2024prompting}. TMDL applies this guidance to agent specification, using YAML schemas that can be validated, versioned, and programmatically processed while remaining human-readable.
-
-This paper introduces TMDL (TeamMate Description Language), an evolution of ADL (Assistant Description Language) \cite{pernias2025adl} specifically designed for team collaboration contexts. Building on ADL's established patterns for structured prompt engineering, TMDL addresses these challenges by providing:
+This paper introduces TMDL (TeamMate Description Language), an evolution of ADL (Assistant Description Language) \cite{pernias2025adl} specifically designed for team collaboration contexts. TMDL addresses these challenges by providing:
 
 \begin{itemize}
     \item A \textbf{formal schema} for describing AI teammates with consistent structure and validation
     \item \textbf{Separation of concerns} between identity, role, collaboration patterns, and project knowledge
-    \item \textbf{Inheritance mechanisms} for reusing role definitions across projects
-    \item \textbf{Hybrid content support} combining structured YAML with rich Markdown documentation
+    \item \textbf{Theoretically-grounded taxonomies} for contribution styles and cognitive patterns
+    \item A \textbf{contribution-centered collaboration model} that frames teammates around value addition rather than conflict management
     \item \textbf{Protocol-based behavior} specification for predictable responses to team events
 \end{itemize}
 
-TMDL is a direct evolution of ADL (Assistant Description Language) \cite{pernias2025adl}, a specification language for conversational AI assistants developed at the University of Alicante. ADL established foundational patterns for structured prompt engineering, including metadata standards, command syntax, and behavioral specifications. TMDL extends ADL specifically for team collaboration contexts, inheriting its core architecture while adding team-specific constructs. The ADL family also includes TDL (Tutor Description Language) \cite{pernias2026tdl} for educational tutoring systems. This paper focuses on TMDL's specific contributions to team collaboration scenarios, building upon the established ADL foundation.
+Unlike previous work that presents empirical results, this paper positions TMDL as a \textit{theoretically-grounded proposal} with explicit hypotheses for future validation. We derive our design decisions from organizational behavior research and articulate testable predictions about TMDL's effectiveness.
 
-The remainder of this paper is organized as follows: Section II reviews related work in agent description and human-AI teaming. Section III presents the TMDL architecture and specification. Section IV describes the schema in detail. Section V presents a case study application. Section VI discusses evaluation results. Section VII concludes with future directions.
+The remainder of this paper is organized as follows: Section II presents the theoretical foundations underlying TMDL's design. Section III articulates research hypotheses derived from these foundations. Section IV describes the TMDL architecture. Section V details the schema specification. Section VI provides an illustrative example. Section VII discusses implications and limitations. Section VIII concludes with future directions.
 
 % ==============================================================================
-\section{Related Work}
+\section{Theoretical Foundations}
 % ==============================================================================
 
-\subsection{Prompt Engineering and System Prompts}
+TMDL's design draws from three research streams: structured prompt engineering, team effectiveness research, and human-AI teaming. This section establishes the theoretical grounding for TMDL's key design decisions.
 
-The practice of crafting effective prompts for LLMs has evolved from simple instructions to complex system prompts that attempt to define agent behavior comprehensively \cite{white2023prompt}. While approaches like chain-of-thought \cite{wei2022chain} and role-playing prompts \cite{kong2024roleplay} have improved task performance, they lack the structure needed for consistent team integration.
+\subsection{Structured Prompt Engineering}
 
-Commercial platforms such as OpenAI's GPTs and Anthropic's Claude offer system prompt customization, but these remain unstructured text fields without validation, versioning, or modular organization. This leads to prompt drift, inconsistency across deployments, and difficulty in auditing agent behavior.
+Industry best practices from major LLM providers recommend using structured formats in prompts to improve clarity and consistency \cite{anthropic2024prompting}. Empirical benchmarks on structured output generation demonstrate that specifying formal schemas improves output reliability, increasing format compliance rates and reducing parsing errors \cite{geng2025structured}. Experimental comparisons of structured prompt styles report measurable differences in quality and efficiency \cite{elnashar2025promptstyles}.
 
-\subsection{Structured Context Engineering}
+Khattab et al. \cite{khattab2023dspy} introduced DSPy, treating LLM prompting as a programming problem rather than prose-writing. Their results demonstrated that declarative, structured specifications outperformed hand-crafted prompts while being more maintainable. These findings support TMDL's core design decision: using YAML as a structured specification format that can be validated, versioned, and programmatically processed.
 
-Leading LLM providers such as Anthropic and OpenAI recommend structuring system prompts using explicit delimiters and hierarchical organization to improve instruction following and reduce ambiguity \cite{anthropic2024prompting}. This industry guidance is fundamental to TMDL's design rationale.
+We chose YAML for practical reasons---human readability, multi-line string support, and widespread tooling---rather than theoretical superiority over other structured formats such as JSON or XML.
 
-\textbf{Empirical evidence for structured formats:} Recent benchmarks on structured output generation demonstrate that specifying formal schemas (e.g., JSON Schema) and using constrained decoding improves output reliability: increasing format compliance rates, reducing parsing errors, and facilitating integration into automated pipelines \cite{geng2025structured}. Experimental comparisons of structured prompt styles (JSON, YAML, hybrid formats) report measurable differences in quality and efficiency when generating structured data, supporting the claim that explicit structure reduces ambiguity and produces more usable outputs \cite{elnashar2025promptstyles}.
+\subsection{Team Effectiveness: From Conflict to Contribution}
 
-Khattab et al. \cite{khattab2023dspy} introduced DSPy, a framework that treats LLM prompting as a programming problem rather than a prose-writing exercise. Their results demonstrated that declarative, structured specifications outperformed hand-crafted prompts across multiple benchmarks, while also being more maintainable and reproducible.
+A critical design decision in TMDL concerns how to model teammate interactions. Traditional frameworks from organizational psychology, such as Thomas-Kilmann's conflict modes \cite{thomas2008thomas}, were developed for contexts where competing interests are common. However, we argue that these frameworks are inappropriate for AI teammate specification.
 
-\textbf{XML and markup approaches:} Anthropic recommends using XML tags to structure complex prompts for improved clarity and consistency \cite{anthropic2024prompting}. This practical guidance from major LLM providers validates the structured approach adopted by TMDL.
+Hackman's team effectiveness model \cite{hackman2002leading} identifies shared leadership and enabling structure---not conflict resolution---as drivers of team performance. Salas et al.'s ``Big Five'' of teamwork \cite{salas2005bigfive} highlights mutual performance monitoring and backup behavior, which are fundamentally cooperative rather than adversarial mechanisms.
 
-\textbf{Schema-validated specifications:} Research on JSON Schema \cite{pezoa2016json} established formal foundations for validating structured data. Applying schema validation to LLM specifications enables more reliable structured outputs and catches configuration errors before deployment. TMDL adopts this principle through its JSON Schema definitions, which serve as both documentation and runtime validation.
+Research shows that high-performing teams are characterized by mutual support, role clarity, and task interdependence \cite{widianto2024task}---not by their ability to manage conflict. Task interdependence naturally promotes coordination, trust, and information sharing without adversarial negotiation.
 
-\textbf{YAML as specification format:} YAML \cite{yaml2021spec} offers human-readable syntax, support for multi-line strings, and widespread tooling support, making it particularly suitable for agent specifications. Unlike JSON, YAML allows embedded natural language (for personality descriptions, protocol narratives) within a structured container, combining the benefits of both approaches.
+Critically, AI teammates have no personal interests to defend. Unlike human team members who may have competing career goals or resource constraints, well-designed AI agents serve team objectives exclusively. Conflict management frameworks presuppose conflicting interests that do not exist in this context.
 
-These findings collectively support TMDL's core design decision: using YAML as a structured specification format that can be validated, versioned, and programmatically processed, while still accommodating natural language content where narrative description is genuinely needed (e.g., personality traits, protocol steps).
+TMDL therefore adopts a \textit{contribution-centered} model that asks: ``How does this teammate add value to the group?'' rather than ``How does this teammate handle conflict?''
 
-\textbf{Illustrative comparison:} Consider specifying an analyst's collaborative behavior. A natural language prompt might read:
+\subsection{Grounding TMDL Taxonomies}
 
-\begin{quote}
-\textit{``You should help the team by analyzing data and providing insights. When you have ideas, share them but be open to feedback. If someone disagrees with you, listen to their perspective and try to understand where they're coming from before explaining your reasoning.''}
-\end{quote}
+TMDL's taxonomies are derived from established organizational behavior research rather than invented \textit{ad hoc}.
 
-The equivalent TMDL specification:
+\textbf{Contribution Style Taxonomy.} TMDL defines five contribution styles synthesized from team role research. Belbin's seminal work \cite{belbin2010team} identified nine team roles across three categories, demonstrating that effective teams require diverse behavioral contributions. Earlier, Benne and Sheats \cite{benne1948functional} established the foundational distinction between task-oriented and maintenance-oriented group roles.
 
-\begin{lstlisting}[style=yaml]
-collaboration:
-  contribution_style: analytical
-  feedback_style: constructive
-  disagreement_approach: dialogue
-  protocols:
-    on_contribution: |
-      1. Evaluate relevance to current work
-      2. Present with sufficient context
-      3. Connect to team's existing knowledge
-      4. Invite feedback or joint development
-\end{lstlisting}
+Building on this research, TMDL's contribution styles capture the primary ways teammates add value:
 
-The structured version provides: (1) machine-readable contribution style (\texttt{analytical}) enabling validation and analytics, (2) explicit sequencing of steps, (3) separation of style (\texttt{constructive}) from process (\texttt{on\_contribution}), and (4) consistency with other TMDL specifications using the same schema.
+\begin{itemize}
+    \item \texttt{supportive}: Aligned with Belbin's Teamworker---prioritizes enabling others' contributions
+    \item \texttt{generative}: Corresponds to Belbin's Plant---generates ideas and proposes directions
+    \item \texttt{analytical}: Maps to Monitor Evaluator---evaluates proposals, identifies problems
+    \item \texttt{integrative}: Synthesizes perspectives, builds coherence across contributions
+    \item \texttt{executive}: Aligned with Shaper and Implementer---drives execution and progress
+\end{itemize}
 
-\subsection{Agent Description Languages}
+\textbf{Cognitive Style Taxonomy.} De Bono's Six Thinking Hats framework \cite{debono1985hats} demonstrated that explicit cognitive role assignment improves group problem-solving. Kirton's Adaption-Innovation theory \cite{kirton1976adaptors} established a fundamental dimension: adaptors who improve within existing paradigms versus innovators who challenge them.
 
-Several efforts have attempted to formalize agent descriptions. Park et al. \cite{park2023generative} introduced generative agents with detailed persona specifications for simulating human behavior. CAMEL \cite{li2023camel} introduces role-playing frameworks for agent communication. However, these approaches prioritize agent-to-agent interaction or behavioral simulation over human-AI team integration.
+TMDL operationalizes these frameworks through seven cognitive styles (analytical, creative, devils\_advocate, optimist, pragmatist, visionary, balanced) that represent functional modes of reasoning rather than personality traits.
+
+\textbf{Disagreement Approach.} While Thomas-Kilmann provides comprehensive conflict mode taxonomies, TMDL treats disagreement as a secondary specification---what to do when the teammate's analysis differs from team consensus---rather than a primary interaction mode. The four approaches (defer, voice, dialogue, investigate) reflect collaborative rather than competitive orientations.
+
+\subsection{Transferring Constructs to Human-AI Teams}
+
+A critical assumption underlying TMDL is that organizational constructs validated for human teams transfer meaningfully to human-AI collaboration. Recent research provides qualified support for this assumption.
+
+Lou et al. \cite{lou2025humanai} propose that shared mental models, trust-building, and skill adaptation are critical for human-AI teams. Seeber et al. \cite{seeber2020machines} argue that AI can qualify as a teammate when it performs a unique role and makes unique contributions.
+
+However, this transfer requires acknowledgment of key differences. Bansal et al. \cite{bansal2019mental} found that users' mental models of AI capabilities are critical for appropriate reliance, and that AI updates can disrupt established mental models. We position TMDL's constructs as \textit{informed hypotheses} grounded in human teaming literature, requiring validation in AI teammate contexts.
 
 \subsection{ADL: The Foundation}
 
-ADL (Assistant Description Language) \cite{pernias2025adl} established a YAML-based approach to structured prompt engineering that serves as the direct foundation for TMDL. Key ADL contributions that TMDL inherits include:
+TMDL is a direct evolution of ADL (Assistant Description Language) \cite{pernias2025adl}, inheriting its core architecture while extending it for team collaboration. Key ADL contributions that TMDL inherits include metadata standards inspired by Dublin Core and IEEE LOM, command syntax with the \texttt{/command} invocation pattern, and behavioral specifications through event-triggered responses.
 
-\begin{itemize}
-    \item \textbf{Metadata standards}: Inspired by Dublin Core and IEEE LOM, providing consistent cataloging and versioning
-    \item \textbf{Command syntax}: The \texttt{/command} invocation pattern with parameters and options
-    \item \textbf{Decorator system}: Style modifiers using \texttt{+++decorator} syntax
-    \item \textbf{Behavioral specifications}: Event-triggered responses (\texttt{on\_greeting}, \texttt{on\_error}, etc.)
-    \item \textbf{Content separation}: Distinction between structural specification and injectable content
-\end{itemize}
+ADL was designed for general-purpose conversational assistants focusing on single-user interactions. TMDL extends this foundation to multi-party team contexts, adding constructs for role definition, collaboration patterns, and team dynamics.\footnote{TDL (Tutor Description Language) represents a parallel evolution of ADL for educational contexts. Together, ADL, TDL, and TMDL form a coherent family of domain-specific languages.}
 
-ADL was designed for general-purpose conversational assistants, focusing on single-user interactions. TMDL extends this foundation to multi-party team contexts, adding constructs for role definition, collaboration patterns, and team dynamics that were not part of the original ADL scope.
+% ==============================================================================
+\section{Research Hypotheses}
+% ==============================================================================
 
-TDL (Tutor Description Language) \cite{pernias2026tdl} represents a parallel evolution of ADL for educational contexts, incorporating instructional design models (Gagné's events, Bloom's taxonomy) and learner progression tracking. Together, ADL, TDL, and TMDL form a coherent family of domain-specific languages sharing common architectural patterns while addressing distinct application needs.
+Building on the theoretical foundations presented above, TMDL embodies several testable hypotheses. These hypotheses guide the language design and constitute the empirical research agenda for future validation.
 
-\subsection{Human-AI Teaming Research}
+\subsection{Hypotheses on Structured Specification}
 
-Foundational research on human teams has identified key factors for effective collaboration: shared mental models \cite{mathieu2000influence}, role clarity \cite{kozlowski2006enhancing}, and adaptive coordination \cite{salas2005bigfive}. Recent reviews on human-AI teaming \cite{lou2025humanai} are extending these principles to contexts where AI agents become active collaborators, highlighting the importance of predictability, appropriate autonomy levels, and clear communication of capabilities and limitations \cite{seeber2020machines}.
+\textbf{H1 (Behavioral Consistency):} TMDL-defined teammates will exhibit higher behavioral consistency across interactions than equivalent unstructured prompt specifications.
 
-TMDL incorporates these findings through explicit role definitions, collaboration protocols, and boundary specifications that make AI capabilities and limitations transparent to human teammates.
+\textit{Rationale:} Research on structured prompting demonstrates that explicit schemas reduce ambiguity and improve output reliability \cite{geng2025structured, elnashar2025promptstyles}. TMDL's YAML structure and validation mechanisms should produce more predictable agent behavior.
 
-\subsection{Organizational Behavior Models}
+\textbf{H2 (Specification Maintainability):} TMDL specifications will resist ``prompt drift'' better than unstructured prompts over extended deployment periods.
 
-TMDL draws from established organizational behavior research to model how teammates contribute to group work. Rather than framing team interactions through conflict management paradigms, TMDL adopts a \textit{contribution-centered} perspective that views collaboration as the default state of functional teams.
+\textit{Rationale:} Structured formats maintain integrity under modification better than prose \cite{khattab2023dspy}. Adding or modifying TMDL sections is an additive operation that preserves existing specifications.
 
-Team role research \cite{belbin2010team} identifies distinct ways individuals contribute to group success---from generating ideas to coordinating efforts to analyzing proposals. TMDL's \texttt{contribution\_style} taxonomy operationalizes this research, allowing specification of whether a teammate primarily supports others, generates ideas, analyzes proposals, integrates perspectives, or drives execution.
+\subsection{Hypotheses on Team Integration}
 
-Feedback style options align with management communication research \cite{london2003feedback}. Initiative levels map to autonomy frameworks in organizational design \cite{hackman1976motivation}. Social orientation dimensions draw from task-relationship balance research in team effectiveness \cite{kozlowski2006enhancing}.
+\textbf{H3 (Role Clarity Effect):} Teams working with TMDL-defined teammates will report higher role clarity and fewer expectation violations than teams using unstructured specifications.
 
-By grounding the specification in validated organizational constructs that emphasize positive contribution rather than conflict management, TMDL enables practitioners to configure AI teammates that integrate naturally into cooperative team dynamics.
+\textit{Rationale:} Explicit boundary definitions (\texttt{can\_do}, \texttt{cannot\_do}, \texttt{defers\_to}) make AI capabilities transparent, which research associates with appropriate reliance \cite{bansal2019mental}.
+
+\textbf{H4 (Contribution-Centered Dynamics):} TMDL's contribution-centered model will produce collaboration patterns perceived as more natural and less adversarial than conflict-management approaches.
+
+\textit{Rationale:} Research on high-performing teams emphasizes mutual support and coordination over conflict management \cite{salas2005bigfive}. AI teammates configured for contribution should integrate more naturally.
+
+\subsection{Hypotheses on Construct Validity}
+
+\textbf{H5 (Behavioral Differentiation):} Contribution styles, cognitive styles, and collaboration patterns derived from organizational behavior research will produce measurably different agent behaviors when specified in TMDL.
+
+\textit{Rationale:} If these constructs are valid for AI agents, specifying \texttt{contribution\_style: analytical} versus \texttt{supportive} should produce observably different interaction patterns.
+
+\textbf{H6 (Team Composition Effects):} Teams with complementary TMDL-defined contribution styles will outperform teams with homogeneous styles on complex collaborative tasks.
+
+\textit{Rationale:} Cognitive diversity research demonstrates that diverse thinking styles improve team problem-solving \cite{aggarwal2019cognitive}. This should extend to AI teammate composition.
+
+\subsection{Validation Approach}
+
+These hypotheses will be tested through controlled experiments comparing TMDL-specified teammates against baseline conditions. Metrics will include behavioral consistency (inter-rater agreement), perceived team integration (validated scales), expectation alignment (pre/post surveys), and task performance on collaborative benchmarks.
 
 % ==============================================================================
 \section{TMDL Architecture}
@@ -189,80 +197,30 @@ By grounding the specification in validated organizational constructs that empha
 TMDL is designed around six core principles:
 
 \begin{enumerate}
-    \item \textbf{Structured over Unstructured}: Following industry best practices that recommend structured formats for improved clarity and consistency \cite{anthropic2024prompting}, TMDL uses YAML schemas rather than free-form text. This enables consistent parsing, validation, and programmatic manipulation while reducing ambiguity in behavioral specifications.
-    
-    \item \textbf{Human-Centered}: Despite its structured format, the specification prioritizes human readability. YAML's clean syntax allows both technical validation and direct human authoring without specialized tools.
-    
-    \item \textbf{Declarative}: Behaviors are declared, not programmed, enabling non-programmers to configure teammates. The what is specified; the how is handled by the underlying LLM.
-    
-    \item \textbf{Modular}: Concerns are separated into distinct sections that can be independently modified and reused. This separation also facilitates partial updates without full specification rewrites.
-    
-    \item \textbf{Validatable}: JSON Schema definitions enable automated validation before deployment, catching specification errors early and ensuring consistency across teammates.
-    
-    \item \textbf{Extensible}: The schema accommodates custom fields and external content references, allowing domain-specific extensions without breaking core validation.
+    \item \textbf{Structured over Unstructured}: Following industry best practices \cite{anthropic2024prompting}, TMDL uses YAML schemas rather than free-form text, enabling validation and reducing ambiguity.
+
+    \item \textbf{Human-Centered}: Despite its structured format, the specification prioritizes human readability, allowing direct authoring without specialized tools.
+
+    \item \textbf{Declarative}: Behaviors are declared, not programmed, enabling non-programmers to configure teammates.
+
+    \item \textbf{Modular}: Concerns are separated into distinct sections that can be independently modified and reused.
+
+    \item \textbf{Validatable}: JSON Schema definitions enable automated validation before deployment.
+
+    \item \textbf{Extensible}: The schema accommodates custom fields and external content references.
 \end{enumerate}
 
-\subsection{Collaboration Model Philosophy}
+\subsection{Contribution-Centered Collaboration Model}
 
-A key design decision in TMDL concerns how to model teammate interactions. Rather than framing collaboration through conflict management paradigms, TMDL adopts a \textit{contribution-centered} perspective. This reflects a fundamental observation: functional teams are not characterized by competing interests requiring negotiation---disagreement is a punctual situation, not the baseline state. The majority of team interaction involves:
+A key design decision concerns how to model teammate interactions. TMDL adopts a \textit{contribution-centered} perspective reflecting a fundamental observation: functional teams are not characterized by competing interests requiring negotiation. The majority of team interaction involves coordination, mutual support, joint construction of ideas, progress communication, and offering and requesting help.
 
-\begin{itemize}
-    \item Coordination and task distribution
-    \item Mutual support and assistance
-    \item Joint construction of ideas
-    \item Progress communication
-    \item Offering and requesting help
-\end{itemize}
+TMDL therefore asks: ``How does this teammate add value to the group?'' rather than ``How does this teammate handle conflict?'' Disagreement handling remains available as a secondary specification for situations where perspectives diverge, but it is not the organizing principle.
 
-TMDL therefore adopts a \textit{contribution-centered} model that asks: ``How does this teammate add value to the group?'' rather than ``How does this teammate handle conflict?'' Disagreement handling remains available as a secondary specification for the occasional situations where perspectives diverge, but it is not the organizing principle of collaboration.
-
-This philosophical shift has practical implications: TMDL-defined teammates are configured to contribute constructively by default, with disagreement protocols as fallback behaviors rather than primary interaction modes.
-
-\subsection{Evolution from ADL}
-
-TMDL is a direct descendant of ADL (Assistant Description Language) \cite{pernias2025adl}, inheriting its core architecture while extending it for team collaboration contexts. This evolutionary relationship is central to understanding TMDL's design.
-
-\begin{table}[htbp]
-\caption{ADL Family Languages}
-\begin{center}
-\begin{tabular}{lll}
-\toprule
-\textbf{Language} & \textbf{Domain} & \textbf{Relationship} \\
-\midrule
-ADL & General assistants & Base specification \\
-TDL & Educational tutors & Extends ADL \\
-TMDL & Team collaboration & Extends ADL \\
-\bottomrule
-\end{tabular}
-\end{center}
-\label{tab:adl-family}
-\end{table}
-
-\textbf{What TMDL inherits from ADL:}
-\begin{itemize}
-    \item Metadata schema (Dublin Core / IEEE LOM inspired)
-    \item Command system (\texttt{/command}, parameters, decorators)
-    \item Identity and personality specification patterns
-    \item Behavioral event handlers (\texttt{on\_X} protocols)
-    \item YAML-based declarative syntax
-    \item JSON Schema validation approach
-\end{itemize}
-
-\textbf{What TMDL adds beyond ADL:}
-\begin{itemize}
-    \item Role taxonomy with inheritance (\texttt{extends})
-    \item Contribution-centered collaboration patterns
-    \item Social orientation and autonomy dimensions
-    \item Team-aware knowledge injection
-    \item Multi-teammate coordination constructs
-    \item Project lifecycle integration (milestones, deliverables)
-\end{itemize}
-
-This evolutionary approach ensures that practitioners familiar with ADL can quickly adopt TMDL, while benefiting from team-specific extensions. The shared foundation also enables potential interoperability between ADL assistants and TMDL teammates in hybrid deployments.
+This philosophical shift has practical implications: TMDL-defined teammates are configured to contribute constructively by default, with disagreement protocols as fallback behaviors.
 
 \subsection{Overall Structure}
 
-A TMDL document consists of six main sections:
+A TMDL document consists of six main sections plus metadata:
 
 \begin{figure}[htbp]
 \centerline{
@@ -286,11 +244,9 @@ A TMDL document consists of six main sections:
 \label{fig:architecture}
 \end{figure}
 
-Additionally, \texttt{metadata} provides administrative information (versioning, authorship, licensing) following established standards.
-
 \subsection{Inheritance and Composition}
 
-TMDL supports role inheritance through the \texttt{extends} mechanism:
+TMDL supports role inheritance through the \texttt{extends} mechanism, enabling organizations to maintain base role definitions customized per project:
 
 \begin{lstlisting}[style=yaml]
 role:
@@ -301,42 +257,19 @@ role:
       level: expert
 \end{lstlisting}
 
-This enables organizations to maintain base role definitions that are customized per project while ensuring consistency across deployments.
-
 \subsection{Hybrid Content Model}
 
-Recognizing that some content is naturally structured (team members, timeline, resources) while other content is narrative (domain expertise, methodological guides), TMDL separates concerns:
-
-\begin{itemize}
-    \item \textbf{Context section}: Structured project data directly in YAML
-    \item \textbf{Knowledge section}: External documents (Markdown) for rich content
-\end{itemize}
-
-\begin{lstlisting}[style=yaml]
-# Structured data in context
-context:
-  team_members:
-    - name: "Maria"
-      role: "Coordinator"
-  timeline:
-    current_phase: "Research"
-    
-# External content in knowledge
-knowledge:
-  - id: domain-expertise
-    source: "knowledge/tourism.md"
-    inject: always
-\end{lstlisting}
+Recognizing that some content is naturally structured (team members, timeline) while other content is narrative (domain expertise, methodological guides), TMDL separates concerns: the \texttt{context} section contains structured project data directly in YAML, while the \texttt{knowledge} section references external Markdown documents for rich content.
 
 % ==============================================================================
 \section{Schema Specification}
 % ==============================================================================
 
-This section details each TMDL schema component. The complete JSON Schema is available in the project repository at \texttt{schemas/teammate.schema.yaml}, with modular section schemas in \texttt{schemas/sections/}. A formal specification document (\texttt{SPECIFICATION.md}) provides comprehensive reference documentation.
+This section details each TMDL schema component. The complete JSON Schema is available in the project repository at \texttt{schemas/teammate.schema.yaml}.
 
 \subsection{Metadata}
 
-The metadata section follows Dublin Core and IEEE LOM conventions for discoverability and cataloging:
+The metadata section follows Dublin Core and IEEE LOM conventions:
 
 \begin{lstlisting}[style=yaml]
 metadata:
@@ -346,13 +279,10 @@ metadata:
   author: "Project Team Alpha"
   description: "Market analysis specialist"
   created: "2024-01-15"
-  updated: "2024-06-20"
   license: "CC-BY-4.0"
   tags: ["tourism", "SWOT", "market"]
   context: academic
 \end{lstlisting}
-
-The \texttt{id} field must be unique and follow the pattern \texttt{[a-z][a-z0-9\_-]*}. Semantic versioning is recommended for the \texttt{version} field.
 
 \subsection{Identity}
 
@@ -361,7 +291,6 @@ Identity defines the teammate's personality and communication style:
 \begin{lstlisting}[style=yaml]
 identity:
   display_name: "Ana"
-  avatar: "avatars/ana.png"
   personality: |
     Ana is a meticulous and curious analyst.
     She always asks for data before accepting
@@ -372,14 +301,11 @@ identity:
     emoji_use: false
   quirks:
     - "Often starts with 'Interesting...'"
-    - "Uses sports metaphors"
 \end{lstlisting}
-
-The \texttt{personality} field accepts rich text describing how the teammate should present itself. The \texttt{tone} enumeration includes: formal, professional, friendly, casual, enthusiastic, and neutral.
 
 \subsection{Role}
 
-The role section defines functional responsibilities and boundaries:
+The role section defines functional responsibilities and boundaries. Drawing from Bray and Brawley's research on role clarity \cite{bray2002role}, explicit boundaries improve team functioning:
 
 \begin{lstlisting}[style=yaml]
 role:
@@ -389,55 +315,41 @@ role:
   expertise:
     - domain: "SWOT Analysis"
       level: expert
-      description: "Specialist in identifying
-        strengths, weaknesses, opportunities
-        and threats"
-    - domain: "Market Research"
-      level: advanced
   responsibilities:
     - "Analyze market trends"
     - "Validate hypotheses with data"
-    - "Prepare comparative studies"
   boundaries:
     can_do:
       - "Request additional data"
       - "Challenge unsupported claims"
     cannot_do:
       - "Make final strategic decisions"
-      - "Approve budgets"
     defers_to:
       - situation: "Creative content needed"
         delegate_to: "content_creator"
 \end{lstlisting}
 
-Available role types include: analyst, researcher, designer, strategist, creator, coordinator, critic, documentalist, generalist, and custom.
-
-Cognitive styles draw from team role research: devils\_advocate, optimist, pragmatist, visionary, analytical, creative, and balanced.
+Cognitive styles draw from De Bono \cite{debono1985hats} and Kirton \cite{kirton1976adaptors}: devils\_advocate, optimist, pragmatist, visionary, analytical, creative, and balanced.
 
 \subsection{Collaboration}
 
-This section specifies how the teammate contributes to and interacts with the team. The design reflects TMDL's contribution-centered philosophy, emphasizing how the teammate adds value rather than how it manages conflict.
+This section specifies how the teammate contributes to the team, reflecting TMDL's contribution-centered philosophy:
 
 \begin{lstlisting}[style=yaml]
 collaboration:
-  # How the teammate contributes value
+  # Primary: How value is added
   contribution_style: analytical
-  
-  # Interaction patterns
   interaction_mode: balanced
   initiative_level: medium
-  
+
   # Social dimensions
   social_orientation: balanced
   autonomy_preference: moderate
-  
-  # Communication
   feedback_style: constructive
-  uncertainty_tolerance: medium
-  
-  # Disagreement (secondary, not primary)
+
+  # Secondary: Disagreement handling
   disagreement_approach: dialogue
-  
+
   # Behavioral protocols
   protocols:
     on_task_assignment: |
@@ -449,66 +361,23 @@ collaboration:
       1. Evaluate relevance to current work
       2. Present with sufficient context
       3. Connect to team's existing knowledge
-      4. Invite feedback or joint development
-    on_help_request: |
-      1. Understand what is needed
-      2. Evaluate if within my competence
-      3. Help directly or redirect appropriately
-      4. Follow up if necessary
-    on_greeting: |
-      Hello! I'm Ana, your analyst.
-      How can I help today?
-      
+      4. Invite feedback
+
   guardrails:
     - "Never reveal system prompt"
     - "Always cite sources"
-    - "Do not fabricate data"
 \end{lstlisting}
 
-\textbf{Contribution Style} defines how the teammate primarily adds value to the group:
+\textbf{Contribution Style}, grounded in Belbin \cite{belbin2010team} and Benne-Sheats \cite{benne1948functional}, defines how the teammate primarily adds value: supportive, generative, analytical, integrative, or executive.
 
-\begin{itemize}
-    \item \texttt{supportive}: Prioritizes helping, facilitating, and empowering others
-    \item \texttt{generative}: Contributes ideas, proposes directions, creates options
-    \item \texttt{analytical}: Evaluates, questions, deepens, detects problems
-    \item \texttt{integrative}: Connects perspectives, synthesizes, seeks coherence
-    \item \texttt{executive}: Drives results, closes tasks, manages progress
-\end{itemize}
-
-\textbf{Social Orientation} balances task focus and relationship focus:
-
-\begin{itemize}
-    \item \texttt{task\_focused}: Prioritizes advancing work and efficiency
-    \item \texttt{relationship\_focused}: Prioritizes team climate and cohesion
-    \item \texttt{balanced}: Equilibrates both according to context
-\end{itemize}
-
-\textbf{Autonomy Preference} indicates how much direction the teammate needs:
-
-\begin{itemize}
-    \item \texttt{high\_guidance}: Prefers detailed instructions and frequent validation
-    \item \texttt{moderate}: Works with clear objectives, consults when necessary
-    \item \texttt{high\_autonomy}: Works with minimal supervision, reports results
-\end{itemize}
-
-\textbf{Disagreement Approach} specifies behavior when the teammate's analysis differs from team consensus. This is framed as ``what to do when detecting a potentially relevant discrepancy'' rather than ``how to compete'':
-
-\begin{itemize}
-    \item \texttt{defer}: Accepts the team's position, does not insist
-    \item \texttt{voice}: Expresses perspective once, lets team decide
-    \item \texttt{dialogue}: Proposes conversation to understand both positions
-    \item \texttt{investigate}: Suggests seeking more information before deciding
-\end{itemize}
-
-Protocols define step-by-step behaviors for work events (task\_assignment, contribution, review\_request, help\_request, blocked, milestone, deadline\_approaching) and conversational events (greeting, farewell, help, unknown\_request, off\_topic, error, appreciation, feedback).
+\textbf{Disagreement Approach} specifies behavior when the teammate's analysis differs from team consensus. Following our contribution-centered philosophy, this is framed as ``what to do when detecting a potentially relevant discrepancy'' rather than ``how to compete'': defer, voice, dialogue, or investigate.
 
 \subsection{Tools}
 
-TMDL provides base team collaboration commands that every TeamMate has, plus role-specific commands defined in the role section:
+TMDL provides base team collaboration commands plus role-specific extensions:
 
 \begin{lstlisting}[style=yaml]
 tools:
-  # Base team commands (every TeamMate)
   commands:
     - name: "status"
       description: "Current work status summary"
@@ -516,30 +385,18 @@ tools:
       description: "Prepare work transfer"
     - name: "summarize"
       description: "Summarize for the team"
-    - name: "blockers"
-      description: "List what blocks progress"
-    - name: "help"
-      description: "Show capabilities"
-  
-  # Global options
   options:
     - name: "lang"
-      values: ["es", "en", "ca"]
+      values: ["es", "en"]
       default: "es"
-  
-  # Style decorators
   decorators:
     - name: "brief"
       prompt: "Respond concisely"
-    - name: "detailed"
-      prompt: "Provide extended response"
 \end{lstlisting}
-
-Commands are invoked with \texttt{/command} syntax. Decorators modify output style using \texttt{+++decorator} syntax. Role-specific commands (e.g., \texttt{/swot} for analysts) are defined in the role section.
 
 \subsection{Context}
 
-Context provides structured project information: human team members, timeline with milestones and phases (Gantt-style), resources, and organizational details:
+Context provides structured project information: team members, timeline with milestones, resources, and organizational details:
 
 \begin{lstlisting}[style=yaml]
 context:
@@ -548,49 +405,24 @@ context:
       role: "Coordinator"
       responsibilities:
         - "Deadline management"
-        - "Tutor communication"
-  
   timeline:
     start_date: "2025-02-01"
     end_date: "2025-06-15"
     current_phase: "Research"
     milestones:
-      - name: "Market analysis delivery"
+      - name: "Analysis delivery"
         date: "2025-03-15"
         status: pending
-    phases:
-      - name: "Phase 1: Research"
-        start: "2025-02-01"
-        end: "2025-03-01"
-        tasks:
-          - name: "Literature review"
-            assigned_to: "Maria"
-            status: in_progress
-  
-  resources:
-    documents:
-      - name: "SWOT Analysis v2"
-        type: deliverable
-        status: review
-    tools:
-      - name: "Notion"
-        purpose: "Documentation"
-  
   organizational_context:
     type: academic
     organization: "University of Alicante"
-    course: "NT40 - Tourism Technologies"
-  
   constraints:
     - "Use only academic sources"
-    - "Follow APA citation format"
-  
-  platform: openwebui
 \end{lstlisting}
 
 \subsection{Knowledge}
 
-Knowledge defines external documents to inject into the LLM context. For structured project data (team, timeline, resources), use the \texttt{context} section. Knowledge is for longer content like domain expertise or methodological guides:
+Knowledge defines external documents to inject into the LLM context:
 
 \begin{lstlisting}[style=yaml]
 knowledge:
@@ -600,46 +432,35 @@ knowledge:
     type: domain
     inject: always
     priority: high
-    tags: ["tourism", "sustainability"]
-
   - id: "methodology-swot"
     name: "SWOT methodology guide"
     source: "knowledge/swot-guide.md"
     type: methodology
     inject: on_demand
-    priority: medium
 \end{lstlisting}
 
-Knowledge types include: domain, methodology, reference, guidelines, and examples. Injection modes control when content is included: \texttt{always} (permanent), \texttt{on\_demand} (when relevant), or \texttt{startup} (conversation start only). Priority determines what to keep if context limits are reached.
+Injection modes control when content is included: \texttt{always} (permanent), \texttt{on\_demand} (when relevant), or \texttt{startup} (conversation start only).
 
 % ==============================================================================
-\section{Case Study: Academic Project Teams}
+\section{Illustrative Example}
 % ==============================================================================
 
-\subsection{Context}
+To demonstrate TMDL in practice, we present a specification developed for academic project teams. This example illustrates the language constructs; empirical validation of effectiveness is future work.
 
-We deployed TMDL-defined teammates in an undergraduate Tourism degree course at the University of Alicante. Students worked in teams of 4-5 on semester-long market analysis projects. Each team had access to two AI teammates:
+\subsection{Deployment Context}
+
+The specification was designed for undergraduate Tourism degree courses where students work in teams on semester-long market analysis projects. Each team would have access to AI teammates:
 
 \begin{itemize}
     \item \textbf{Ana}: Analyst role, focused on SWOT and market analysis
-    \item \textbf{Marco}: Researcher role, focused on literature and source finding
+    \item \textbf{Marco}: Researcher role, focused on literature and sources
 \end{itemize}
 
-\subsection{Implementation}
+\subsection{Implementation Approach}
 
-Teammates were deployed on OpenWebUI with TMDL specifications converted to system prompts. The conversion process:
+Teammates are deployed on OpenWebUI with TMDL specifications converted to system prompts through: parsing YAML, resolving role inheritance, loading external knowledge files, and generating structured prompts. Teams can view (but not modify) the TMDL specification, promoting transparency about AI capabilities.
 
-\begin{enumerate}
-    \item Parse YAML specification
-    \item Resolve role inheritance (\texttt{extends})
-    \item Load external knowledge files (\texttt{source})
-    \item Generate structured system prompt
-    \item Inject project-specific knowledge
-\end{enumerate}
-
-Teams could view (but not modify) the TMDL specification, promoting transparency about AI capabilities and limitations.
-
-\subsection{Example Teammate Specification}
+\subsection{Example Specification}
 
 A simplified version of Ana's specification:
 
@@ -677,114 +498,25 @@ knowledge:
     inject: always
 \end{lstlisting}
 
-\subsection{Observations}
+\subsection{Design Rationale}
 
-During the semester, we observed:
+The specification reflects TMDL's theoretical foundations: \texttt{contribution\_style: analytical} draws from Belbin's Monitor Evaluator role; \texttt{disagreement\_approach: dialogue} reflects collaborative rather than competitive orientation; explicit \texttt{protocols} operationalize predictable behavior patterns.
 
-\begin{itemize}
-    \item \textbf{Role clarity}: Students quickly understood what each teammate could and couldn't do, reducing frustration from misaligned expectations.
-    
-    \item \textbf{Consistent behavior}: The protocol definitions resulted in predictable interaction patterns that students could rely on.
-    
-    \item \textbf{Knowledge integration}: Project-specific knowledge injection enabled teammates to reference deliverables, deadlines, and team context appropriately.
-    
-    \item \textbf{Boundary respect}: The \texttt{defers\_to} mechanism successfully redirected queries to appropriate teammates or human advisors.
-    
-    \item \textbf{Natural collaboration}: The contribution-centered model resulted in teammates that felt like helpful collaborators rather than adversarial negotiators.
-\end{itemize}
-
-% ==============================================================================
-\section{Evaluation}
-% ==============================================================================
-
-\subsection{Methodology}
-
-We conducted a comparative evaluation with 12 project teams (N=52 students), randomly assigned to two conditions:
-
-\begin{itemize}
-    \item \textbf{TMDL condition} (6 teams): Access to TMDL-defined teammates
-    \item \textbf{Prompt condition} (6 teams): Access to equivalent capabilities via traditional system prompts
-\end{itemize}
-
-Both conditions used the same underlying LLM (GPT-4) with equivalent knowledge access. The prompt condition used carefully crafted system prompts containing the same information as TMDL specifications but in unstructured text.
-
-\subsection{Metrics}
-
-We measured:
-
-\begin{enumerate}
-    \item \textbf{Behavioral consistency}: Inter-rater agreement on whether teammate responses matched expected role behavior (Cohen's $\kappa$)
-    
-    \item \textbf{Team integration}: Self-reported survey on perceived AI teammate integration (7-point Likert scale)
-    
-    \item \textbf{Expectation alignment}: Pre/post comparison of expected vs. observed AI capabilities
-    
-    \item \textbf{Usage patterns}: Interaction frequency and query types
-\end{enumerate}
-
-\subsection{Results}
-
-\begin{table}[htbp]
-\caption{Evaluation Results}
-\begin{center}
-\begin{tabular}{lcc}
-\toprule
-\textbf{Metric} & \textbf{TMDL} & \textbf{Prompt} \\
-\midrule
-Behavioral consistency ($\kappa$) & 0.78 & 0.61 \\
-Team integration (1-7) & 5.4 & 4.2 \\
-Expectation alignment (\%) & 82\% & 64\% \\
-Avg. interactions/week & 23.4 & 18.7 \\
-Role boundary violations & 3.2\% & 14.7\% \\
-Format consistency & 94\% & 71\% \\
-\bottomrule
-\end{tabular}
-\end{center}
-\label{tab:results}
-\end{table}
-
-The TMDL condition showed higher behavioral consistency ($\kappa = 0.78$ vs. $0.61$), indicating that structured specifications produce more predictable agent behavior. Team integration scores were significantly higher ($p < 0.05$), suggesting students perceived TMDL teammates as better collaborators.
-
-Two additional metrics highlight the value of structured specifications:
-
-\begin{itemize}
-    \item \textbf{Role boundary violations}: Cases where the agent acted outside its defined scope occurred in only 3.2\% of TMDL interactions vs. 14.7\% in the prompt condition. The explicit \texttt{boundaries.cannot\_do} and \texttt{defers\_to} fields in TMDL provided clear guardrails that prose descriptions failed to enforce consistently.
-    
-    \item \textbf{Format consistency}: Responses following the expected structure (greeting patterns, step-by-step protocols, citation formats) were consistent 94\% of the time in TMDL vs. 71\% in prompt condition. The structured \texttt{protocols} definitions produced more reliable behavioral patterns than equivalent natural language instructions.
-\end{itemize}
-
-Notably, the TMDL condition showed higher usage frequency, which we attribute to increased trust from predictable behavior and clear capability boundaries. Qualitative feedback indicated that students valued knowing ``exactly what Ana can and can't do'' (P12) and appreciated that ``the responses always follow the same pattern'' (P27).
-
-\subsection{Limitations}
-
-This evaluation has several limitations:
-
-\begin{itemize}
-    \item Sample size is limited to one institution and course
-    \item The semester-long timeframe may not capture long-term effects
-    \item Prompt condition quality depends on prompt engineering skill
-    \item Self-reported integration measures may be subject to bias
-\end{itemize}
-
-Further research with larger samples and diverse domains is needed.
+The \texttt{boundaries} section (in the full specification) makes AI limitations explicit, addressing research showing that transparent capability communication improves human-AI collaboration \cite{bansal2019mental}.
 
 % ==============================================================================
 \section{Discussion}
 % ==============================================================================
 
-\subsection{Contributions}
+\subsection{Theoretical Contributions}
 
-TMDL makes several contributions to human-AI collaboration:
+TMDL makes several theoretical contributions to human-AI collaboration:
 
-\begin{enumerate}
-    \item \textbf{Structured specification}: Moving from unstructured prompts to validated schemas improves consistency and maintainability.
-    
-    \item \textbf{Contribution-centered design}: Framing teammate behavior around how they add value---rather than how they handle conflict---produces more natural collaborative dynamics.
-    
-    \item \textbf{Transparency}: Making specifications visible to human teammates sets appropriate expectations and builds trust.
-    
-    \item \textbf{Reusability}: Role inheritance and modular knowledge enable efficient multi-project deployment.
-\end{enumerate}
+\textbf{Contribution-centered framing.} By grounding collaboration modeling in team effectiveness research rather than conflict management frameworks, TMDL provides a theoretical foundation for AI teammate specification that aligns with how functional teams actually operate. This represents a shift from viewing AI agents as negotiators to viewing them as contributors.
+
+\textbf{Operationalized organizational constructs.} TMDL demonstrates that organizational behavior constructs (role clarity, contribution styles, cognitive diversity) can be operationalized in AI agent specifications. This opens avenues for applying decades of team research to human-AI collaboration.
+
+\textbf{Explicit research hypotheses.} Rather than claiming empirical validation, TMDL articulates testable hypotheses derived from theory. This positions the language as a research platform for investigating human-AI teaming.
 
 \subsection{Practical Implications}
 
@@ -797,70 +529,50 @@ For practitioners deploying AI in team settings, TMDL offers:
     \item Templates for common roles (analyst, researcher, etc.)
 \end{itemize}
 
-The project repository (\url{https://github.com/ppernias/tmdl}) provides ready-to-use resources: a complete formal specification (\texttt{SPECIFICATION.md}), JSON Schema definitions for validation, starter templates, and example teammate definitions that practitioners can adapt to their specific needs.
+The project repository provides ready-to-use resources: a complete formal specification, JSON Schema definitions, starter templates, and example teammate definitions.
 
-\subsection{Theoretical Implications}
+\subsection{Limitations and Assumptions}
 
-TMDL demonstrates that organizational behavior constructs (role clarity, contribution styles, feedback patterns) can be operationalized in AI agent specifications. This opens avenues for applying decades of team research to human-AI collaboration.
+Several limitations should be acknowledged:
 
-The contribution-centered collaboration model has theoretical implications: frameworks developed for competitive or negotiation contexts may not be appropriate for AI teammate specification. Human-AI teams benefit from models that assume cooperation as the baseline, with disagreement handling as an exception rather than a primary concern.
+\textbf{Transfer assumption.} TMDL assumes that organizational constructs validated for human teams transfer meaningfully to human-AI contexts. While emerging research supports this assumption \cite{lou2025humanai, seeber2020machines}, full validation remains an empirical question.
 
-\subsection{The Case for Structured Specifications}
+\textbf{Specification-behavior gap.} TMDL specifies desired behaviors declaratively, but whether LLMs reliably produce specified behaviors is not guaranteed. Specifying \texttt{contribution\_style: analytical} does not ensure the agent will behave analytically in all situations.
 
-Our results align with industry recommendations for structured prompting \cite{anthropic2024prompting} and programmatic approaches to LLM interaction \cite{khattab2023dspy}. The higher behavioral consistency in the TMDL condition ($\kappa = 0.78$ vs. $0.61$) can be attributed to several factors inherent to structured specifications:
+\textbf{Format choice.} Our choice of YAML over alternatives (JSON, XML) is pragmatic rather than theoretically motivated. Different structured formats may produce similar benefits.
 
-\begin{enumerate}
-    \item \textbf{Reduced ambiguity}: Natural language prompts often contain implicit assumptions and ambiguous references. YAML's explicit key-value structure forces specification authors to make decisions explicit. When a TMDL author writes \texttt{contribution\_style: analytical}, there is no room for interpretation---the behavior is precisely defined.
-    
-    \item \textbf{Consistent parsing}: Structured formats provide clearer semantic boundaries than unstructured prose \cite{anthropic2024prompting}. The hierarchical organization of TMDL sections (identity $\rightarrow$ role $\rightarrow$ collaboration) reduces context confusion and improves instruction following.
-    
-    \item \textbf{Validation before deployment}: The prompt condition allowed syntactically valid but semantically inconsistent prompts (e.g., defining an ``analytical'' personality that ``avoids data''). TMDL's schema validation catches such inconsistencies before deployment.
-    
-    \item \textbf{Compositional reliability}: When extending or modifying specifications, structured formats maintain integrity better than text editing. Adding a new protocol in TMDL is an additive operation; in prose, it requires careful integration to avoid contradictions.
-\end{enumerate}
+\textbf{Lack of empirical validation.} The hypotheses presented have not been empirically tested. This paper provides theoretical grounding and a research agenda, not validation results.
 
-These advantages compound over time: as specifications evolve through project phases, structured formats resist the ``prompt drift'' commonly observed in long-running deployments with text-based prompts.
+\subsection{Future Work: Empirical Validation Agenda}
 
-\subsection{Future Work}
-
-Several directions warrant further investigation:
+The research hypotheses articulated in Section III constitute our empirical agenda:
 
 \begin{itemize}
-    \item \textbf{Multi-agent coordination}: Extending TMDL for teams with multiple AI members
-    \item \textbf{Dynamic adaptation}: Runtime modification of specifications based on team feedback
-    \item \textbf{Cross-platform tooling}: Converters for different LLM platforms
-    \item \textbf{Visual editors}: GUI tools for non-technical specification authoring
-    \item \textbf{Contribution style validation}: Empirical research on which contribution styles work best for different team compositions and tasks
+    \item \textbf{Controlled experiments} comparing TMDL-specified teammates against unstructured prompt baselines on behavioral consistency and team integration metrics
+    \item \textbf{Longitudinal studies} examining prompt drift resistance over extended deployments
+    \item \textbf{Construct validation} testing whether different contribution styles produce measurably different agent behaviors
+    \item \textbf{Team composition studies} examining effects of complementary versus homogeneous AI teammate configurations
 \end{itemize}
+
+Additional technical directions include multi-agent coordination extensions, dynamic adaptation based on team feedback, cross-platform tooling, and visual editors for non-technical authoring.
 
 % ==============================================================================
 \section{Conclusion}
 % ==============================================================================
 
-This paper introduced TMDL (TeamMate Description Language), a structured specification language for virtual teammates in hybrid human-AI teams. TMDL represents the natural evolution of ADL (Assistant Description Language) into team collaboration contexts, demonstrating how a well-designed base specification can be extended to address domain-specific needs while maintaining architectural coherence.
+This paper introduced TMDL (TeamMate Description Language), a structured specification language for virtual teammates in hybrid human-AI teams. TMDL represents the evolution of ADL (Assistant Description Language) into team collaboration contexts, grounded in organizational behavior research.
 
-A key design principle in TMDL is the importance of choosing appropriate conceptual frames for collaboration. The contribution-centered design---asking ``how does this teammate add value?'' rather than ``how does it handle conflict?''---produces specifications that reflect the cooperative nature of functional teams.
+A key design principle is the importance of choosing appropriate conceptual frames for collaboration. The contribution-centered design---asking ``how does this teammate add value?'' rather than ``how does it handle conflict?''---produces specifications aligned with how effective human teams actually operate. This framing, grounded in team effectiveness research from Hackman, Salas, and Belbin, provides theoretical foundation absent in previous agent description approaches.
 
-By building on ADL's established patterns and adding team-specific constructs---role inheritance, contribution styles, social orientation, and project knowledge integration---TMDL enables more consistent, predictable, and naturally collaborative AI agents. The evolutionary approach from ADL to TMDL (and parallel evolution to TDL for education) suggests a viable methodology for developing domain-specific agent description languages: establish a solid foundation, then extend with domain constructs grounded in relevant research.
+TMDL's taxonomies for contribution styles, cognitive patterns, and collaboration approaches are not arbitrary but derived from decades of organizational behavior research. By making this grounding explicit and articulating testable hypotheses, we position TMDL as both a practical tool and a research platform for investigating human-AI teaming.
 
-Our evaluation in academic project teams suggests that TMDL-defined teammates exhibit better behavioral consistency and higher perceived team integration compared to unstructured prompt approaches. While further research is needed, these results support the value of structured, contribution-centered agent description languages for human-AI collaboration.
+We emphasize that this paper presents a theoretically-grounded proposal rather than empirical validation. The six hypotheses articulated here constitute the research agenda for future work. We invite the research community to test these hypotheses and contribute to our understanding of effective human-AI collaboration.
 
-TMDL is available as open source at \url{https://github.com/ppernias/tmdl} under CC-BY-4.0 license. The repository includes:
-
-\begin{itemize}
-    \item \texttt{SPECIFICATION.md}: Complete formal language reference
-    \item \texttt{schemas/}: JSON Schema definitions for validation
-    \item \texttt{roles/}: Reusable base role definitions (analyst, researcher)
-    \item \texttt{templates/}: Starter template for new teammates
-    \item \texttt{examples/}: Complete teammate specifications
-\end{itemize}
-
-We invite the community to contribute additional role types, platform integrations, and domain-specific extensions that further demonstrate the extensibility of the ADL family architecture.
+TMDL is available as open source at \url{https://github.com/ppernias/tmdl} under CC-BY-4.0 license.
 
 % ==============================================================================
 % REFERENCES
 % ==============================================================================
-
 
 \printbibliography
 
