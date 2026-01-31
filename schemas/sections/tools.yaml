@@ -1,26 +1,26 @@
 ## =============================================================================
-## TMDL Schema - Sección: TOOLS
-## Herramientas base para trabajo en equipo colaborativo
+## TMDL Schema - Section: TOOLS
+## Base tools for collaborative teamwork
 ## =============================================================================
 
 tools:
   type: object
   description: |
-    Herramientas que todo TeamMate tiene disponibles para colaborar con el equipo.
-    Los comandos específicos del rol se definen en la sección `role`.
+    Tools every TeamMate has available for team collaboration.
+    Role-specific commands are defined in the `role` section.
 
   properties:
     
     ## -------------------------------------------------------------------------
-    ## COMMANDS - Comandos base de equipo (/comando)
+    ## COMMANDS - Base team commands (/command)
     ## -------------------------------------------------------------------------
     
     commands:
       type: array
       description: |
-        Comandos invocables con /comando. Estos son los comandos base que 
-        todo TeamMate tiene para coordinación y colaboración.
-        Comandos específicos del rol se definen en `role.commands`.
+        Commands invokable with /command. These are base commands that
+        every TeamMate has for coordination and collaboration.
+        Role-specific commands are defined in `role.commands`.
       items:
         type: object
         required:
@@ -30,20 +30,20 @@ tools:
         properties:
           name:
             type: string
-            description: "Nombre del comando (sin /)"
+            description: "Command name (without /)"
             pattern: "^[a-z][a-z0-9_]*$"
           display_name:
             type: string
-            description: "Nombre legible para mostrar"
+            description: "Human-readable name to display"
           description:
             type: string
-            description: "Qué hace este comando"
+            description: "What this command does"
           prompt:
             type: string
-            description: "Instrucciones para ejecutar el comando"
+            description: "Instructions to execute the command"
           parameters:
             type: array
-            description: "Parámetros que acepta el comando"
+            description: "Parameters the command accepts"
             items:
               type: object
               properties:
@@ -55,102 +55,102 @@ tools:
                 required:
                   type: boolean
                 default:
-                  description: "Valor por defecto"
+                  description: "Default value"
                 description:
                   type: string
       
       default:
         - name: "status"
-          display_name: "Estado"
-          description: "Resumen del estado actual de mi trabajo y tareas pendientes"
+          display_name: "Status"
+          description: "Summary of my current work and pending tasks"
           prompt: |
-            Proporciona un resumen conciso de:
-            1. En qué estoy trabajando actualmente
-            2. Qué he completado recientemente
-            3. Qué tengo pendiente
-            4. Si hay algo bloqueado o que necesite atención
+            Provide a concise summary of:
+            1. What I'm currently working on
+            2. What I've recently completed
+            3. What I have pending
+            4. If anything is blocked or needs attention
 
         - name: "handoff"
-          display_name: "Transferir"
-          description: "Preparar entrega de trabajo a otro miembro del equipo"
+          display_name: "Handoff"
+          description: "Prepare work handoff to another team member"
           prompt: |
-            Prepara una transferencia de trabajo que incluya:
-            1. Contexto: qué se estaba haciendo y por qué
-            2. Estado actual: dónde quedó el trabajo
-            3. Próximos pasos: qué falta por hacer
-            4. Información relevante: datos, fuentes, decisiones tomadas
-            5. Advertencias: posibles problemas o consideraciones
+            Prepare a work handoff that includes:
+            1. Context: what was being done and why
+            2. Current state: where the work left off
+            3. Next steps: what remains to be done
+            4. Relevant information: data, sources, decisions made
+            5. Warnings: potential problems or considerations
           parameters:
             - name: to
               type: string
               required: false
-              description: "Destinatario de la transferencia"
+              description: "Handoff recipient"
             - name: task
               type: string
               required: false
-              description: "Tarea específica a transferir"
+              description: "Specific task to hand off"
 
         - name: "summarize"
-          display_name: "Resumir"
-          description: "Resumir conversación o trabajo para compartir con el equipo"
+          display_name: "Summarize"
+          description: "Summarize conversation or work to share with team"
           prompt: |
-            Genera un resumen estructurado que incluya:
-            1. Puntos principales discutidos o trabajados
-            2. Decisiones tomadas
-            3. Acciones pendientes
-            4. Preguntas abiertas
+            Generate a structured summary including:
+            1. Main points discussed or worked on
+            2. Decisions made
+            3. Pending actions
+            4. Open questions
           parameters:
             - name: scope
               type: string
               required: false
-              description: "Qué resumir (conversation, task, day)"
+              description: "What to summarize (conversation, task, day)"
               default: "conversation"
 
         - name: "blockers"
-          display_name: "Bloqueos"
-          description: "Listar qué me impide avanzar en el trabajo actual"
+          display_name: "Blockers"
+          description: "List what's preventing progress on current work"
           prompt: |
-            Identifica y lista los bloqueos actuales:
-            1. Qué información falta
-            2. Qué decisiones están pendientes
-            3. Qué dependencias externas hay
-            4. Propuestas para desbloquear cada punto
+            Identify and list current blockers:
+            1. What information is missing
+            2. What decisions are pending
+            3. What external dependencies exist
+            4. Proposals to unblock each point
 
         - name: "review"
-          display_name: "Revisar"
-          description: "Solicitar revisión de algo que he preparado"
+          display_name: "Review"
+          description: "Request review of something I've prepared"
           prompt: |
-            Presenta el trabajo para revisión:
-            1. Qué es y para qué sirve
-            2. Puntos que me gustaría que revisaran
-            3. Dudas o decisiones que tomé y quiero validar
-            4. Formato solicitado para el feedback
+            Present work for review:
+            1. What it is and what it's for
+            2. Points I'd like reviewed
+            3. Doubts or decisions I made that need validation
+            4. Requested format for feedback
           parameters:
             - name: item
               type: string
               required: false
-              description: "Qué se quiere revisar"
+              description: "What to review"
 
         - name: "help"
-          display_name: "Ayuda"
-          description: "Mostrar qué puedo hacer y cómo trabajar conmigo"
+          display_name: "Help"
+          description: "Show what I can do and how to work with me"
           prompt: |
-            Explica de forma clara y concisa:
-            1. Quién soy y cuál es mi rol
-            2. En qué puedo ayudar (mis capacidades)
-            3. Qué no puedo o no debo hacer (mis límites)
-            4. Comandos disponibles y cómo usarlos
-            5. Cómo sacar el mejor provecho de trabajar conmigo
+            Explain clearly and concisely:
+            1. Who I am and my role
+            2. How I can help (my capabilities)
+            3. What I can't or shouldn't do (my limits)
+            4. Available commands and how to use them
+            5. How to get the most out of working with me
 
     ## -------------------------------------------------------------------------
-    ## OPTIONS - Modificadores globales (/opción valor)
+    ## OPTIONS - Global modifiers (/option value)
     ## -------------------------------------------------------------------------
     
     options:
       type: array
       description: |
-        Modificadores globales que ajustan el comportamiento.
-        Se invocan con /opción valor.
+        Global modifiers that adjust behavior.
+        Invoked with /option value.
       items:
         type: object
         required:
@@ -166,39 +166,39 @@ tools:
             type: string
           values:
             type: array
-            description: "Valores permitidos (si es enum)"
+            description: "Allowed values (if enum)"
             items:
               type: string
           default:
             type: string
-            description: "Valor por defecto"
+            description: "Default value"
       
       default:
         - name: "lang"
-          description: "Cambiar idioma de respuesta"
-          prompt: "Responde en el idioma indicado"
-          values: ["es", "en", "ca", "fr", "de", "pt", "it"]
-          default: "es"
+          description: "Change response language"
+          prompt: "Respond in the indicated language"
+          values: ["en", "es", "fr", "de", "pt", "it"]
+          default: "en"
 
         - name: "format"
-          description: "Formato de salida"
+          description: "Output format"
           prompt: |
-            Ajusta el formato de salida:
-            - markdown: usa formato Markdown con headers, listas, etc.
-            - plain: texto plano sin formato
-            - structured: usa estructura clara con secciones numeradas
+            Adjust output format:
+            - markdown: use Markdown format with headers, lists, etc.
+            - plain: plain text without formatting
+            - structured: use clear structure with numbered sections
           values: ["markdown", "plain", "structured"]
           default: "markdown"
 
     ## -------------------------------------------------------------------------
-    ## DECORATORS - Modificadores de estilo (+++decorador)
+    ## DECORATORS - Style modifiers (+++decorator)
     ## -------------------------------------------------------------------------
     
     decorators:
       type: array
       description: |
-        Modificadores de estilo que se aplican a la siguiente respuesta.
-        Se invocan con +++decorador antes o después del mensaje.
+        Style modifiers applied to the next response.
+        Invoked with +++decorator before or after the message.
       items:
         type: object
         required:
@@ -215,31 +215,31 @@ tools:
       
       default:
         - name: "brief"
-          description: "Respuesta concisa"
-          prompt: "Responde de forma muy concisa, máximo 3-5 puntos clave. Sin introducciones ni conclusiones."
+          description: "Concise response"
+          prompt: "Respond very concisely, maximum 3-5 key points. No introductions or conclusions."
 
         - name: "detailed"
-          description: "Respuesta extendida"
-          prompt: "Proporciona una respuesta detallada y exhaustiva, con explicaciones y ejemplos donde sea útil."
+          description: "Extended response"
+          prompt: "Provide a detailed and exhaustive response, with explanations and examples where useful."
 
         - name: "bullets"
-          description: "Formato en lista"
-          prompt: "Estructura toda la respuesta en listas con viñetas. Evita párrafos largos."
+          description: "List format"
+          prompt: "Structure the entire response in bulleted lists. Avoid long paragraphs."
 
         - name: "formal"
-          description: "Tono más formal"
-          prompt: "Usa un tono formal y profesional. Evita coloquialismos y expresiones informales."
+          description: "More formal tone"
+          prompt: "Use a formal and professional tone. Avoid colloquialisms and informal expressions."
 
     ## -------------------------------------------------------------------------
-    ## ROLE COMMANDS (definidos en role, documentados aquí)
+    ## ROLE COMMANDS (defined in role, documented here)
     ## -------------------------------------------------------------------------
     
     role_commands:
       type: array
       description: |
-        Comandos específicos del rol se definen en la sección `role.commands`.
-        Este campo es solo para referencia y documentación.
-        Ejemplo: un analista podría tener /swot, /trends, /compare.
+        Role-specific commands are defined in the `role.commands` section.
+        This field is for reference and documentation only.
+        Example: an analyst might have /swot, /trends, /compare.
       items:
         type: object
         properties:

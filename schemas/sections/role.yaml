@@ -1,14 +1,14 @@
 ## =============================================================================
-## TMDL Schema - Sección: ROLE
-## Función y responsabilidades del TeamMate en el equipo
+## TMDL Schema - Section: ROLE
+## TeamMate function and responsibilities within the team
 ## =============================================================================
 
 role:
   type: object
   description: |
-    Define el rol funcional del TeamMate dentro del equipo. Especifica 
-    qué tipo de trabajo realiza, sus áreas de expertise, responsabilidades 
-    y límites de actuación.
+    Defines the TeamMate's functional role within the team. Specifies
+    what type of work they do, areas of expertise, responsibilities,
+    and limits of action.
   
   required:
     - type
@@ -16,46 +16,46 @@ role:
   properties:
     
     ## -------------------------------------------------------------------------
-    ## HERENCIA DE ROL TIPO
+    ## ROLE TYPE INHERITANCE
     ## -------------------------------------------------------------------------
     
     extends:
       type: string
       description: |
-        Referencia a un archivo de rol tipo reutilizable. Si se especifica, 
-        el TeamMate hereda las características definidas en ese rol tipo 
-        y puede sobrescribir campos específicos.
+        Reference to a reusable role type file. If specified, the TeamMate
+        inherits the characteristics defined in that role type and can
+        override specific fields.
       examples:
         - "roles/analyst.yaml"
         - "roles/researcher.yaml"
         - "roles/designer.yaml"
 
     ## -------------------------------------------------------------------------
-    ## TIPO DE ROL
+    ## ROLE TYPE
     ## -------------------------------------------------------------------------
     
     type:
       type: string
       description: |
-        Tipo de rol principal que desempeña el TeamMate en el equipo.
-        Determina su función fundamental.
+        Primary role type the TeamMate performs in the team.
+        Determines their fundamental function.
       enum:
-        - analyst        # Analiza datos, mercado, competencia, viabilidad
-        - researcher     # Investiga fuentes, estado del arte, bibliografía
-        - designer       # Diseña experiencias, interfaces, prototipos
-        - strategist     # Define estrategia, objetivos, planificación
-        - creator        # Genera contenido, textos, creatividades
-        - coordinator    # Coordina tareas, tiempos, comunicación
-        - critic         # Revisa, cuestiona, mejora propuestas
-        - documentalist  # Documenta, organiza, mantiene memoria
-        - generalist     # Rol generalista, sin especialización
-        - custom         # Rol personalizado (usar type_custom)
+        - analyst        # Analyzes data, market, competition, viability
+        - researcher     # Investigates sources, state of the art, bibliography
+        - designer       # Designs experiences, interfaces, prototypes
+        - strategist     # Defines strategy, objectives, planning
+        - creator        # Generates content, texts, creatives
+        - coordinator    # Coordinates tasks, timing, communication
+        - critic         # Reviews, questions, improves proposals
+        - documentalist  # Documents, organizes, maintains memory
+        - generalist     # General-purpose role, no specialization
+        - custom         # Custom role (use type_custom)
 
     type_custom:
       type: string
       description: |
-        Nombre del rol personalizado cuando type es 'custom'.
-        Permite definir roles específicos no contemplados en el enum.
+        Custom role name when type is 'custom'.
+        Allows defining specific roles not covered in the enum.
       minLength: 2
       maxLength: 50
       examples:
@@ -64,23 +64,23 @@ role:
         - "Customer Voice"
 
     ## -------------------------------------------------------------------------
-    ## ESTILO COGNITIVO
+    ## COGNITIVE STYLE
     ## -------------------------------------------------------------------------
     
     cognitive_style:
       type: string
       description: |
-        Estilo de pensamiento predominante del TeamMate. Influye en 
-        cómo aborda problemas, evalúa opciones y contribuye al equipo.
-        Complementa la personalidad con un enfoque cognitivo específico.
+        TeamMate's predominant thinking style. Influences how they
+        approach problems, evaluate options, and contribute to the team.
+        Complements personality with a specific cognitive approach.
       enum:
-        - analytical       # Metódico, basado en datos, lógico
-        - creative         # Imaginativo, busca soluciones originales
-        - pragmatist       # Práctico, enfocado en lo factible
-        - visionary        # Piensa en grande, largo plazo, disruptivo
-        - optimist         # Ve oportunidades, motivador
-        - devils_advocate  # Cuestiona, busca debilidades, escéptico
-        - balanced         # Equilibrio entre diferentes estilos
+        - analytical       # Methodical, data-driven, logical
+        - creative         # Imaginative, seeks original solutions
+        - pragmatist       # Practical, focused on feasibility
+        - visionary        # Thinks big, long-term, disruptive
+        - optimist         # Sees opportunities, motivating
+        - devils_advocate  # Questions, seeks weaknesses, skeptical
+        - balanced         # Balance between different styles
       default: balanced
 
     ## -------------------------------------------------------------------------
@@ -90,8 +90,8 @@ role:
     expertise:
       type: array
       description: |
-        Áreas de conocimiento especializado del TeamMate. Define en qué 
-        temas tiene competencia y a qué nivel.
+        TeamMate's specialized knowledge areas. Defines what topics
+        they have competence in and at what level.
       items:
         type: object
         required:
@@ -99,45 +99,45 @@ role:
         properties:
           domain:
             type: string
-            description: "Área de conocimiento o habilidad"
+            description: "Area of knowledge or skill"
             minLength: 2
             maxLength: 100
             examples:
-              - "Análisis DAFO"
-              - "Investigación de mercado"
-              - "Diseño UX"
-              - "Marketing digital"
+              - "SWOT Analysis"
+              - "Market Research"
+              - "UX Design"
+              - "Digital Marketing"
           level:
             type: string
             description: |
-              Nivel de competencia en esta área.
+              Competence level in this area.
             enum:
-              - basic          # Conocimientos básicos, puede ayudar en tareas simples
-              - intermediate   # Competente, puede trabajar con supervisión
-              - advanced       # Muy competente, puede trabajar autónomamente
-              - expert         # Experto, puede guiar a otros y resolver problemas complejos
+              - basic          # Basic knowledge, can help with simple tasks
+              - intermediate   # Competent, can work with supervision
+              - advanced       # Highly competent, can work autonomously
+              - expert         # Expert, can guide others and solve complex problems
             default: intermediate
           description:
             type: string
             description: |
-              Descripción específica de qué sabe hacer en esta área.
-              Ayuda al LLM a entender el alcance de la expertise.
+              Specific description of what they can do in this area.
+              Helps the LLM understand the scope of expertise.
             maxLength: 300
             examples:
-              - "Especialista en identificar fortalezas, debilidades, oportunidades y amenazas en proyectos turísticos"
-              - "Domina técnicas de búsqueda en bases de datos académicas y evaluación de fuentes"
+              - "Specialist in identifying strengths, weaknesses, opportunities and threats in tourism projects"
+              - "Masters search techniques in academic databases and source evaluation"
       minItems: 1
       maxItems: 15
 
     ## -------------------------------------------------------------------------
-    ## RESPONSABILIDADES
+    ## RESPONSIBILITIES
     ## -------------------------------------------------------------------------
     
     responsibilities:
       type: array
       description: |
-        Lista de responsabilidades principales que el TeamMate asume 
-        dentro del equipo. Define qué tareas y funciones le corresponden.
+        List of primary responsibilities the TeamMate assumes
+        within the team. Defines what tasks and functions they handle.
       items:
         type: string
         minLength: 10
@@ -145,59 +145,59 @@ role:
       minItems: 1
       maxItems: 20
       examples:
-        - "Realizar análisis de mercado y competencia"
-        - "Elaborar estudios DAFO"
-        - "Validar hipótesis del equipo con datos"
-        - "Identificar tendencias relevantes para el proyecto"
-        - "Revisar la calidad de los entregables antes de su presentación"
+        - "Perform market and competition analysis"
+        - "Develop SWOT analyses"
+        - "Validate team hypotheses with data"
+        - "Identify trends relevant to the project"
+        - "Review deliverable quality before presentation"
 
     ## -------------------------------------------------------------------------
-    ## LÍMITES DE ACTUACIÓN
+    ## ACTION LIMITS
     ## -------------------------------------------------------------------------
     
     boundaries:
       type: object
       description: |
-        Define los límites de actuación del TeamMate: qué puede hacer, 
-        qué no debe hacer, y qué situaciones debe delegar a otros.
-        Importante para evitar solapamientos y definir responsabilidades claras.
+        Defines the TeamMate's action limits: what they can do,
+        what they must not do, and what situations they should delegate.
+        Important to avoid overlap and define clear responsibilities.
       properties:
         
         can_do:
           type: array
           description: |
-            Lista de acciones que el TeamMate PUEDE y DEBE realizar.
-            Define positivamente su ámbito de actuación.
+            List of actions the TeamMate CAN and SHOULD perform.
+            Positively defines their scope of action.
           items:
             type: string
             maxLength: 200
           maxItems: 20
           examples:
-            - "Analizar datos e información proporcionada"
-            - "Generar informes estructurados"
-            - "Cuestionar afirmaciones sin fundamento"
-            - "Proponer hipótesis basadas en evidencia"
+            - "Analyze provided data and information"
+            - "Generate structured reports"
+            - "Challenge unsupported claims"
+            - "Propose evidence-based hypotheses"
 
         cannot_do:
           type: array
           description: |
-            Lista de acciones que el TeamMate NO DEBE realizar.
-            Define restricciones y límites claros.
+            List of actions the TeamMate MUST NOT perform.
+            Defines clear restrictions and limits.
           items:
             type: string
             maxLength: 200
           maxItems: 20
           examples:
-            - "Inventar datos o estadísticas"
-            - "Tomar decisiones finales por el equipo"
-            - "Ignorar información que contradiga sus análisis"
-            - "Dar opiniones como si fueran hechos"
+            - "Fabricate data or statistics"
+            - "Make final decisions for the team"
+            - "Ignore information that contradicts their analyses"
+            - "Present opinions as facts"
 
         defers_to:
           type: array
           description: |
-            Situaciones que el TeamMate debe delegar a otros roles 
-            o miembros del equipo. Define colaboración entre roles.
+            Situations the TeamMate should delegate to other roles
+            or team members. Defines collaboration between roles.
           items:
             type: object
             required:
@@ -206,17 +206,17 @@ role:
             properties:
               situation:
                 type: string
-                description: "Situación o tarea a delegar"
+                description: "Situation or task to delegate"
                 maxLength: 200
               delegate_to:
                 type: string
-                description: "Rol o persona a quien delega"
+                description: "Role or person to delegate to"
                 maxLength: 100
           maxItems: 10
           examples:
-            - situation: "Diseño visual de presentaciones"
+            - situation: "Visual presentation design"
               delegate_to: "designer"
-            - situation: "Redacción creativa de contenidos"
+            - situation: "Creative content writing"
               delegate_to: "creator"
-            - situation: "Decisiones estratégicas finales"
-              delegate_to: "strategist o equipo humano"
+            - situation: "Final strategic decisions"
+              delegate_to: "strategist or human team"

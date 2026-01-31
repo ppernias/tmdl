@@ -1,14 +1,14 @@
 ## =============================================================================
-## TMDL Schema - Sección: KNOWLEDGE
-## Contenido externo inyectable al LLM
+## TMDL Schema - Section: KNOWLEDGE
+## External content injectable into the LLM
 ## =============================================================================
 
 knowledge:
   type: array
   description: |
-    Lista de documentos y contenido externo que se inyecta al contexto del LLM.
-    Para información estructurada del proyecto (equipo, timeline, recursos), 
-    usar la sección `context`. Knowledge es para contenido largo o de dominio.
+    List of documents and external content injected into the LLM context.
+    For structured project information (team, timeline, resources),
+    use the `context` section. Knowledge is for longer or domain content.
 
   items:
     type: object
@@ -19,7 +19,7 @@ knowledge:
       
       id:
         type: string
-        description: "Identificador único del conocimiento"
+        description: "Unique knowledge identifier"
         pattern: "^[a-z][a-z0-9_-]*$"
         examples:
           - "domain-tourism"
@@ -28,91 +28,91 @@ knowledge:
 
       name:
         type: string
-        description: "Nombre descriptivo"
+        description: "Descriptive name"
         maxLength: 200
         examples:
-          - "Conocimiento del sector turístico"
-          - "Guía metodológica DAFO"
+          - "Tourism sector knowledge"
+          - "SWOT methodology guide"
 
       description:
         type: string
-        description: "Descripción breve del contenido"
+        description: "Brief content description"
         maxLength: 500
 
       source:
         type: string
-        description: "Ruta al archivo con el contenido (relativa al YAML)"
+        description: "Path to file with content (relative to YAML)"
         pattern: "^.+\\.(md|txt|yaml)$"
         examples:
-          - "knowledge/turismo.md"
-          - "knowledge/metodologia-dafo.md"
+          - "knowledge/tourism.md"
+          - "knowledge/swot-methodology.md"
           - "docs/client-brief.md"
 
       type:
         type: string
-        description: "Tipo de conocimiento (para organización)"
+        description: "Knowledge type (for organization)"
         enum:
-          - domain        # Conocimiento de dominio/sector
-          - methodology   # Metodologías y frameworks
-          - reference     # Material de referencia
-          - guidelines    # Guías y normas
-          - examples      # Ejemplos y casos
+          - domain        # Domain/sector knowledge
+          - methodology   # Methodologies and frameworks
+          - reference     # Reference material
+          - guidelines    # Guides and standards
+          - examples      # Examples and cases
           - other
         default: domain
 
       inject:
         type: string
         description: |
-          Cuándo inyectar este conocimiento al contexto.
+          When to inject this knowledge into context.
         enum:
-          - always        # Siempre presente
-          - on_demand     # Solo cuando se solicita o es relevante
-          - startup       # Solo al inicio de la conversación
+          - always        # Always present
+          - on_demand     # Only when requested or relevant
+          - startup       # Only at conversation start
         default: always
 
       priority:
         type: string
         description: |
-          Prioridad si hay límite de contexto. 
-          Los de mayor prioridad se mantienen si hay que recortar.
+          Priority if there's a context limit.
+          Higher priority content is kept if trimming is needed.
         enum:
-          - critical      # Nunca recortar
-          - high          # Recortar solo si es necesario
-          - medium        # Recortar si hay presión de contexto
-          - low           # Recortar primero
+          - critical      # Never trim
+          - high          # Only trim if necessary
+          - medium        # Trim if context pressure
+          - low           # Trim first
         default: medium
 
       tags:
         type: array
-        description: "Etiquetas para búsqueda y filtrado"
+        description: "Tags for search and filtering"
         items:
           type: string
         examples:
-          - ["turismo", "sostenibilidad", "costa"]
-          - ["metodología", "análisis", "DAFO"]
+          - ["tourism", "sustainability", "coast"]
+          - ["methodology", "analysis", "SWOT"]
 
   examples:
     - id: "domain-tourism"
-      name: "Conocimiento del sector turístico"
-      description: "Información de contexto sobre turismo sostenible en España"
-      source: "knowledge/turismo.md"
+      name: "Tourism sector knowledge"
+      description: "Context about sustainable tourism in Spain"
+      source: "knowledge/tourism.md"
       type: domain
       inject: always
       priority: high
-      tags: ["turismo", "sostenibilidad"]
+      tags: ["tourism", "sustainability"]
 
     - id: "methodology-swot"
-      name: "Guía metodológica DAFO"
-      description: "Cómo realizar un análisis DAFO correctamente"
-      source: "knowledge/metodologia-dafo.md"
+      name: "SWOT methodology guide"
+      description: "How to perform a SWOT analysis correctly"
+      source: "knowledge/swot-methodology.md"
       type: methodology
       inject: on_demand
       priority: medium
-      tags: ["metodología", "DAFO", "análisis"]
+      tags: ["methodology", "SWOT", "analysis"]
 
     - id: "client-requirements"
-      name: "Brief del cliente"
-      description: "Requisitos y expectativas del cliente"
+      name: "Client brief"
+      description: "Client requirements and expectations"
       source: "docs/client-brief.md"
       type: reference
       inject: always
