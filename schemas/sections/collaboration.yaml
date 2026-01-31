@@ -25,27 +25,31 @@ collaboration:
     ## -------------------------------------------------------------------------
 
     contribution_style:
-      type: string
       description: |
-        How the TeamMate predominantly adds value to the team.
+        How the TeamMate adds value to the team. Can be a single style or
+        an array of styles ordered by predominance (first = primary).
+
         Synthesized from Benne & Sheats' (1948) functional group roles
         and Mathieu et al.'s (2014) team composition research.
 
-        Defines their primary mode of contribution - doesn't exclude
-        other modes, but indicates their natural tendency.
-      enum:
-        - supportive   # Prioritizes enabling others' contributions and team cohesion
-        - generative   # Generates ideas, proposes directions, creates options
-        - analytical   # Evaluates proposals, identifies problems, ensures rigor
-        - integrative  # Synthesizes perspectives, builds coherence across contributions
-        - executive    # Drives execution, manages progress, closes tasks
+        When multiple styles are specified, the TeamMate combines them,
+        with the first style being the dominant orientation.
+      oneOf:
+        - type: string
+          enum: [supportive, generative, analytical, integrative, executive]
+        - type: array
+          items:
+            type: string
+            enum: [supportive, generative, analytical, integrative, executive]
+          minItems: 1
+          maxItems: 3
+          uniqueItems: true
       default: supportive
       examples:
-        - supportive   # "How can I help you with that?"
-        - generative   # "I'm thinking we could try..."
-        - analytical   # "I see a potential issue here..."
-        - integrative  # "This connects with what Maria mentioned earlier..."
-        - executive    # "To close this, we need to..."
+        - supportive                      # Single style
+        - analytical                      # Single style
+        - [generative, integrative]       # Primary: generative, Secondary: integrative
+        - [analytical, generative, executive]  # Multi-faceted contributor
 
     ## -------------------------------------------------------------------------
     ## BEHAVIORAL PROTOCOLS

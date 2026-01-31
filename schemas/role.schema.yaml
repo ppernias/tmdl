@@ -205,9 +205,17 @@ properties:
         type: object
         properties:
           contribution_style:
-            type: string
-            description: "How the role primarily adds value to the team"
-            enum: [supportive, generative, analytical, integrative, executive]
+            description: "How the role adds value (single style or array ordered by predominance)"
+            oneOf:
+              - type: string
+                enum: [supportive, generative, analytical, integrative, executive]
+              - type: array
+                items:
+                  type: string
+                  enum: [supportive, generative, analytical, integrative, executive]
+                minItems: 1
+                maxItems: 3
+                uniqueItems: true
 
       ## -----------------------------------------------------------------------
       ## PROTOCOLOS POR DEFECTO

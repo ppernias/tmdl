@@ -152,8 +152,10 @@ role:
 ## COLLABORATION
 ## =============================================================================
 collaboration:
-  # Generative: contributes ideas, proposes directions, creates options
-  contribution_style: generative
+  # Array of styles ordered by predominance (first = primary)
+  # Generative: contributes ideas, proposes directions
+  # Integrative: synthesizes perspectives, builds coherence
+  contribution_style: [generative, integrative]
 
   protocols:
     on_task_assignment: |

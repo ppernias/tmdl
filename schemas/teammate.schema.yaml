@@ -340,11 +340,20 @@ properties:
     properties:
 
       contribution_style:
-        type: string
         description: |
-          How the TeamMate primarily adds value to the team.
+          How the TeamMate adds value to the team. Can be a single style or
+          an array of styles ordered by predominance (first = primary).
           Based on Benne & Sheats (1948) functional group roles.
-        enum: [supportive, generative, analytical, integrative, executive]
+        oneOf:
+          - type: string
+            enum: [supportive, generative, analytical, integrative, executive]
+          - type: array
+            items:
+              type: string
+              enum: [supportive, generative, analytical, integrative, executive]
+            minItems: 1
+            maxItems: 3
+            uniqueItems: true
         default: supportive
 
       protocols:

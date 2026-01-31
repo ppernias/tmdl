@@ -413,7 +413,9 @@ Defines how the TeamMate collaborates and interacts with the team.
 ```yaml
 collaboration:
   # Based on Benne & Sheats (1948) functional group roles
-  contribution_style: analytical
+  # Can be single style or array ordered by predominance
+  contribution_style: analytical                    # Single style
+  # contribution_style: [generative, integrative]  # Multiple styles (first = primary)
 
   protocols:
     on_task_assignment: |
@@ -438,9 +440,20 @@ Based on Benne & Sheats (1948) functional group roles—a validated framework fo
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `contribution_style` | enum | `supportive` | How the TeamMate adds value to the team |
+| `contribution_style` | string \| array | `supportive` | How the TeamMate adds value (single or array) |
 
-**contribution_style values**:
+**contribution_style**: Can be a single style or an array of up to 3 styles ordered by predominance.
+
+```yaml
+# Single style
+contribution_style: analytical
+
+# Multiple styles (first = primary)
+contribution_style: [generative, integrative]
+contribution_style: [analytical, generative, executive]
+```
+
+**Values**:
 
 | Value | Description |
 |-------|-------------|
@@ -925,6 +938,7 @@ ajv validate -s teammate.schema.yaml -d my-teammate.yaml
 `basic` | `intermediate` | `advanced` | `expert`
 
 ### A.9 collaboration.contribution_style (Benne & Sheats functional roles)
+Single value or array (max 3, ordered by predominance):
 `supportive` | `generative` | `analytical` | `integrative` | `executive`
 
 ### A.10 context.timeline.milestones.status
@@ -988,6 +1002,7 @@ For development, edit the section files. The consolidated schema is generated fr
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.3 | 2025-01-31 | contribution_style now supports arrays for multi-faceted contributors |
 | 1.2 | 2025-01-31 | Aligned taxonomies with theoretical foundations: Kirton (1976) for cognitive_style, Benne & Sheats (1948) for contribution_style; simplified collaboration section |
 | 1.1 | 2025-01-30 | Contribution-centered collaboration model; eliminated `behavior` section |
 | 1.0 | 2025-01-15 | Initial specification |
