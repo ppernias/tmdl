@@ -577,13 +577,21 @@ Additional technical directions include multi-agent coordination extensions, dyn
 \section{Conclusion}
 % ==============================================================================
 
-This paper introduced TMDL (TeamMate Description Language), a structured specification language for virtual teammates in hybrid human-AI teams. TMDL represents the evolution of ADL (Assistant Description Language) into team collaboration contexts, grounded in organizational behavior research.
+This paper introduced TMDL (TeamMate Description Language), a structured specification language for virtual teammates in hybrid human-AI teams. Building on ADL (Assistant Description Language) and aligned with the COHUMAIN framework for collective human-machine intelligence, TMDL addresses a fundamental design choice in human-AI collaboration: positioning AI as a configured \textit{teammate} rather than a generic \textit{tool}.
 
-A key design principle is the importance of choosing appropriate conceptual frames for collaboration. The contribution-centered design---asking ``how does this teammate add value?'' rather than ``how does it handle conflict?''---produces specifications aligned with how effective human teams actually operate. This framing, grounded in team effectiveness research from Hackman, Salas, and Mathieu, provides theoretical foundation absent in previous agent description approaches.
+TMDL's contribution-centered design asks ``how does this teammate add value to the group?''---a framing grounded in team effectiveness research from Hackman, Salas, and Mathieu. This approach produces specifications aligned with how high-performing teams actually operate: through coordination, mutual support, and complementary contributions rather than competing interests.
 
-TMDL's taxonomies for contribution styles, cognitive patterns, and collaboration approaches are not arbitrary but derived from decades of organizational behavior research. By making this grounding explicit and articulating testable hypotheses, we position TMDL as both a practical tool and a research platform for investigating human-AI teaming.
+The language's taxonomies are rigorously grounded in organizational behavior research:
 
-We emphasize that this paper presents a theoretically-grounded proposal rather than empirical validation. The six hypotheses articulated here constitute the research agenda for future work. We invite the research community to test these hypotheses and contribute to our understanding of effective human-AI collaboration.
+\begin{itemize}
+    \item \textbf{Contribution styles} (supportive, generative, analytical, integrative, executive) synthesize Benne and Sheats' functional group roles into actionable categories for AI teammate configuration
+    \item \textbf{Cognitive styles} (adaptor, innovator, balanced) operationalize Kirton's Adaption-Innovation theory, enabling deliberate composition of complementary thinking orientations
+    \item \textbf{Explicit boundaries} address research on role clarity and mental models, making AI capabilities and limitations transparent to human teammates
+\end{itemize}
+
+We position TMDL as a theoretically-grounded proposal with explicit hypotheses for future validation. The six hypotheses comparing the teammate paradigm against tool-based AI use constitute our research agenda, to be tested through quasi-experimental designs in educational settings during the 2025--2026 academic year.
+
+By making theoretical grounding explicit and separating descriptive characteristics (identity, role, collaboration patterns) from operational configurations (tools, context, knowledge), TMDL provides both a practical framework for practitioners and a research platform for investigating human-AI teaming.
 
 TMDL is available as open source at \url{https://github.com/ppernias/tmdl} under CC-BY-4.0 license.
 
