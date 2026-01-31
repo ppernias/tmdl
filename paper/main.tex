@@ -109,7 +109,7 @@ Commercial platforms such as OpenAI's GPTs and Anthropic's Claude offer system p
 
 Leading LLM providers such as Anthropic and OpenAI recommend structuring system prompts using explicit delimiters and hierarchical organization to improve instruction following and reduce ambiguity \cite{anthropic2024prompting}. This industry guidance is fundamental to TMDL's design rationale.
 
-\textbf{Empirical evidence for structured formats:} Recent benchmarks on structured output generation demonstrate that specifying formal schemas (e.g., JSON Schema) and using constrained decoding improves output reliability: increasing format compliance rates, reducing parsing errors, and facilitating integration into automated pipelines \cite{geng2025structured}. Experimental comparisons of structured prompt styles (JSON, YAML, hybrid formats) report measurable differences in quality and efficiency when generating structured data, supporting the claim that explicit structure reduces ambiguity and produces more usable outputs \cite{zhang2025promptstyles}.
+\textbf{Empirical evidence for structured formats:} Recent benchmarks on structured output generation demonstrate that specifying formal schemas (e.g., JSON Schema) and using constrained decoding improves output reliability: increasing format compliance rates, reducing parsing errors, and facilitating integration into automated pipelines \cite{geng2025structured}. Experimental comparisons of structured prompt styles (JSON, YAML, hybrid formats) report measurable differences in quality and efficiency when generating structured data, supporting the claim that explicit structure reduces ambiguity and produces more usable outputs \cite{elnashar2025promptstyles}.
 
 Khattab et al. \cite{khattab2023dspy} introduced DSPy, a framework that treats LLM prompting as a programming problem rather than a prose-writing exercise. Their results demonstrated that declarative, structured specifications outperformed hand-crafted prompts across multiple benchmarks, while also being more maintainable and reproducible.
 
@@ -162,7 +162,7 @@ ADL (Assistant Description Language) \cite{pernias2025adl} established a YAML-ba
 
 ADL was designed for general-purpose conversational assistants, focusing on single-user interactions. TMDL extends this foundation to multi-party team contexts, adding constructs for role definition, collaboration patterns, and team dynamics that were not part of the original ADL scope.
 
-TDL (Tutor Description Language) \cite{pernias2026tdl} represents a parallel evolution of ADL for educational contexts, incorporating instructional design models (ADDIE, Bloom's taxonomy) and learner progression tracking. Together, ADL, TDL, and TMDL form a coherent family of domain-specific languages sharing common architectural patterns while addressing distinct application needs.
+TDL (Tutor Description Language) \cite{pernias2026tdl} represents a parallel evolution of ADL for educational contexts, incorporating instructional design models (Gagné's events, Bloom's taxonomy) and learner progression tracking. Together, ADL, TDL, and TMDL form a coherent family of domain-specific languages sharing common architectural patterns while addressing distinct application needs.
 
 \subsection{Human-AI Teaming Research}
 
