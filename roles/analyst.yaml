@@ -5,7 +5,7 @@
 
 role:
   type: analyst
-  cognitive_style: analytical
+  cognitive_style: adaptor  # Kirton: methodical, data-driven, improves within frameworks
   
   expertise:
     - domain: "Data Analysis"
@@ -52,13 +52,9 @@ role:
         delegate_to: "team lead or stakeholders"
 
 ## Default collaboration settings for analysts
+## Based on Benne & Sheats (1948) functional group roles
 collaboration:
   contribution_style: analytical
-  interaction_mode: balanced
-  initiative_level: medium
-  feedback_style: constructive
-  uncertainty_tolerance: low
-  disagreement_approach: investigate
 
 ## Default commands for analysts
 tools:

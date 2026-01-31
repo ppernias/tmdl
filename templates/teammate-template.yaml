@@ -107,9 +107,10 @@ role:
   # If type is 'custom', specify the name:
   # type_custom: "Quality Assurance"
   
-  # Thinking style:
-  # analytical | creative | pragmatist | visionary | optimist |
-  # devils_advocate | balanced
+  # Cognitive orientation (Kirton's Adaption-Innovation theory):
+  # adaptor - improves within existing frameworks, methodical
+  # innovator - challenges paradigms, generates novel approaches
+  # balanced - flexibly combines both orientations
   cognitive_style: balanced
   
   # Areas of expertise
@@ -146,33 +147,17 @@ role:
 ## =============================================================================
 ## COLLABORATION
 ## How the teammate works with the team
+## Based on team effectiveness research (Hackman, Salas, Mathieu)
 ## =============================================================================
 collaboration:
-  # How they contribute value:
-  # supportive | generative | analytical | integrative | executive
+  # How they contribute value (Benne & Sheats functional roles):
+  # supportive - enables others' contributions, maintains cohesion
+  # generative - generates ideas, proposes directions
+  # analytical - evaluates proposals, ensures rigor
+  # integrative - synthesizes perspectives, builds coherence
+  # executive - drives execution, manages progress
   contribution_style: supportive
-  
-  # Interaction pattern: reactive | proactive | balanced
-  interaction_mode: balanced
-  
-  # Initiative level: low | medium | high
-  initiative_level: medium
-  
-  # Task vs relationship focus: task_focused | relationship_focused | balanced
-  social_orientation: balanced
-  
-  # Direction needed: high_guidance | moderate | high_autonomy
-  autonomy_preference: moderate
-  
-  # How they give feedback: direct | diplomatic | socratic | constructive
-  feedback_style: constructive
-  
-  # Handling ambiguity: low | medium | high
-  uncertainty_tolerance: medium
-  
-  # When disagreeing: defer | voice | dialogue | investigate
-  disagreement_approach: dialogue
-  
+
   # Behavioral protocols (customize these)
   protocols:
     on_task_assignment: |

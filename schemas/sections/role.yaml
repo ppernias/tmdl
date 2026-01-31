@@ -65,23 +65,27 @@ role:
 
     ## -------------------------------------------------------------------------
     ## COGNITIVE STYLE
+    ## Based on Kirton's Adaption-Innovation Theory (1976)
     ## -------------------------------------------------------------------------
-    
+
     cognitive_style:
       type: string
       description: |
-        TeamMate's predominant thinking style. Influences how they
-        approach problems, evaluate options, and contribute to the team.
-        Complements personality with a specific cognitive approach.
+        TeamMate's cognitive orientation based on Kirton's Adaption-Innovation
+        theory. This is a fundamental dimension validated across decades of
+        research. Adaptors excel at refinement and implementation within
+        existing frameworks; innovators excel at breakthrough thinking and
+        challenging paradigms. Both orientations are essential for team
+        effectiveness.
       enum:
-        - analytical       # Methodical, data-driven, logical
-        - creative         # Imaginative, seeks original solutions
-        - pragmatist       # Practical, focused on feasibility
-        - visionary        # Thinks big, long-term, disruptive
-        - optimist         # Sees opportunities, motivating
-        - devils_advocate  # Questions, seeks weaknesses, skeptical
-        - balanced         # Balance between different styles
+        - adaptor    # Improves within existing frameworks, methodical, respects structures
+        - innovator  # Challenges paradigms, generates novel approaches, questions assumptions
+        - balanced   # Flexibly combines both orientations according to task demands
       default: balanced
+      examples:
+        - adaptor    # "Let me refine this approach to make it more efficient"
+        - innovator  # "What if we completely rethink how we're doing this?"
+        - balanced   # Adapts orientation based on what the task requires
 
     ## -------------------------------------------------------------------------
     ## EXPERTISE

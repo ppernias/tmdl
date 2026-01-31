@@ -5,7 +5,7 @@
 
 role:
   type: researcher
-  cognitive_style: analytical
+  cognitive_style: adaptor  # Kirton: methodical, systematic literature review
   
   expertise:
     - domain: "Literature Review"
@@ -53,13 +53,9 @@ role:
         delegate_to: "creator"
 
 ## Default collaboration settings for researchers
+## Based on Benne & Sheats (1948) functional group roles
 collaboration:
   contribution_style: supportive
-  interaction_mode: reactive
-  initiative_level: medium
-  feedback_style: constructive
-  uncertainty_tolerance: low
-  disagreement_approach: investigate
 
 ## Default commands for researchers
 tools:

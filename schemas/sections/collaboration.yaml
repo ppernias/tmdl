@@ -1,136 +1,56 @@
 ## =============================================================================
 ## TMDL Schema - Section: COLLABORATION
-## Team collaboration and interaction patterns
+## Team collaboration and contribution patterns
 ## =============================================================================
 
 collaboration:
   type: object
   description: |
-    Defines how the TeamMate collaborates, contributes, and interacts with the team.
-    The model assumes the team relationship is fundamentally cooperative,
-    where conflict is a punctual situation, not the baseline state.
+    Defines how the TeamMate collaborates and contributes to the team.
+
+    CONTRIBUTION-CENTERED MODEL: This section asks "how does this teammate
+    add value to the group?" rather than focusing on conflict or negotiation.
+    This framing is grounded in team effectiveness research (Hackman, Salas,
+    Mathieu) showing that high-performing teams are characterized by
+    coordination, mutual support, and complementary contributions.
+
+    AI teammates have no ego to protect or personal interests to defend,
+    so they can be configured purely for constructive contribution.
 
   properties:
-    
+
     ## -------------------------------------------------------------------------
     ## CONTRIBUTION STYLE
+    ## Based on Benne & Sheats (1948) and Mathieu et al. (2014)
     ## -------------------------------------------------------------------------
-    
+
     contribution_style:
       type: string
       description: |
         How the TeamMate predominantly adds value to the team.
-        Defines their "collaborative personality" - doesn't exclude other modes,
-        but indicates their natural tendency.
+        Synthesized from Benne & Sheats' (1948) functional group roles
+        and Mathieu et al.'s (2014) team composition research.
+
+        Defines their primary mode of contribution - doesn't exclude
+        other modes, but indicates their natural tendency.
       enum:
-        - supportive   # Prioritizes helping, facilitating, empowering others
-        - generative   # Contributes ideas, proposes directions, creates options
-        - analytical   # Evaluates, questions, deepens, detects problems
-        - integrative  # Connects perspectives, synthesizes, seeks coherence
-        - executive    # Drives results, closes tasks, manages progress
+        - supportive   # Prioritizes enabling others' contributions and team cohesion
+        - generative   # Generates ideas, proposes directions, creates options
+        - analytical   # Evaluates proposals, identifies problems, ensures rigor
+        - integrative  # Synthesizes perspectives, builds coherence across contributions
+        - executive    # Drives execution, manages progress, closes tasks
       default: supportive
       examples:
         - supportive   # "How can I help you with that?"
-        - generative   # "I'm thinking we could..."
-        - analytical   # "I see a potential problem here..."
-        - integrative  # "This connects with what Maria said..."
-        - executive    # "To close this we need..."
-
-    ## -------------------------------------------------------------------------
-    ## INTERACTION MODE
-    ## -------------------------------------------------------------------------
-    
-    interaction_mode:
-      type: string
-      description: |
-        TeamMate's predominant interaction mode with the team.
-      enum:
-        - reactive     # Only responds when asked or assigned a task
-        - proactive    # Offers information, suggestions, and alerts unprompted
-        - balanced     # Combines both according to context
-      default: balanced
-
-    initiative_level:
-      type: string
-      description: |
-        Level of self-initiative. How much they act on their own
-        vs waiting for instructions.
-      enum:
-        - low      # Waits for clear instructions, doesn't act on own
-        - medium   # Takes initiative in their area of expertise
-        - high     # Very proactive, frequently proposes and acts
-      default: medium
-
-    ## -------------------------------------------------------------------------
-    ## SOCIAL ORIENTATION
-    ## -------------------------------------------------------------------------
-    
-    social_orientation:
-      type: string
-      description: |
-        Balance between task focus and team relationship focus.
-      enum:
-        - task_focused       # Prioritizes advancing work, efficiency
-        - relationship_focused  # Prioritizes team climate, cohesion
-        - balanced           # Balances both according to context
-      default: balanced
-
-    autonomy_preference:
-      type: string
-      description: |
-        Preference for how much direction they need from the team.
-      enum:
-        - high_guidance   # Prefers detailed instructions and frequent validation
-        - moderate        # Works with clear objectives, consults when necessary
-        - high_autonomy   # Works with minimal supervision, reports results
-      default: moderate
-
-    ## -------------------------------------------------------------------------
-    ## COMMUNICATION AND FEEDBACK
-    ## -------------------------------------------------------------------------
-    
-    feedback_style:
-      type: string
-      description: |
-        How the TeamMate gives feedback to the team.
-      enum:
-        - direct        # Gets to the point, no beating around the bush
-        - diplomatic    # Careful with forms, softens criticism
-        - socratic      # Through questions that guide reflection
-        - constructive  # Always accompanies criticism with alternatives
-      default: constructive
-
-    uncertainty_tolerance:
-      type: string
-      description: |
-        How they handle ambiguous situations or incomplete information.
-      enum:
-        - low    # Needs to clarify before proceeding, asks for specifications
-        - medium # Works with reasonable assumptions, makes them explicit
-        - high   # Proceeds with uncertainty, iterates and adjusts
-      default: medium
-
-    ## -------------------------------------------------------------------------
-    ## DISAGREEMENT HANDLING
-    ## -------------------------------------------------------------------------
-    
-    disagreement_approach:
-      type: string
-      description: |
-        What to do when their analysis differs from team consensus.
-        Not a "conflict style" - it's how they contribute when they
-        detect a discrepancy that might be relevant.
-      enum:
-        - defer       # Accepts the team's position, doesn't insist
-        - voice       # Expresses their perspective once, lets team decide
-        - dialogue    # Proposes conversation to understand both positions
-        - investigate # Suggests seeking more information before deciding
-      default: dialogue
+        - generative   # "I'm thinking we could try..."
+        - analytical   # "I see a potential issue here..."
+        - integrative  # "This connects with what Maria mentioned earlier..."
+        - executive    # "To close this, we need to..."
 
     ## -------------------------------------------------------------------------
     ## BEHAVIORAL PROTOCOLS
     ## -------------------------------------------------------------------------
-    
+
     protocols:
       type: object
       description: |

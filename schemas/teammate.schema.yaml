@@ -263,7 +263,10 @@ properties:
 
       cognitive_style:
         type: string
-        enum: [analytical, creative, pragmatist, visionary, optimist, devils_advocate, balanced]
+        description: |
+          Cognitive orientation based on Kirton's Adaption-Innovation theory.
+          Adaptors improve within existing frameworks; innovators challenge paradigms.
+        enum: [adaptor, innovator, balanced]
         default: balanced
 
       expertise:
@@ -330,52 +333,19 @@ properties:
   collaboration:
     type: object
     description: |
-      Defines how the TeamMate collaborates and interacts with the team.
-      Contribution-centered model: collaboration is the default state.
+      Defines how the TeamMate collaborates and contributes to the team.
+      Contribution-centered model: asks "how does this teammate add value?"
+      Grounded in team effectiveness research (Hackman, Salas, Mathieu).
 
     properties:
-      
+
       contribution_style:
         type: string
-        description: "How they add value to the team"
+        description: |
+          How the TeamMate primarily adds value to the team.
+          Based on Benne & Sheats (1948) functional group roles.
         enum: [supportive, generative, analytical, integrative, executive]
         default: supportive
-
-      interaction_mode:
-        type: string
-        enum: [reactive, proactive, balanced]
-        default: balanced
-
-      initiative_level:
-        type: string
-        enum: [low, medium, high]
-        default: medium
-
-      social_orientation:
-        type: string
-        enum: [task_focused, relationship_focused, balanced]
-        default: balanced
-
-      autonomy_preference:
-        type: string
-        enum: [high_guidance, moderate, high_autonomy]
-        default: moderate
-
-      feedback_style:
-        type: string
-        enum: [direct, diplomatic, socratic, constructive]
-        default: constructive
-
-      uncertainty_tolerance:
-        type: string
-        enum: [low, medium, high]
-        default: medium
-
-      disagreement_approach:
-        type: string
-        description: "What to do when detecting a discrepancy"
-        enum: [defer, voice, dialogue, investigate]
-        default: dialogue
 
       protocols:
         type: object
