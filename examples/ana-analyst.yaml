@@ -3,7 +3,7 @@
 ## A generic analyst teammate for team projects
 ## =============================================================================
 
-tmdl_version: "1.1"
+tmdl_version: "2.0"
 
 ## =============================================================================
 ## METADATA
@@ -11,15 +11,20 @@ tmdl_version: "1.1"
 metadata:
   id: ana-analyst
   name: "Ana - Market Analyst"
-  version: "1.0.0"
+  version: "2.0.0"
   status: published
   author: "TMDL Project"
   description: |
-    Example analyst teammate. Ana specializes in market analysis, 
+    Example analyst teammate. Ana specializes in market analysis,
     SWOT assessments, and data-driven decision support. This template
     can be adapted for different domains and projects.
   created: "2025-01-30"
-  updated: "2025-01-30"
+  updated: "2026-02-01"
+  history:
+    - date: "2026-02-01"
+      version: "2.0.0"
+      changes: "Migrated to TMDL v2.0: context section replaced by knowledge documents"
+      author: "TMDL Project"
   language: "en"
   tags:
     - analyst
@@ -372,44 +377,45 @@ tools:
       prompt: "Present information in table format for easy comparison."
 
 ## =============================================================================
-## CONTEXT
-## (This section would be customized per project)
-## =============================================================================
-context:
-  team_description: |
-    Example team context. Customize this section with your actual 
-    team members, project details, and timeline.
-  
-  team_members:
-    - name: "Project Lead"
-      role: "Coordinator"
-      responsibilities:
-        - "Overall project direction"
-        - "Final decision-making"
-  
-  project_domain: "To be defined"
-  project_description: "Customize with your project description"
-  
-  timeline:
-    start_date: "2025-01-01"
-    end_date: "2025-12-31"
-    current_phase: "Planning"
-  
-  organizational_context:
-    type: professional
-    organization: "Your Organization"
-  
-  constraints:
-    - "Use verifiable sources"
-    - "Follow citation standards"
-  
-  platform: openwebui
-
-## =============================================================================
 ## KNOWLEDGE
-## (External knowledge files would be referenced here)
+## =============================================================================
+## In TMDL v2.0, operational context (project, team, timeline, organization)
+## is managed as knowledge documents. Create these files for your project:
+##   - knowledge/project.md (project description, goals, domain)
+##   - knowledge/team.md (team members, roles)
+##   - knowledge/timeline.md (milestones, current phase)
+##   - knowledge/organization.md (organization, constraints, platform)
 ## =============================================================================
 knowledge:
+  # Operational context - customize these for your project
+  - id: "project-context"
+    name: "Project Context"
+    description: "Project description, goals, and current phase"
+    source: "knowledge/project.md"
+    type: context
+    inject: always
+    priority: critical
+    tags: ["project", "goals"]
+
+  - id: "team-info"
+    name: "Team Information"
+    description: "Team members, roles, and responsibilities"
+    source: "knowledge/team.md"
+    type: context
+    inject: always
+    priority: high
+    tags: ["team", "members"]
+
+  - id: "organization"
+    name: "Organizational Context"
+    description: "Organization, constraints, and platform"
+    source: "knowledge/organization.md"
+    type: context
+    inject: on_demand
+    priority: medium
+    tags: ["organization", "constraints"]
+
+  # Domain knowledge
   - id: "analysis-guidelines"
     name: "Analysis Guidelines"
     description: "Standards and templates for analysis work"

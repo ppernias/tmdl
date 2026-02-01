@@ -248,7 +248,7 @@ TMDL therefore asks: ``How does this TeamMate add value to the group?'' This fra
 
 \subsection{Overall Structure}
 
-A TMDL document consists of six main sections plus metadata:
+A TMDL document consists of five main sections plus metadata:
 
 \begin{figure}[htbp]
 \centerline{
@@ -262,9 +262,7 @@ A TMDL document consists of six main sections plus metadata:
 \hline
 \textbf{TOOLS} & Base commands, options, decorators \\
 \hline
-\textbf{CONTEXT} & Team, timeline, resources \\
-\hline
-\textbf{KNOWLEDGE} & External documents to inject \\
+\textbf{KNOWLEDGE} & External documents (domain \& context) \\
 \hline
 \end{tabular}
 }
@@ -285,9 +283,9 @@ role:
       level: expert
 \end{lstlisting}
 
-\subsection{Hybrid Content Model}
+\subsection{Static vs. Dynamic Content Model}
 
-Recognizing that some content is naturally structured (team members, timeline) while other content is narrative (domain expertise, methodological guides), TMDL separates concerns: the \texttt{context} section contains structured project data directly in YAML, while the \texttt{knowledge} section references external Markdown documents for rich content.
+TMDL separates the static TeamMate definition (identity, role, collaboration, tools) from dynamic operational context (project, team, timeline). The \texttt{knowledge} section references external Markdown documents for both domain expertise and project context. This design enables reusing the same TeamMate definition across projects by updating only the knowledge documents, without modifying the core YAML specification.
 
 % ==============================================================================
 \section{Schema Specification}
@@ -410,38 +408,26 @@ tools:
       prompt: "Respond concisely"
 \end{lstlisting}
 
-\subsection{Context}
-
-Context provides structured project information: team members, timeline with milestones, resources, and organizational details:
-
-\begin{lstlisting}[style=yaml]
-context:
-  team_members:
-    - name: "Maria Garcia"
-      role: "Coordinator"
-      responsibilities:
-        - "Deadline management"
-  timeline:
-    start_date: "2025-02-01"
-    end_date: "2025-06-15"
-    current_phase: "Research"
-    milestones:
-      - name: "Analysis delivery"
-        date: "2025-03-15"
-        status: pending
-  organizational_context:
-    type: academic
-    organization: "University of Alicante"
-  constraints:
-    - "Use only academic sources"
-\end{lstlisting}
-
 \subsection{Knowledge}
 
-Knowledge defines external documents to inject into the LLM context:
+Knowledge defines external documents to inject into the LLM context. In TMDL v2.0, this includes both domain expertise and operational context (project, team, timeline, organization):
 
 \begin{lstlisting}[style=yaml]
 knowledge:
+  # Operational context
+  - id: "project-context"
+    name: "Project context"
+    source: "knowledge/project.md"
+    type: context
+    inject: always
+    priority: critical
+  - id: "team-info"
+    name: "Team information"
+    source: "knowledge/team.md"
+    type: context
+    inject: always
+    priority: high
+  # Domain knowledge
   - id: "domain-tourism"
     name: "Tourism sector knowledge"
     source: "knowledge/tourism.md"
@@ -455,7 +441,7 @@ knowledge:
     inject: on_demand
 \end{lstlisting}
 
-Injection modes control when content is included: \texttt{always} (permanent), \texttt{on\_demand} (when relevant), or \texttt{startup} (conversation start only).
+Knowledge types include \texttt{context} (operational: project, team, timeline), \texttt{domain} (expertise), \texttt{methodology} (processes), \texttt{reference}, \texttt{guidelines}, and \texttt{examples}. Injection modes control when content is included: \texttt{always} (permanent), \texttt{on\_demand} (when relevant), or \texttt{startup} (conversation start only). This design allows updating project context without modifying the TeamMate definition.
 
 % ==============================================================================
 \section{Illustrative Example}
@@ -481,11 +467,11 @@ TeamMates are deployed on OpenWebUI with TMDL specifications converted to system
 A simplified version of Ana's specification:
 
 \begin{lstlisting}[style=yaml]
-tmdl_version: "1.1"
+tmdl_version: "2.0"
 metadata:
   id: ana-tourism-nt40
   name: "Ana - Analyst"
-  version: "1.0"
+  version: "2.0"
 identity:
   display_name: "Ana"
   personality: |

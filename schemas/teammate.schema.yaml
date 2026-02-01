@@ -1,6 +1,6 @@
 ## =============================================================================
 ## TMDL - TeamMate Description Language
-## Main Consolidated Schema v1.1
+## Main Consolidated Schema v2.0
 ## =============================================================================
 ## This file is generated/consolidated from sections/*.yaml
 ## For development, edit files in sections/
@@ -12,7 +12,13 @@ title: "TMDL TeamMate Schema"
 description: |
   Complete schema for defining a TeamMate - an LLM-based virtual team member
   that collaborates with human teams on projects.
-version: "1.1.0"
+
+  v2.0 Changes:
+  - Removed 'context' section (operational data now in knowledge/)
+  - metadata: cataloging information (IMS/LOM compatible)
+  - identity, role, collaboration, tools: TeamMate definition
+  - knowledge: references to external documents (including project context)
+version: "2.0.0"
 
 type: object
 
@@ -33,8 +39,7 @@ properties:
     description: "TMDL version used in this definition"
     pattern: "^[0-9]+\\.[0-9]+$"
     examples:
-      - "1.0"
-      - "1.1"
+      - "2.0"
 
   ## ===========================================================================
   ## SECTION 1: METADATA
@@ -521,200 +526,7 @@ properties:
               type: string
 
   ## ===========================================================================
-  ## SECTION 6: CONTEXT
-  ## Operational context
-  ## ===========================================================================
-  
-  context:
-    type: object
-    description: |
-      Project context: human team, timeline, resources, organization.
-
-    properties:
-      
-      team_description:
-        type: string
-        maxLength: 1000
-
-      team_members:
-        type: array
-        items:
-          type: object
-          required: [name]
-          properties:
-            name:
-              type: string
-            role:
-              type: string
-            responsibilities:
-              type: array
-              items:
-                type: string
-            contact:
-              type: string
-            notes:
-              type: string
-
-      project_domain:
-        type: string
-        maxLength: 200
-
-      project_description:
-        type: string
-        maxLength: 2000
-
-      timeline:
-        type: object
-        properties:
-          start_date:
-            type: string
-            format: date
-          end_date:
-            type: string
-            format: date
-          current_phase:
-            type: string
-          milestones:
-            type: array
-            items:
-              type: object
-              required: [name, date]
-              properties:
-                name:
-                  type: string
-                date:
-                  type: string
-                  format: date
-                description:
-                  type: string
-                status:
-                  type: string
-                  enum: [pending, in_progress, completed, delayed]
-                  default: pending
-          phases:
-            type: array
-            items:
-              type: object
-              required: [name, start, end]
-              properties:
-                name:
-                  type: string
-                start:
-                  type: string
-                  format: date
-                end:
-                  type: string
-                  format: date
-                tasks:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      assigned_to:
-                        type: string
-                      status:
-                        type: string
-                        enum: [pending, in_progress, completed, blocked]
-                      due_date:
-                        type: string
-                        format: date
-
-      resources:
-        type: object
-        properties:
-          documents:
-            type: array
-            items:
-              type: object
-              required: [name, type]
-              properties:
-                name:
-                  type: string
-                type:
-                  type: string
-                  enum: [deliverable, working_doc, reference, template, minutes, research, other]
-                description:
-                  type: string
-                location:
-                  type: string
-                status:
-                  type: string
-                  enum: [draft, review, final, archived]
-                last_updated:
-                  type: string
-                  format: date
-          tools:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                purpose:
-                  type: string
-                url:
-                  type: string
-          references:
-            type: array
-            items:
-              type: object
-              properties:
-                title:
-                  type: string
-                type:
-                  type: string
-                  enum: [article, book, website, report, video, other]
-                citation:
-                  type: string
-                url:
-                  type: string
-                notes:
-                  type: string
-
-      organizational_context:
-        type: object
-        properties:
-          type:
-            description: "Organization type(s) - single or array for hybrid orgs"
-            oneOf:
-              - type: string
-                enum: [academic, corporate, startup, nonprofit, government, freelance, other]
-              - type: array
-                items:
-                  type: string
-                  enum: [academic, corporate, startup, nonprofit, government, freelance, other]
-                minItems: 1
-                maxItems: 2
-                uniqueItems: true
-            default: academic
-          organization:
-            type: string
-            maxLength: 200
-          department:
-            type: string
-            maxLength: 200
-          course:
-            type: string
-            maxLength: 200
-          assignment:
-            type: string
-            maxLength: 500
-
-      constraints:
-        type: array
-        items:
-          type: string
-          maxLength: 300
-        maxItems: 20
-
-      platform:
-        type: string
-        enum: [chatgpt, claude, gemini, openwebui, other]
-
-  ## ===========================================================================
-  ## SECTION 7: KNOWLEDGE
+  ## SECTION 6: KNOWLEDGE
   ## External injectable content
   ## ===========================================================================
   
@@ -722,13 +534,17 @@ properties:
     type: array
     description: |
       External documents injected into the LLM context.
-      For structured data, use context. Knowledge is for longer content.
+      Includes both domain knowledge and operational context (project, team, timeline).
+
+      In TMDL v2.0, operational information that was previously in the 'context'
+      section is now managed as knowledge documents, allowing dynamic updates
+      without modifying the TeamMate definition.
 
     items:
       type: object
       required: [id, source]
       properties:
-        
+
         id:
           type: string
           pattern: "^[a-z][a-z0-9_-]*$"
@@ -748,7 +564,15 @@ properties:
 
         type:
           type: string
-          enum: [domain, methodology, reference, guidelines, examples, other]
+          description: |
+            Type of knowledge:
+            - context: Operational information (project, team, timeline, organization)
+            - domain: Subject matter expertise
+            - methodology: Processes and procedures
+            - reference: External sources and citations
+            - guidelines: Rules and standards
+            - examples: Sample content
+          enum: [context, domain, methodology, reference, guidelines, examples, other]
           default: domain
 
         inject:

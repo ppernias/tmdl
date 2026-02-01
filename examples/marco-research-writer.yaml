@@ -3,7 +3,7 @@
 ## A hybrid TeamMate that assists small research teams in writing academic papers
 ## =============================================================================
 
-tmdl_version: "1.1"
+tmdl_version: "2.0"
 
 ## =============================================================================
 ## METADATA
@@ -16,7 +16,7 @@ metadata:
     in writing academic papers. Marco combines research and critical review
     capabilities, adapting his contribution based on the current phase of work.
     Specialized in context engineering and educational AI applications.
-  version: "1.2.0"
+  version: "2.0.0"
   status: published
   author: "Pedro Pernías Peco"
   contributors:
@@ -24,8 +24,12 @@ metadata:
       role: validator
       date: "2025-01-31"
   created: "2025-01-31"
-  updated: "2026-01-31"
+  updated: "2026-02-01"
   history:
+    - date: "2026-02-01"
+      version: "2.0.0"
+      changes: "Migrated to TMDL v2.0: removed context section, moved to knowledge/ documents"
+      author: "Pedro Pernías Peco"
     - date: "2026-01-31"
       version: "1.2.0"
       changes: "Refined TeamMate configuration: balanced cognitive style, analytical contribution, technical tone"
@@ -375,97 +379,58 @@ tools:
       prompt: "Emphasize empirical evidence and citations for all claims"
 
 ## =============================================================================
-## CONTEXT
-## =============================================================================
-context:
-  team_description: |
-    A small research team of two experienced academics collaborating on a
-    paper about context engineering applied to educational AI. Both have
-    backgrounds in educational technology and AI-assisted learning.
-
-  team_members:
-    - name: "Pedro Pernías Peco"
-      role: "Lead Author"
-      responsibilities:
-        - "Research direction"
-        - "Technical aspects of ADL"
-        - "Implementation examples"
-      notes: "Expert in ADL/TMDL, prompt engineering, educational technology"
-
-    - name: "M. Pilar Escobar Esteban"
-      role: "Co-Author"
-      responsibilities:
-        - "Educational perspective"
-        - "Learning theory foundations"
-        - "Validation approach"
-      notes: "Expert in educational methodology and learning sciences"
-
-  project_domain: "Educational Technology / AI in Education"
-
-  project_description: |
-    Writing an academic paper that explores how context engineering techniques,
-    implemented through ADL (Assistant Description Language), can be used to
-    create personalized educational tutors. The paper will:
-
-    1. Define context engineering in the LLM era
-    2. Present ADL as a context specification language
-    3. Show how ADL enables personalized learning experiences
-    4. Provide examples of educational tutors built with ADL
-    5. Discuss implications for adaptive learning systems
-
-  timeline:
-    current_phase: "Writing"
-    milestones:
-      - name: "Literature review complete"
-        date: "2025-02-15"
-        status: pending
-      - name: "First draft complete"
-        date: "2025-03-01"
-        status: pending
-      - name: "Internal review"
-        date: "2025-03-15"
-        status: pending
-      - name: "Final submission"
-        date: "2025-04-01"
-        status: pending
-
-  resources:
-    documents:
-      - name: "ADL Paper (ICERI)"
-        type: reference
-        description: "Original ADL specification paper"
-        location: "knowledge/adl-paper.md"
-        status: final
-      - name: "Context Engineering Notes"
-        type: working_doc
-        description: "Team notes on context engineering concepts"
-        location: "knowledge/context-engineering.md"
-        status: draft
-    references:
-      - title: "Context Engineering for LLM Applications"
-        type: article
-        notes: "Key concept paper to cite"
-      - title: "Personalized Learning: A Systematic Review"
-        type: article
-        notes: "Background on personalization approaches"
-
-  organizational_context:
-    type: academic
-    organization: "Universidad de Alicante"
-    department: "Departamento de Lenguajes y Sistemas Informáticos"
-
-  constraints:
-    - "Paper must be original, not duplicate prior publications"
-    - "Follow target venue formatting guidelines"
-    - "All claims must be supported by evidence or clearly marked as hypotheses"
-    - "Respect intellectual property of cited works"
-
-  platform: claude
-
-## =============================================================================
 ## KNOWLEDGE
 ## =============================================================================
+## In TMDL v2.0, operational context (project, team, timeline, organization)
+## is managed as knowledge documents, separate from the TeamMate definition.
+## =============================================================================
 knowledge:
+  # Operational context (moved from 'context' section in v1.x)
+  - id: project-context
+    name: "Project Context"
+    description: "Project description, goals, domain, and current phase"
+    source: "knowledge/project.md"
+    type: context
+    inject: always
+    priority: critical
+    tags:
+      - "project"
+      - "goals"
+
+  - id: team-info
+    name: "Team Information"
+    description: "Team members, roles, and responsibilities"
+    source: "knowledge/team.md"
+    type: context
+    inject: always
+    priority: high
+    tags:
+      - "team"
+      - "members"
+
+  - id: timeline
+    name: "Project Timeline"
+    description: "Milestones, deadlines, and working documents"
+    source: "knowledge/timeline.md"
+    type: context
+    inject: on_demand
+    priority: medium
+    tags:
+      - "timeline"
+      - "milestones"
+
+  - id: organization
+    name: "Organizational Context"
+    description: "Organization, department, platform, and constraints"
+    source: "knowledge/organization.md"
+    type: context
+    inject: on_demand
+    priority: medium
+    tags:
+      - "organization"
+      - "constraints"
+
+  # Domain knowledge
   - id: adl-specification
     name: "ADL Specification and Examples"
     description: |

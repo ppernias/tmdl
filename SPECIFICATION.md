@@ -1,4 +1,4 @@
-# TMDL Specification v1.1
+# TMDL Specification v2.0
 
 **TeamMate Description Language - Formal Reference**
 
@@ -15,12 +15,11 @@
 7. [Section: role](#7-section-role)
 8. [Section: collaboration](#8-section-collaboration)
 9. [Section: tools](#9-section-tools)
-10. [Section: context](#10-section-context)
-11. [Section: knowledge](#11-section-knowledge)
-12. [Inheritance and Composition](#12-inheritance-and-composition)
-13. [Validation](#13-validation)
-14. [Appendix: Enumerations](#appendix-a-enumerations)
-15. [Appendix: JSON Schema](#appendix-b-json-schema)
+10. [Section: knowledge](#10-section-knowledge)
+11. [Inheritance and Composition](#11-inheritance-and-composition)
+12. [Validation](#12-validation)
+13. [Appendix: Enumerations](#appendix-a-enumerations)
+14. [Appendix: JSON Schema](#appendix-b-json-schema)
 
 ---
 
@@ -68,7 +67,7 @@ TMDL adopts a **contribution-centered** perspective. Functional teams are not ch
 TMDL documents are valid YAML files with the `.yaml` extension.
 
 ```yaml
-tmdl_version: "1.1"
+tmdl_version: "2.0"
 
 metadata:
   id: example-teammate
@@ -97,8 +96,7 @@ role:
 | `role` | ✅ | Function and responsibilities |
 | `collaboration` | ❌ | Interaction patterns |
 | `tools` | ❌ | Commands and modifiers |
-| `context` | ❌ | Project information |
-| `knowledge` | ❌ | External documents |
+| `knowledge` | ❌ | External documents (domain & context) |
 
 ### 2.3 Character Encoding
 
@@ -110,9 +108,9 @@ All TMDL files MUST be encoded in UTF-8.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     TMDL Document                           │
+│                     TMDL Document v2.0                      │
 ├─────────────────────────────────────────────────────────────┤
-│  tmdl_version: "1.1"                                        │
+│  tmdl_version: "2.0"                                        │
 ├─────────────────────────────────────────────────────────────┤
 │  metadata          │ Cataloging, versioning, rights         │
 ├────────────────────┼────────────────────────────────────────┤
@@ -124,11 +122,11 @@ All TMDL files MUST be encoded in UTF-8.
 ├────────────────────┼────────────────────────────────────────┤
 │  tools             │ Commands, options, decorators          │
 ├────────────────────┼────────────────────────────────────────┤
-│  context           │ Team, timeline, resources              │
-├────────────────────┼────────────────────────────────────────┤
-│  knowledge         │ External documents to inject           │
+│  knowledge         │ External documents (domain & context)  │
 └────────────────────┴────────────────────────────────────────┘
 ```
+
+**v2.0 Change**: The `context` section has been removed. Operational information (project, team, timeline, organization) is now managed as knowledge documents with `type: context`. This separates the static TeamMate definition from dynamic project information.
 
 ---
 
@@ -139,7 +137,7 @@ Specifies the TMDL language version used in the document.
 ### 4.1 Format
 
 ```yaml
-tmdl_version: "1.1"
+tmdl_version: "2.0"
 ```
 
 ### 4.2 Specification
@@ -602,191 +600,43 @@ Style modifiers invoked with `+++decorator` syntax.
 
 ---
 
-## 10. Section: context
+## 10. Section: knowledge
 
-Operational context: team, timeline, resources, organization.
+External documents to inject into the LLM context. In TMDL v2.0, this includes both domain knowledge and operational context (project, team, timeline, organization).
 
 ### 10.1 Example
 
 ```yaml
-context:
-  team_description: "4-student team working on NT40 final project"
-  
-  team_members:
-    - name: "María García"
-      role: "Coordinator"
-      responsibilities:
-        - "Deadline management"
-        - "Tutor communication"
-      notes: "Prefers direct, concise communication"
-  
-  project_domain: "Gastronomy tourism"
-  project_description: "Market analysis for a wine route in Alicante"
-  
-  timeline:
-    start_date: "2025-02-01"
-    end_date: "2025-06-15"
-    current_phase: "Research"
-    milestones:
-      - name: "Market analysis delivery"
-        date: "2025-03-15"
-        status: pending
-    phases:
-      - name: "Phase 1: Research"
-        start: "2025-02-01"
-        end: "2025-03-01"
-        tasks:
-          - name: "Literature review"
-            assigned_to: "María"
-            status: in_progress
-  
-  resources:
-    documents:
-      - name: "SWOT Analysis v2"
-        type: deliverable
-        status: review
-    tools:
-      - name: "Notion"
-        purpose: "Documentation"
-  
-  organizational_context:
-    type: academic
-    organization: "University of Alicante"
-    course: "NT40 - Tourism Technologies"
-  
-  constraints:
-    - "Use only academic sources"
-    - "Follow APA citation format"
-  
-  platform: openwebui
-```
-
-### 10.2 Properties
-
-#### 10.2.1 Team Information
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `team_description` | string | General team description (max 1000 chars) |
-| `team_members` | array | Human team members |
-
-**team_members item**:
-```yaml
-team_members:
-  - name: "Member Name"        # Required
-    role: "Team Role"
-    responsibilities:
-      - "Responsibility 1"
-    contact: "email or other"
-    notes: "Relevant notes"
-```
-
-#### 10.2.2 Project Information
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `project_domain` | string | Project sector/domain (max 200 chars) |
-| `project_description` | string | Project description (max 2000 chars) |
-
-#### 10.2.3 timeline
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `start_date` | date | Project start |
-| `end_date` | date | Project end |
-| `current_phase` | string | Current phase name |
-| `milestones` | array | Key milestones |
-| `phases` | array | Project phases (Gantt-style) |
-
-**milestone item**:
-```yaml
-milestones:
-  - name: "Milestone Name"     # Required
-    date: "2025-03-15"         # Required
-    description: "Details"
-    status: pending | in_progress | completed | delayed
-```
-
-**phase item**:
-```yaml
-phases:
-  - name: "Phase Name"         # Required
-    start: "2025-02-01"        # Required
-    end: "2025-03-01"          # Required
-    tasks:
-      - name: "Task Name"
-        assigned_to: "Person"
-        status: pending | in_progress | completed | blocked
-        due_date: "2025-02-15"
-```
-
-#### 10.2.4 resources
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `documents` | array | Project documents |
-| `tools` | array | Team tools |
-| `references` | array | Reference sources |
-
-**document item**:
-```yaml
-documents:
-  - name: "Document Name"      # Required
-    type: deliverable | working_doc | reference | template | minutes | research | other  # Required
-    description: "Brief description"
-    location: "path or URL"
-    status: draft | review | final | archived
-    last_updated: "2025-01-28"
-```
-
-**tool item**:
-```yaml
-tools:
-  - name: "Tool Name"
-    purpose: "What it's used for"
-    url: "https://..."
-```
-
-**reference item**:
-```yaml
-references:
-  - title: "Reference Title"
-    type: article | book | website | report | video | other
-    citation: "APA citation"
-    url: "https://..."
-    notes: "Why it's relevant"
-```
-
-#### 10.2.5 Organizational Context
-
-```yaml
-organizational_context:
-  type: academic | corporate | startup | nonprofit | government | freelance | other
-  organization: "Organization Name"
-  department: "Department/Faculty"
-  course: "Course Name"
-  assignment: "Specific assignment"
-```
-
-#### 10.2.6 Other
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `constraints` | array | Operational constraints (max 20 items) |
-| `platform` | enum | Target LLM platform |
-
-**platform values**: `chatgpt` | `claude` | `gemini` | `openwebui` | `other`
-
----
-
-## 11. Section: knowledge
-
-External documents to inject into the LLM context.
-
-### 11.1 Example
-
-```yaml
 knowledge:
+  # Operational context (replaces v1.x 'context' section)
+  - id: "project-context"
+    name: "Project context"
+    description: "Project description, goals, and current phase"
+    source: "knowledge/project.md"
+    type: context
+    inject: always
+    priority: critical
+    tags: ["project", "goals"]
+
+  - id: "team-info"
+    name: "Team information"
+    description: "Team members, roles, and responsibilities"
+    source: "knowledge/team.md"
+    type: context
+    inject: always
+    priority: high
+    tags: ["team", "members"]
+
+  - id: "timeline"
+    name: "Project timeline"
+    description: "Milestones, deadlines, and working documents"
+    source: "knowledge/timeline.md"
+    type: context
+    inject: on_demand
+    priority: medium
+    tags: ["timeline", "milestones"]
+
+  # Domain knowledge
   - id: "domain-tourism"
     name: "Tourism sector knowledge"
     description: "Context about sustainable tourism in Spain"
@@ -804,7 +654,7 @@ knowledge:
     priority: medium
 ```
 
-### 11.2 Properties
+### 10.2 Properties
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
@@ -817,7 +667,17 @@ knowledge:
 | `priority` | enum | ❌ | Context priority (default: `medium`) |
 | `tags` | array | ❌ | Tags for filtering |
 
-**type values**: `domain` | `methodology` | `reference` | `guidelines` | `examples` | `other`
+**type values**:
+
+| Value | Description |
+|-------|-------------|
+| `context` | Operational information (project, team, timeline, organization) |
+| `domain` | Subject matter expertise |
+| `methodology` | Processes and procedures |
+| `reference` | External sources and citations |
+| `guidelines` | Rules and standards |
+| `examples` | Sample content |
+| `other` | Other types |
 
 **inject values**:
 
@@ -831,9 +691,23 @@ knowledge:
 
 Priority determines what to keep if context limits are reached. Higher priority content is preserved first.
 
+### 10.3 Context Knowledge Files
+
+For `type: context` knowledge, the recommended file structure is:
+
+```
+knowledge/
+├── project.md      # Project description, goals, domain
+├── team.md         # Team members, roles, responsibilities
+├── timeline.md     # Milestones, phases, deadlines
+└── organization.md # Organization, constraints, platform
+```
+
+This design allows updating project context without modifying the TeamMate definition.
+
 ---
 
-## 12. Inheritance and Composition
+## 11. Inheritance and Composition
 
 ### 12.1 Role Inheritance
 
@@ -879,9 +753,9 @@ role:
 
 ---
 
-## 13. Validation
+## 12. Validation
 
-### 13.1 Schema Validation
+### 12.1 Schema Validation
 
 TMDL documents should be validated against the JSON Schema before deployment.
 
@@ -890,7 +764,7 @@ TMDL documents should be validated against the JSON Schema before deployment.
 ajv validate -s teammate.schema.yaml -d my-teammate.yaml
 ```
 
-### 13.2 Validation Rules
+### 12.2 Validation Rules
 
 1. **Required fields**: All required fields must be present
 2. **Type checking**: Values must match declared types
@@ -899,7 +773,7 @@ ajv validate -s teammate.schema.yaml -d my-teammate.yaml
 5. **Length limits**: Strings must respect min/max length
 6. **Array limits**: Arrays must respect min/max items
 
-### 13.3 Common Validation Errors
+### 12.3 Common Validation Errors
 
 | Error | Cause | Solution |
 |-------|-------|----------|
@@ -944,32 +818,13 @@ Single value or array (max 3, ordered by predominance):
 Single value or array (max 3, ordered by predominance):
 `supportive` | `generative` | `analytical` | `integrative` | `executive`
 
-### A.10 context.timeline.milestones.status
-`pending` | `in_progress` | `completed` | `delayed`
+### A.10 knowledge.type
+`context` | `domain` | `methodology` | `reference` | `guidelines` | `examples` | `other`
 
-### A.11 context.timeline.phases.tasks.status
-`pending` | `in_progress` | `completed` | `blocked`
-
-### A.12 context.resources.documents.type
-`deliverable` | `working_doc` | `reference` | `template` | `minutes` | `research` | `other`
-
-### A.13 context.resources.documents.status
-`draft` | `review` | `final` | `archived`
-
-### A.14 context.organizational_context.type
-Single value or array (max 2, for hybrid organizations):
-`academic` | `corporate` | `startup` | `nonprofit` | `government` | `freelance` | `other`
-
-### A.15 context.platform
-`chatgpt` | `claude` | `gemini` | `openwebui` | `other`
-
-### A.16 knowledge.type
-`domain` | `methodology` | `reference` | `guidelines` | `examples` | `other`
-
-### A.17 knowledge.inject
+### A.11 knowledge.inject
 `always` | `on_demand` | `startup`
 
-### A.18 knowledge.priority
+### A.12 knowledge.priority
 `critical` | `high` | `medium` | `low`
 
 ---

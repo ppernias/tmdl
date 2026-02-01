@@ -2,13 +2,22 @@
 ## TMDL Schema - Section: KNOWLEDGE
 ## External content injectable into the LLM
 ## =============================================================================
+## In TMDL v2.0, knowledge includes both domain content and operational context
+## (project, team, timeline, organization) that was previously in 'context' section.
+## =============================================================================
 
 knowledge:
   type: array
   description: |
     List of documents and external content injected into the LLM context.
-    For structured project information (team, timeline, resources),
-    use the `context` section. Knowledge is for longer or domain content.
+
+    In TMDL v2.0, this section manages all external information including:
+    - Domain knowledge (expertise, methodologies)
+    - Operational context (project, team, timeline, organization)
+
+    This design separates the static TeamMate definition (identity, role,
+    collaboration, tools) from dynamic project information that can change
+    without modifying the TeamMate YAML.
 
   items:
     type: object
@@ -16,23 +25,25 @@ knowledge:
       - id
       - source
     properties:
-      
+
       id:
         type: string
         description: "Unique knowledge identifier"
         pattern: "^[a-z][a-z0-9_-]*$"
         examples:
+          - "project-context"
+          - "team-info"
           - "domain-tourism"
           - "methodology-swot"
-          - "client-brief"
 
       name:
         type: string
         description: "Descriptive name"
         maxLength: 200
         examples:
+          - "Project context"
+          - "Team information"
           - "Tourism sector knowledge"
-          - "SWOT methodology guide"
 
       description:
         type: string
@@ -44,14 +55,23 @@ knowledge:
         description: "Path to file with content (relative to YAML)"
         pattern: "^.+\\.(md|txt|yaml)$"
         examples:
-          - "knowledge/tourism.md"
-          - "knowledge/swot-methodology.md"
-          - "docs/client-brief.md"
+          - "knowledge/project.md"
+          - "knowledge/team.md"
+          - "knowledge/timeline.md"
+          - "knowledge/domain.md"
 
       type:
         type: string
-        description: "Knowledge type (for organization)"
+        description: |
+          Knowledge type (for organization):
+          - context: Operational information (project, team, timeline, organization)
+          - domain: Subject matter expertise
+          - methodology: Methodologies and frameworks
+          - reference: Reference material
+          - guidelines: Guides and standards
+          - examples: Examples and cases
         enum:
+          - context       # Operational context (project, team, timeline, org)
           - domain        # Domain/sector knowledge
           - methodology   # Methodologies and frameworks
           - reference     # Reference material
@@ -88,10 +108,48 @@ knowledge:
         items:
           type: string
         examples:
-          - ["tourism", "sustainability", "coast"]
-          - ["methodology", "analysis", "SWOT"]
+          - ["project", "goals", "constraints"]
+          - ["team", "members", "roles"]
 
   examples:
+    # Context examples (operational information)
+    - id: "project-context"
+      name: "Project context"
+      description: "Project description, goals, and current phase"
+      source: "knowledge/project.md"
+      type: context
+      inject: always
+      priority: critical
+      tags: ["project", "goals"]
+
+    - id: "team-info"
+      name: "Team information"
+      description: "Team members, roles, and responsibilities"
+      source: "knowledge/team.md"
+      type: context
+      inject: always
+      priority: high
+      tags: ["team", "members"]
+
+    - id: "timeline"
+      name: "Project timeline"
+      description: "Milestones, deadlines, and current phase"
+      source: "knowledge/timeline.md"
+      type: context
+      inject: on_demand
+      priority: medium
+      tags: ["timeline", "milestones"]
+
+    - id: "organization"
+      name: "Organizational context"
+      description: "Organization, department, and constraints"
+      source: "knowledge/organization.md"
+      type: context
+      inject: on_demand
+      priority: medium
+      tags: ["organization", "constraints"]
+
+    # Domain examples
     - id: "domain-tourism"
       name: "Tourism sector knowledge"
       description: "Context about sustainable tourism in Spain"
@@ -109,11 +167,3 @@ knowledge:
       inject: on_demand
       priority: medium
       tags: ["methodology", "SWOT", "analysis"]
-
-    - id: "client-requirements"
-      name: "Client brief"
-      description: "Client requirements and expectations"
-      source: "docs/client-brief.md"
-      type: reference
-      inject: always
-      priority: critical
