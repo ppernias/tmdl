@@ -96,84 +96,77 @@ The remainder of this paper is organized as follows: Section II presents the the
 
 TMDL's design draws from three research streams that converge to provide a comprehensive theoretical foundation (Figure~\ref{fig:tmdl-foundations}). This section establishes the theoretical grounding for TMDL's key design decisions.
 
-% TMDL Theoretical Foundations Diagram
+% TMDL Theoretical Foundations Diagram (sized for IEEE single column)
 \begin{figure}[htbp]
 \centering
-\begin{tikzpicture}[
+\begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85},
     % Styles
     pillar/.style={
         rectangle,
-        rounded corners=6pt,
-        minimum width=3.2cm,
-        minimum height=2.2cm,
-        text width=2.9cm,
+        rounded corners=4pt,
+        minimum width=2.4cm,
+        minimum height=1.6cm,
+        text width=2.2cm,
         align=center,
-        font=\scriptsize,
-        drop shadow={shadow xshift=0.5pt, shadow yshift=-0.5pt, opacity=0.2}
+        font=\tiny
     },
-    adl/.style={pillar, fill=blue!12, draw=blue!50, line width=0.8pt},
-    psych/.style={pillar, fill=green!12, draw=green!50!black, line width=0.8pt},
-    hai/.style={pillar, fill=orange!12, draw=orange!60, line width=0.8pt},
+    adl/.style={pillar, fill=blue!12, draw=blue!50, line width=0.6pt},
+    psych/.style={pillar, fill=green!12, draw=green!50!black, line width=0.6pt},
+    hai/.style={pillar, fill=orange!12, draw=orange!60, line width=0.6pt},
     result/.style={
         rectangle,
-        rounded corners=8pt,
-        minimum width=3.5cm,
-        minimum height=1.1cm,
+        rounded corners=6pt,
+        minimum width=2.2cm,
+        minimum height=0.8cm,
         align=center,
         fill=purple!15,
         draw=purple!60,
-        line width=1.2pt,
-        font=\normalsize\bfseries,
-        drop shadow={shadow xshift=1pt, shadow yshift=-1pt, opacity=0.3}
+        line width=1pt,
+        font=\small\bfseries
     },
     arrow/.style={
         ->,
         >=Stealth,
-        line width=1pt,
+        line width=0.8pt,
         color=gray!60
     },
     label/.style={
         font=\tiny\itshape,
-        text=gray!60
+        text=gray!50
     }
 ]
 
 % Three pillars
 \node[adl] (adl) at (0,0) {
-    \textbf{\footnotesize ADL Framework}\\[2pt]
+    \textbf{\scriptsize ADL}\\[1pt]
     Structured language\\
-    Context Engineering\\
-    Commands \& Workflows
+    Context Engineering
 };
 
-\node[psych] (psych) at (3.8,0) {
-    \textbf{\footnotesize Organizational}\\
-    \textbf{\footnotesize Psychology}\\[2pt]
+\node[psych] (psych) at (2.8,0) {
+    \textbf{\scriptsize Org. Psychology}\\[1pt]
     Group dynamics\\
-    Role taxonomies\\
-    IMOI models
+    Role taxonomies
 };
 
-\node[hai] (hai) at (7.6,0) {
-    \textbf{\footnotesize Human-AI}\\
-    \textbf{\footnotesize Teaming}\\[2pt]
-    Machines as Teammates\\
-    Collective intelligence\\
-    H-M collaboration
+\node[hai] (hai) at (5.6,0) {
+    \textbf{\scriptsize Human-AI}\\[1pt]
+    Machines as\\
+    Teammates
 };
 
 % Result node
-\node[result] (tmdl) at (3.8,-3.2) {TMDL};
+\node[result] (tmdl) at (2.8,-2.4) {TMDL};
 
 % Arrows
-\draw[arrow] (adl.south) -- ++(0,-0.5) -| ([xshift=-0.5cm]tmdl.north);
+\draw[arrow] (adl.south) -- ++(0,-0.4) -| ([xshift=-0.3cm]tmdl.north);
 \draw[arrow] (psych.south) -- (tmdl.north);
-\draw[arrow] (hai.south) -- ++(0,-0.5) -| ([xshift=0.5cm]tmdl.north);
+\draw[arrow] (hai.south) -- ++(0,-0.4) -| ([xshift=0.3cm]tmdl.north);
 
 % Labels for foundations
-\node[label, above=0.15cm of adl] {Technical Foundation};
-\node[label, above=0.15cm of psych] {Psycho-pedagogical Foundation};
-\node[label, above=0.15cm of hai] {Collaborative Foundation};
+\node[label, above=0.1cm of adl] {Technical};
+\node[label, above=0.1cm of psych] {Psycho-pedagogical};
+\node[label, above=0.1cm of hai] {Collaborative};
 
 \end{tikzpicture}
 \caption{TMDL theoretical foundations: three research streams converging into the TeamMate Description Language.}
