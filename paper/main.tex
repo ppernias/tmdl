@@ -173,61 +173,29 @@ TMDL's design draws from three research streams that converge to provide a compr
 \label{fig:tmdl-foundations}
 \end{figure}
 
-\subsection{Structured Prompt Engineering}
+\subsection{Technical Foundation: ADL and Structured Prompting}
+
+TMDL is a direct evolution of ADL (Assistant Description Language) \cite{pernias2025adl}, inheriting its core architecture while extending it for team collaboration. Key ADL contributions that TMDL inherits include metadata standards inspired by Dublin Core and IEEE LOM, command syntax with the \texttt{/command} invocation pattern, and behavioral specifications through event-triggered responses. ADL was designed for general-purpose conversational assistants focusing on single-user interactions; TMDL extends this foundation to multi-party team contexts, adding constructs for role definition, collaboration patterns, and team dynamics.\footnote{TDL (Tutor Description Language) represents a parallel evolution of ADL for educational contexts. Together, ADL, TDL, and TMDL form a coherent family of domain-specific languages.}
 
 Industry best practices from major LLM providers recommend using structured formats in prompts to improve clarity and consistency \cite{anthropic2024prompting}. Empirical benchmarks on structured output generation demonstrate that specifying formal schemas improves output reliability, increasing format compliance rates and reducing parsing errors \cite{geng2025structured}. Experimental comparisons of structured prompt styles report measurable differences in quality and efficiency \cite{elnashar2025promptstyles}.
 
-Khattab et al. \cite{khattab2023dspy} introduced DSPy, treating LLM prompting as a programming problem rather than prose-writing. Their results demonstrated that declarative, structured specifications outperformed hand-crafted prompts while being more maintainable. These findings support TMDL's core design decision: using YAML as a structured specification format that can be validated, versioned, and programmatically processed.
+Khattab et al. \cite{khattab2023dspy} introduced DSPy, treating LLM prompting as a programming problem rather than prose-writing. Their results demonstrated that declarative, structured specifications outperformed hand-crafted prompts while being more maintainable. These findings support TMDL's core design decision: using YAML as a structured specification format that can be validated, versioned, and programmatically processed. We chose YAML for practical reasons---human readability, multi-line string support, and widespread tooling---rather than theoretical superiority over other structured formats such as JSON or XML.
 
-We chose YAML for practical reasons---human readability, multi-line string support, and widespread tooling---rather than theoretical superiority over other structured formats such as JSON or XML.
-
-\subsection{Team Effectiveness and Contribution-Centered Design}
+\subsection{Psycho-pedagogical Foundation: Team Effectiveness and Role Theory}
 
 A critical design decision in TMDL concerns how to model TeamMate interactions. Research on team effectiveness provides clear guidance: high-performing teams are characterized by coordination, mutual support, and shared purpose.
 
-Hackman's team effectiveness model \cite{hackman2002leading} identifies shared leadership and enabling structure as key drivers of team performance. Salas et al.'s ``Big Five'' of teamwork \cite{salas2005bigfive} highlights mutual performance monitoring and backup behavior---fundamentally cooperative mechanisms where teammates anticipate each other's needs and provide support proactively.
-
-Research shows that high-performing teams are characterized by role clarity and task interdependence \cite{widianto2024task}. Task interdependence naturally promotes coordination, trust, and information sharing. When team members depend on each other to accomplish work, they develop shared understanding and effective collaboration patterns.
+Hackman's team effectiveness model \cite{hackman2002leading} identifies shared leadership and enabling structure as key drivers of team performance. Salas et al.'s ``Big Five'' of teamwork \cite{salas2005bigfive} highlights mutual performance monitoring and backup behavior---fundamentally cooperative mechanisms where teammates anticipate each other's needs and provide support proactively. Research shows that high-performing teams are characterized by role clarity and task interdependence \cite{widianto2024task}. Task interdependence naturally promotes coordination, trust, and information sharing. When team members depend on each other to accomplish work, they develop shared understanding and effective collaboration patterns.
 
 This research foundation leads directly to TMDL's design: a \textit{contribution-centered} model that asks ``How does this TeamMate add value to the group?'' By focusing on positive contribution patterns---supporting others, generating ideas, analyzing proposals, integrating perspectives, driving execution---TMDL aligns with how effective teams actually function.
 
-\subsection{Grounding TMDL Taxonomies}
+TMDL's taxonomies are derived from established organizational behavior research rather than invented \textit{ad hoc}:
 
-TMDL's taxonomies are derived from established organizational behavior research rather than invented \textit{ad hoc}.
+\textbf{Contribution Style Taxonomy.} TMDL defines five contribution styles grounded in team composition research. Mathieu et al. \cite{mathieu2014composition} demonstrate that effective teams require heterogeneity in task-relevant attributes---competencies, experiences, and behavioral orientations---with different compositional configurations optimal for different work phases. Earlier, Benne and Sheats \cite{benne1948functional} established the foundational distinction between task-oriented and maintenance-oriented functional roles in groups. Building on this research, TMDL's contribution styles capture the primary ways TeamMates add value: \texttt{supportive} (enabling others' contributions), \texttt{generative} (generating ideas), \texttt{analytical} (evaluating proposals), \texttt{integrative} (synthesizing perspectives), and \texttt{executive} (driving execution).
 
-\textbf{Contribution Style Taxonomy.} TMDL defines five contribution styles grounded in team composition research. Mathieu et al. \cite{mathieu2014composition} demonstrate that effective teams require heterogeneity in task-relevant attributes---competencies, experiences, and behavioral orientations---with different compositional configurations optimal for different work phases. Earlier, Benne and Sheats \cite{benne1948functional} established the foundational distinction between task-oriented and maintenance-oriented functional roles in groups.
+\textbf{Cognitive Style Taxonomy.} Research on cognitive styles provides a rigorous foundation for differentiating thinking patterns. Kirton's Adaption-Innovation theory \cite{kirton1976adaptors} established a fundamental dimension validated across decades of research: \textit{adaptors} who improve within existing paradigms versus \textit{innovators} who challenge and transform them. Critically, Aggarwal and Woolley \cite{aggarwal2019cognitive} demonstrated empirically that cognitive style diversity in teams improves collective performance through enhanced team cognition. TMDL operationalizes Kirton's continuum through three cognitive style values: \texttt{adaptor}, \texttt{innovator}, and \texttt{balanced}. These are not personality traits but assignable cognitive orientations that can be deliberately configured to create complementary team compositions.
 
-Building on this research, TMDL's contribution styles capture the primary ways TeamMates add value:
-
-\begin{itemize}
-    \item \texttt{supportive}: Prioritizes enabling others' contributions and team cohesion
-    \item \texttt{generative}: Generates ideas, proposes directions, creates options
-    \item \texttt{analytical}: Evaluates proposals, identifies problems, ensures rigor
-    \item \texttt{integrative}: Synthesizes perspectives, builds coherence across contributions
-    \item \texttt{executive}: Drives execution, manages progress, closes tasks
-\end{itemize}
-
-\textbf{Cognitive Style Taxonomy.} Research on cognitive styles provides a rigorous foundation for differentiating thinking patterns. Kirton's Adaption-Innovation theory \cite{kirton1976adaptors} established a fundamental dimension validated across decades of research: \textit{adaptors} who improve within existing paradigms versus \textit{innovators} who challenge and transform them. This is not a value judgment—both orientations are essential for team effectiveness, with adaptors excelling at refinement and implementation while innovators excel at breakthrough thinking. Critically, Aggarwal and Woolley \cite{aggarwal2019cognitive} demonstrated empirically that cognitive style diversity in teams improves collective performance through enhanced team cognition.
-
-TMDL operationalizes Kirton's continuum through three cognitive style values:
-
-\begin{itemize}
-    \item \texttt{adaptor}: Improves within existing frameworks, methodical, respects established structures
-    \item \texttt{innovator}: Challenges paradigms, generates novel approaches, questions assumptions
-    \item \texttt{balanced}: Flexibly combines both orientations according to task demands
-\end{itemize}
-
-These are not personality traits but assignable cognitive orientations that can be deliberately configured to create complementary team compositions.
-
-\subsection{Transferring Constructs to Human-AI Teams}
-
-A critical assumption underlying TMDL is that organizational constructs validated for human teams transfer meaningfully to human-AI collaboration. Recent research provides qualified support for this assumption.
-
-Lou et al. \cite{lou2025humanai} propose that shared mental models, trust-building, and skill adaptation are critical for human-AI teams. Seeber et al. \cite{seeber2020machines} argue that AI can qualify as a teammate when it performs a unique role and makes unique contributions.
-
-However, this transfer requires acknowledgment of key differences. Bansal et al. \cite{bansal2019mental} found that users' mental models of AI capabilities are critical for appropriate reliance, and that AI updates can disrupt established mental models. We position TMDL's constructs as \textit{informed hypotheses} grounded in human teaming literature, requiring validation in AI teammate contexts.
-
-\subsection{From Tool to Teammate: A Paradigm Shift}
+\subsection{Collaborative Foundation: Human-AI Teaming Research}
 
 A fundamental distinction in human-AI collaboration concerns whether AI systems are conceptualized as \textit{tools} or as \textit{teammates}. This distinction has significant implications for system design, user expectations, and collaboration outcomes.
 
@@ -235,24 +203,11 @@ Seeber et al. \cite{seeber2020machines} established the research agenda for ``ma
 
 Empirical evidence supports the practical importance of this distinction. Goh et al. \cite{goh2025tooltoteammate} conducted a randomized controlled trial comparing clinicians using AI as a ``collaborative teammate'' versus as a ``traditional tool.'' The teammate condition achieved significantly higher diagnostic accuracy (85\% vs. 75\%, p < 0.001), with qualitative analysis revealing greater engagement and more effective integration of AI contributions.
 
-Recent work on collective human-machine intelligence \cite{gonzalez2023cohumain} further refines this paradigm, cautioning against treating AI ``like any other teammate'' and instead positioning it as a \textit{partner that works under human direction}---capable of strengthening human capabilities while operating within defined boundaries.
+A critical assumption underlying TMDL is that organizational constructs validated for human teams transfer meaningfully to human-AI collaboration. Recent research provides qualified support: Lou et al. \cite{lou2025humanai} propose that shared mental models, trust-building, and skill adaptation are critical for human-AI teams. However, this transfer requires acknowledgment of key differences. Bansal et al. \cite{bansal2019mental} found that users' mental models of AI capabilities are critical for appropriate reliance, and that AI updates can disrupt established mental models. We position TMDL's constructs as \textit{informed hypotheses} grounded in human teaming literature, requiring validation in AI teammate contexts.
 
-TMDL positions itself firmly within the ``teammate'' paradigm, but with important qualifications:
-
-\begin{itemize}
-    \item \textbf{Configured, not autonomous}: TMDL TeamMates operate according to human-defined specifications, not independent agency
-    \item \textbf{Bounded capabilities}: Explicit \texttt{boundaries} sections make AI limitations transparent
-    \item \textbf{Deferential by design}: The \texttt{defers\_to} mechanism ensures human authority in designated situations
-    \item \textbf{No ego to protect}: Unlike human teammates, AI TeamMates can be configured purely for constructive contribution without personal interests
-\end{itemize}
+Recent work on collective human-machine intelligence \cite{gonzalez2023cohumain} further refines this paradigm, cautioning against treating AI ``like any other teammate'' and instead positioning it as a \textit{partner that works under human direction}---capable of strengthening human capabilities while operating within defined boundaries. TMDL positions itself firmly within the ``teammate'' paradigm, but with important qualifications: TeamMates are \textit{configured} (not autonomous), have \textit{bounded capabilities} (explicit limitations), are \textit{deferential by design} (human authority preserved), and have \textit{no ego to protect} (purely constructive contribution).
 
 We use ``teammate'' throughout this paper in this specific sense: a collaborative entity with defined identity, role, and contribution patterns, operating under human direction within explicit boundaries. This framing enables the benefits of teammate-style collaboration (engagement, integration, role clarity) while maintaining appropriate expectations about AI capabilities.
-
-\subsection{ADL: The Foundation}
-
-TMDL is a direct evolution of ADL (Assistant Description Language) \cite{pernias2025adl}, inheriting its core architecture while extending it for team collaboration. Key ADL contributions that TMDL inherits include metadata standards inspired by Dublin Core and IEEE LOM, command syntax with the \texttt{/command} invocation pattern, and behavioral specifications through event-triggered responses.
-
-ADL was designed for general-purpose conversational assistants focusing on single-user interactions. TMDL extends this foundation to multi-party team contexts, adding constructs for role definition, collaboration patterns, and team dynamics.\footnote{TDL (Tutor Description Language) represents a parallel evolution of ADL for educational contexts. Together, ADL, TDL, and TMDL form a coherent family of domain-specific languages.}
 
 % ==============================================================================
 \section{Research Hypotheses}
