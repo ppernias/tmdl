@@ -13,6 +13,10 @@
 \usepackage{hyperref}
 \usepackage{cleveref}
 
+% TikZ for diagrams
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows}
+
 % YAML listing style
 \lstdefinestyle{yaml}{
   basicstyle=\ttfamily\footnotesize,
@@ -90,7 +94,91 @@ The remainder of this paper is organized as follows: Section II presents the the
 \section{Theoretical Foundations}
 % ==============================================================================
 
-TMDL's design draws from three research streams: structured prompt engineering, team effectiveness research, and human-AI teaming. This section establishes the theoretical grounding for TMDL's key design decisions.
+TMDL's design draws from three research streams that converge to provide a comprehensive theoretical foundation (Figure~\ref{fig:tmdl-foundations}). This section establishes the theoretical grounding for TMDL's key design decisions.
+
+% TMDL Theoretical Foundations Diagram
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    % Styles
+    pillar/.style={
+        rectangle,
+        rounded corners=6pt,
+        minimum width=3.2cm,
+        minimum height=2.2cm,
+        text width=2.9cm,
+        align=center,
+        font=\scriptsize,
+        drop shadow={shadow xshift=0.5pt, shadow yshift=-0.5pt, opacity=0.2}
+    },
+    adl/.style={pillar, fill=blue!12, draw=blue!50, line width=0.8pt},
+    psych/.style={pillar, fill=green!12, draw=green!50!black, line width=0.8pt},
+    hai/.style={pillar, fill=orange!12, draw=orange!60, line width=0.8pt},
+    result/.style={
+        rectangle,
+        rounded corners=8pt,
+        minimum width=3.5cm,
+        minimum height=1.1cm,
+        align=center,
+        fill=purple!15,
+        draw=purple!60,
+        line width=1.2pt,
+        font=\normalsize\bfseries,
+        drop shadow={shadow xshift=1pt, shadow yshift=-1pt, opacity=0.3}
+    },
+    arrow/.style={
+        ->,
+        >=Stealth,
+        line width=1pt,
+        color=gray!60
+    },
+    label/.style={
+        font=\tiny\itshape,
+        text=gray!60
+    }
+]
+
+% Three pillars
+\node[adl] (adl) at (0,0) {
+    \textbf{\footnotesize ADL Framework}\\[2pt]
+    Structured language\\
+    Context Engineering\\
+    Commands \& Workflows
+};
+
+\node[psych] (psych) at (3.8,0) {
+    \textbf{\footnotesize Organizational}\\
+    \textbf{\footnotesize Psychology}\\[2pt]
+    Group dynamics\\
+    Role taxonomies\\
+    IMOI models
+};
+
+\node[hai] (hai) at (7.6,0) {
+    \textbf{\footnotesize Human-AI}\\
+    \textbf{\footnotesize Teaming}\\[2pt]
+    Machines as Teammates\\
+    Collective intelligence\\
+    H-M collaboration
+};
+
+% Result node
+\node[result] (tmdl) at (3.8,-3.2) {TMDL};
+
+% Arrows
+\draw[arrow] (adl.south) -- ++(0,-0.5) -| ([xshift=-0.5cm]tmdl.north);
+\draw[arrow] (psych.south) -- (tmdl.north);
+\draw[arrow] (hai.south) -- ++(0,-0.5) -| ([xshift=0.5cm]tmdl.north);
+
+% Labels for foundations
+\node[label, above=0.15cm of adl] {Technical Foundation};
+\node[label, above=0.15cm of psych] {Psycho-pedagogical Foundation};
+\node[label, above=0.15cm of hai] {Collaborative Foundation};
+
+\end{tikzpicture}
+\caption{TMDL theoretical foundations: three research streams converging into the TeamMate Description Language.}
+\label{fig:tmdl-foundations}
+\end{figure}
 
 \subsection{Structured Prompt Engineering}
 
