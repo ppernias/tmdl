@@ -320,8 +320,8 @@ A TMDL document consists of five main sections plus metadata, organized into sta
         inner sep=4pt
     },
     grouplabel/.style={
-        font=\tiny\itshape,
-        text=gray!60
+        font=\scriptsize\bfseries,
+        text=gray!70
     },
     identity/.style={section, fill=blue!15, draw=blue!50, line width=0.5pt},
     role/.style={section, fill=green!15, draw=green!50!black, line width=0.5pt},
@@ -341,31 +341,31 @@ A TMDL document consists of five main sections plus metadata, organized into sta
 ]
 
 % METADATA section
-\node[metadata] (meta) at (2.8, 4.5) {
+\node[metadata] (meta) at (2.8, 5.2) {
     \textbf{\scriptsize METADATA}\\
     id, name, version, author, tags
 };
 
 % Static definition group - 2x2 grid
-\node[identity] (identity) at (1.2, 2.8) {
+\node[identity] (identity) at (1.2, 3.2) {
     \textbf{\scriptsize IDENTITY}\\
     personality\\
     tone, quirks
 };
 
-\node[role] (role) at (4.4, 2.8) {
+\node[role] (role) at (4.4, 3.2) {
     \textbf{\scriptsize ROLE}\\
     type, expertise\\
     boundaries
 };
 
-\node[collab] (collab) at (1.2, 1.3) {
+\node[collab] (collab) at (1.2, 1.7) {
     \textbf{\scriptsize COLLAB.}\\
     contribution\\
     protocols
 };
 
-\node[tools] (tools) at (4.4, 1.3) {
+\node[tools] (tools) at (4.4, 1.7) {
     \textbf{\scriptsize TOOLS}\\
     commands\\
     options
@@ -373,12 +373,13 @@ A TMDL document consists of five main sections plus metadata, organized into sta
 
 % Background for static
 \begin{scope}[on background layer]
-    \node[groupbox, fill=blue!5, fit=(identity)(role)(collab)(tools), inner sep=5pt] (staticbox) {};
+    \node[groupbox, fill=blue!5, fit=(identity)(role)(collab)(tools), inner sep=6pt] (staticbox) {};
 \end{scope}
-\node[grouplabel, anchor=north west] at ([xshift=2pt, yshift=-1pt]staticbox.north west) {Static Definition};
+% Label ABOVE the static box
+\node[grouplabel, anchor=south] at (staticbox.north) {Static Definition};
 
 % Knowledge section (dynamic)
-\node[knowledge] (know) at (2.8, -0.5) {
+\node[knowledge] (know) at (2.8, -0.3) {
     \textbf{\scriptsize KNOWLEDGE}\\[1pt]
     context \textbullet{} domain \textbullet{} methodology\\
     reference \textbullet{} guidelines \textbullet{} examples
@@ -386,9 +387,10 @@ A TMDL document consists of five main sections plus metadata, organized into sta
 
 % Background for dynamic
 \begin{scope}[on background layer]
-    \node[groupbox, fill=yellow!5, fit=(know), inner sep=5pt] (dynbox) {};
+    \node[groupbox, fill=yellow!5, fit=(know), inner sep=6pt] (dynbox) {};
 \end{scope}
-\node[grouplabel, anchor=north west] at ([xshift=2pt, yshift=-1pt]dynbox.north west) {Dynamic Context};
+% Label ABOVE the dynamic box
+\node[grouplabel, anchor=south] at (dynbox.north) {Dynamic Context};
 
 \end{tikzpicture}
 \caption{TMDL specification structure: metadata for resource description, static TeamMate definition (identity, role, collaboration, tools), and dynamic context via external knowledge documents.}
