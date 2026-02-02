@@ -15,7 +15,7 @@
 
 % TikZ for diagrams
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows, fit, backgrounds}
 
 % YAML listing style
 \lstdefinestyle{yaml}{
@@ -286,26 +286,113 @@ TMDL therefore asks: ``How does this TeamMate add value to the group?'' This fra
 
 \subsection{Overall Structure}
 
-A TMDL document consists of five main sections plus metadata:
+A TMDL document consists of five main sections plus metadata, organized into static TeamMate definition and dynamic context (Figure~\ref{fig:tmdl-structure}):
 
+% TMDL Structure Diagram
 \begin{figure}[htbp]
-\centerline{
-\begin{tabular}{|l|l|}
-\hline
-\textbf{IDENTITY} & Personality, tone, quirks \\
-\hline
-\textbf{ROLE} & Type, expertise, boundaries \\
-\hline
-\textbf{COLLABORATION} & Contribution style, protocols \\
-\hline
-\textbf{TOOLS} & Base commands, options, decorators \\
-\hline
-\textbf{KNOWLEDGE} & External documents (domain \& context) \\
-\hline
-\end{tabular}
-}
-\caption{TMDL Section Architecture}
-\label{fig:architecture}
+\centering
+\begin{tikzpicture}[scale=0.72, every node/.style={scale=0.72},
+    % Styles
+    section/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum height=0.9cm,
+        text width=1.6cm,
+        align=center,
+        font=\tiny
+    },
+    metadata/.style={
+        rectangle,
+        rounded corners=4pt,
+        fill=gray!15,
+        draw=gray!50,
+        line width=0.6pt,
+        minimum width=6.8cm,
+        minimum height=0.8cm,
+        align=center,
+        font=\tiny
+    },
+    groupbox/.style={
+        rectangle,
+        rounded corners=4pt,
+        draw=gray!40,
+        line width=0.5pt,
+        inner sep=4pt
+    },
+    grouplabel/.style={
+        font=\tiny\itshape,
+        text=gray!60
+    },
+    identity/.style={section, fill=blue!15, draw=blue!50, line width=0.5pt},
+    role/.style={section, fill=green!15, draw=green!50!black, line width=0.5pt},
+    collab/.style={section, fill=orange!15, draw=orange!60, line width=0.5pt},
+    tools/.style={section, fill=purple!15, draw=purple!50, line width=0.5pt},
+    knowledge/.style={
+        rectangle,
+        rounded corners=3pt,
+        fill=yellow!15,
+        draw=yellow!60!black,
+        line width=0.5pt,
+        minimum width=6cm,
+        minimum height=1.1cm,
+        align=center,
+        font=\tiny
+    }
+]
+
+% METADATA section
+\node[metadata] (meta) at (3.4, 4.8) {
+    \textbf{\scriptsize METADATA}\\
+    id, name, version, author, tags
+};
+
+% Static definition group
+\node[identity] (identity) at (0.9, 2.8) {
+    \textbf{\scriptsize IDENTITY}\\
+    personality\\
+    tone, quirks
+};
+
+\node[role] (role) at (3.4, 2.8) {
+    \textbf{\scriptsize ROLE}\\
+    type, expertise\\
+    boundaries
+};
+
+\node[collab] (collab) at (5.9, 2.8) {
+    \textbf{\scriptsize COLLAB.}\\
+    contribution\\
+    protocols
+};
+
+\node[tools] (tools) at (0.9, 1.4) {
+    \textbf{\scriptsize TOOLS}\\
+    commands\\
+    options
+};
+
+% Background for static
+\begin{scope}[on background layer]
+    \node[groupbox, fill=blue!5, fit=(identity)(role)(collab)(tools), inner sep=5pt] (staticbox) {};
+\end{scope}
+\node[grouplabel, anchor=north west] at ([xshift=2pt, yshift=-1pt]staticbox.north west) {Static Definition};
+
+% Knowledge section (dynamic)
+\node[knowledge] (know) at (3.4, -0.4) {
+    \textbf{\scriptsize KNOWLEDGE}\\[1pt]
+    context \textbullet{} domain \textbullet{} methodology\\
+    reference \textbullet{} guidelines \textbullet{} examples
+};
+
+% Background for dynamic
+\begin{scope}[on background layer]
+    \node[groupbox, fill=yellow!5, fit=(know), inner sep=5pt] (dynbox) {};
+\end{scope}
+\node[grouplabel, anchor=north west] at ([xshift=2pt, yshift=-1pt]dynbox.north west) {Dynamic Context};
+
+\end{tikzpicture}
+\caption{TMDL specification structure: metadata for resource description, static TeamMate definition (identity, role, collaboration, tools), and dynamic context via external knowledge documents.}
+\label{fig:tmdl-structure}
 \end{figure}
 
 \subsection{Inheritance and Composition}
