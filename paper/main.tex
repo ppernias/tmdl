@@ -555,6 +555,22 @@ TMDL makes several theoretical contributions to human-AI collaboration:
 
 \textbf{Explicit research hypotheses.} Rather than claiming empirical validation, TMDL articulates testable hypotheses derived from theory. This positions the language as a research platform for investigating human-AI teaming.
 
+\subsection{Contributions to the ADL Specification Family}
+
+The development of TMDL has served as a practical testbed for the ADL framework, revealing structural limitations that have informed the evolution toward ADL 2.0 \cite{pernias2025adl2}. This bidirectional relationship between domain-specific specialization and core framework refinement represents a methodological contribution to the design of assistant description languages.
+
+During TMDL development, four key limitations of ADL 1.0 became apparent:
+
+\textbf{Core-profile separation.} ADL 1.0 provided a unified structure but blurred the distinction between core assistant properties and domain-specific concerns. When constructing TMDL's collaboration and role constructs, it became difficult to determine which elements belonged to the general assistant description versus teammate-specific requirements. This motivated ADL 2.0's explicit separation between a minimal, domain-agnostic core and specialized profiles.
+
+\textbf{Inheritance mechanisms.} Extending ADL 1.0 specifications required copying and modifying large portions of descriptions, increasing inconsistency risk. Creating families of related TeamMates (e.g., analysts with different domain expertise) exposed the need for declarative specialization. ADL 2.0 addresses this through explicit \texttt{extends} mechanisms enabling controlled variation without structural duplication.
+
+\textbf{Boundaries as first-class elements.} In ADL 1.0, behavioral constraints were embedded implicitly within prompt text, making them difficult to validate or reuse. TMDL's emphasis on explicit \texttt{boundaries}, \texttt{can\_do}, \texttt{cannot\_do}, and \texttt{defers\_to} constructs demonstrated the importance of treating constraints as mandatory, structured elements. ADL 2.0 elevates boundary specification to a required core component.
+
+\textbf{Specification-execution separation.} ADL 1.0 descriptions were sometimes implicitly tied to particular prompting strategies, limiting portability. TMDL's goal of model-agnostic TeamMate definitions highlighted the need for stricter separation between declarative specification and execution semantics, now a design principle in ADL 2.0.
+
+These contributions position TMDL not merely as an application of ADL, but as an active participant in the co-evolution of the ADL specification family. The lessons learned from teammate-oriented specification have directly shaped the core framework, demonstrating the value of domain-specific experimentation in language design research.
+
 \subsection{Practical Implications}
 
 For practitioners deploying AI in team settings, TMDL offers:
