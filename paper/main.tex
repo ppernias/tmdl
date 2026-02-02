@@ -55,7 +55,7 @@
 \maketitle
 
 \begin{abstract}
-The integration of Large Language Models (LLMs) into collaborative work environments presents a fundamental design choice: should AI function as a \textit{tool} for ad-hoc queries or as a \textit{teammate} with defined identity and role? This paper introduces TMDL (TeamMate Description Language), a YAML-based specification language for describing virtual TeamMates in hybrid human-AI teams. Building on ADL (Assistant Description Language), the COHUMAIN framework for collective human-machine intelligence, and organizational behavior research, TMDL provides structured specifications for identity, role, collaboration patterns, and project knowledge. Key contributions include: (1) a contribution-centered collaboration model that frames AI TeamMates around how they add value to the group; (2) taxonomies for contribution styles and cognitive patterns derived from established team composition research; and (3) explicit boundary specifications that position AI as a configured partner operating under human direction. We derive six research hypotheses comparing the teammate paradigm against tool-based AI use and propose a quasi-experimental validation approach. The specification is released as open-source at \url{https://github.com/ppernias/tmdl}.
+The integration of Large Language Models (LLMs) into collaborative work environments presents a fundamental design choice: should AI function as a \textit{tool} for ad-hoc queries or as a \textit{teammate} with defined identity and role? This paper introduces TMDL (TeamMate Description Language), a YAML-based specification language for describing virtual TeamMates in hybrid human-AI teams. Building on ADL (Assistant Description Language), the ``machines as teammates'' research agenda, and organizational behavior research on team effectiveness, TMDL provides structured specifications for identity, role, collaboration patterns, and project knowledge. Key contributions include: (1) a contribution-centered collaboration model that frames AI TeamMates around how they add value to the group; (2) taxonomies for contribution styles and cognitive patterns derived from established team composition research; and (3) explicit boundary specifications that position AI as a configured partner operating under human direction. We derive six research hypotheses comparing the teammate paradigm against tool-based AI use and propose a quasi-experimental validation approach. The specification is released as open-source at \url{https://github.com/ppernias/tmdl}.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -82,7 +82,7 @@ This paper introduces TMDL (TeamMate Description Language), an evolution of ADL 
     \item \textbf{Protocol-based behavior} specification for predictable responses to team events
 \end{itemize}
 
-Unlike previous work that presents empirical results, this paper positions TMDL as a \textit{theoretically-grounded proposal} with explicit hypotheses for future validation. We derive our design decisions from organizational behavior research and the emerging COHUMAIN framework for collective human-machine intelligence \cite{gonzalez2023cohumain}, articulating testable predictions comparing AI-as-teammate against AI-as-tool paradigms.
+Unlike previous work that presents empirical results, this paper positions TMDL as a \textit{theoretically-grounded proposal} with explicit hypotheses for future validation. We derive our design decisions from the ``machines as teammates'' research agenda \cite{seeber2020machines}, team effectiveness models from organizational behavior \cite{ilgen2005teams}, and recent work on collective human-machine intelligence \cite{gonzalez2023cohumain}, articulating testable predictions comparing AI-as-teammate against AI-as-tool paradigms.
 
 The remainder of this paper is organized as follows: Section II presents the theoretical foundations underlying TMDL's design, including the critical distinction between tool and teammate paradigms. Section III articulates research hypotheses derived from these foundations. Section IV describes the TMDL architecture. Section V details the schema specification. Section VI provides an illustrative example. Section VII discusses implications and limitations. Section VIII concludes with future directions.
 
@@ -150,11 +150,13 @@ However, this transfer requires acknowledgment of key differences. Bansal et al.
 
 A fundamental distinction in human-AI collaboration concerns whether AI systems are conceptualized as \textit{tools} or as \textit{teammates}. This distinction has significant implications for system design, user expectations, and collaboration outcomes.
 
-The COHUMAIN (Collective Human-Machine Intelligence) research program \cite{gonzalez2023cohumain, gupta2025cohumain} articulates this shift, proposing that AI is transitioning from a tool role to a collaborative partner role. Critically, COHUMAIN cautions against treating AI ``like any other teammate,'' instead positioning it as a \textit{partner that works under human direction}---capable of strengthening human capabilities while operating within defined boundaries.
+Seeber et al. \cite{seeber2020machines} established the research agenda for ``machines as teammates,'' asking: ``What if AI machines became teammates rather than tools?'' Their work identifies that for AI to function as a teammate, it must perform a unique role, make unique contributions, and participate in coordination with human team members. This framing---AI as an active participant rather than passive instrument---forms the foundation of TMDL's design philosophy.
 
 Empirical evidence supports the practical importance of this distinction. Goh et al. \cite{goh2025tooltoteammate} conducted a randomized controlled trial comparing clinicians using AI as a ``collaborative teammate'' versus as a ``traditional tool.'' The teammate condition achieved significantly higher diagnostic accuracy (85\% vs. 75\%, p < 0.001), with qualitative analysis revealing greater engagement and more effective integration of AI contributions.
 
-TMDL positions itself firmly within the ``teammate'' paradigm, but with important qualifications aligned with COHUMAIN's recommendations:
+Recent work on collective human-machine intelligence \cite{gonzalez2023cohumain} further refines this paradigm, cautioning against treating AI ``like any other teammate'' and instead positioning it as a \textit{partner that works under human direction}---capable of strengthening human capabilities while operating within defined boundaries.
+
+TMDL positions itself firmly within the ``teammate'' paradigm, but with important qualifications:
 
 \begin{itemize}
     \item \textbf{Configured, not autonomous}: TMDL TeamMates operate according to human-defined specifications, not independent agency
@@ -189,7 +191,7 @@ Building on the theoretical foundations presented above, TMDL embodies several t
 
 \textbf{H3 (Team Integration Quality):} TMDL-configured AI TeamMates will be perceived as more integrated team members than AI used in tool mode, as measured by team cohesion and collaboration quality scales.
 
-\textit{Rationale:} The COHUMAIN framework \cite{gonzalez2023cohumain} and empirical evidence \cite{goh2025tooltoteammate} suggest that positioning AI as a collaborative partner rather than a tool improves engagement and integration outcomes. TMDL's identity, personality, and protocol specifications operationalize this TeamMate positioning.
+\textit{Rationale:} Research on machines as teammates \cite{seeber2020machines} and empirical evidence \cite{goh2025tooltoteammate} suggest that positioning AI as a collaborative partner rather than a tool improves engagement and integration outcomes. TMDL's identity, personality, and protocol specifications operationalize this TeamMate positioning.
 
 \subsection{Hypotheses on Contribution Patterns}
 
@@ -203,7 +205,7 @@ Building on the theoretical foundations presented above, TMDL embodies several t
 
 \textbf{H6 (Composition Effects):} Teams with complementary TMDL-defined contribution styles (e.g., analytical + generative) will outperform teams with homogeneous styles on complex collaborative tasks.
 
-\textit{Rationale:} Cognitive diversity research demonstrates that diverse thinking styles improve collective intelligence \cite{aggarwal2019cognitive, gupta2025cohumain}. This should extend to AI TeamMate composition within TMDL-configured teams.
+\textit{Rationale:} Cognitive diversity research demonstrates that diverse thinking styles improve collective intelligence \cite{aggarwal2019cognitive, woolley2010collective}. This should extend to AI TeamMate composition within TMDL-configured teams.
 
 \subsection{Validation Approach}
 
@@ -538,7 +540,7 @@ Several limitations should be acknowledged:
 
 \textbf{Specification-behavior gap.} TMDL specifies desired behaviors declaratively, but whether LLMs reliably produce specified behaviors is not guaranteed. Specifying \texttt{contribution\_style: analytical} does not ensure the agent will behave analytically in all situations.
 
-\textbf{Unidirectional specification.} TMDL specifications are defined by humans and consumed by AI; they do not adapt based on team feedback during collaboration. While \texttt{protocols} enable context-sensitive responses, the specification itself remains static. True ``reciprocal partnership'' as envisioned in COHUMAIN \cite{gupta2025cohumain} would require dynamic adaptation mechanisms not currently in TMDL's scope.
+\textbf{Unidirectional specification.} TMDL specifications are defined by humans and consumed by AI; they do not adapt based on team feedback during collaboration. While \texttt{protocols} enable context-sensitive responses, the specification itself remains static. True ``reciprocal partnership'' \cite{seeber2020machines} would require dynamic adaptation mechanisms not currently in TMDL's scope.
 
 \textbf{Anthropomorphization considerations.} Research suggests that positioning AI as a teammate increases user engagement but may also increase anthropomorphization \cite{goh2025tooltoteammate}. TMDL addresses this tension through explicit \texttt{boundaries} sections that make AI limitations transparent, but the balance between beneficial teammate framing and unrealistic expectations requires careful attention in deployment.
 
@@ -563,7 +565,7 @@ Additional technical directions include multi-agent coordination extensions, dyn
 \section{Conclusion}
 % ==============================================================================
 
-This paper introduced TMDL (TeamMate Description Language), a structured specification language for virtual TeamMates in hybrid human-AI teams. Building on ADL (Assistant Description Language) and aligned with the COHUMAIN framework for collective human-machine intelligence, TMDL addresses a fundamental design choice in human-AI collaboration: positioning AI as a configured \textit{teammate} rather than a generic \textit{tool}.
+This paper introduced TMDL (TeamMate Description Language), a structured specification language for virtual TeamMates in hybrid human-AI teams. Building on ADL (Assistant Description Language) and the ``machines as teammates'' research agenda \cite{seeber2020machines}, TMDL addresses a fundamental design choice in human-AI collaboration: positioning AI as a configured \textit{teammate} rather than a generic \textit{tool}.
 
 TMDL's contribution-centered design asks ``how does this TeamMate add value to the group?''---a framing grounded in team effectiveness research from Hackman, Salas, and Mathieu. This approach produces specifications aligned with how high-performing teams actually operate: through coordination, mutual support, and complementary contributions rather than competing interests.
 
